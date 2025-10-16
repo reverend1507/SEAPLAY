@@ -1,0 +1,3342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SeePlay - World's Best Casino App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <style>
+        :root {
+            --primary: #1a237e;
+            --secondary: #00b0ff;
+            --accent: #ff4081;
+            --dark: #0d1b2a;
+            --light: #f5f5f5;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --gray: #9e9e9e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: var(--dark);
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 70px;
+        }
+        
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 28px;
+        }
+        
+        .time-display {
+            font-size: 14px;
+            margin-top: 5px;
+            opacity: 0.9;
+        }
+        
+        .winning-users {
+            margin-top: 10px;
+            font-size: 12px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .winning-user {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 15px;
+        }
+        
+        /* Balance Card */
+        .balance-card {
+            background: linear-gradient(135deg, var(--primary), #3949ab);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .balance-title {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+        
+        .balance-amount {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .balance-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .nav-tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .nav-tab.active {
+            background-color: var(--secondary);
+            color: var(--dark);
+        }
+        
+        /* Section Headers */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0 15px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .view-all {
+            font-size: 14px;
+            color: var(--secondary);
+        }
+        
+        /* Games Grid */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .game-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px 10px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .game-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: var(--secondary);
+        }
+        
+        .game-name {
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        /* Matches Section */
+        .matches-section {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .match-teams {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .team {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .team-name {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .team-flag {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            margin: 0 auto 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .vs {
+            font-weight: bold;
+            margin: 0 10px;
+        }
+        
+        .match-odds {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .odd {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 8px 0;
+            text-align: center;
+            flex: 1;
+            margin: 0 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .odd:hover {
+            background-color: var(--secondary);
+            color: var(--dark);
+        }
+        
+        /* Promo Banner */
+        .promo-banner {
+            background: linear-gradient(135deg, var(--accent), #ff79a6);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .promo-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .promo-subtitle {
+            font-size: 14px;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        
+        .promo-button {
+            background-color: var(--light);
+            color: var(--dark);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .promo-button:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(13, 27, 42, 0.95);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            max-width: 480px;
+            margin: 0 auto;
+        }
+        
+        .nav-item {
+            text-align: center;
+            color: var(--gray);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+        }
+        
+        .nav-item.active {
+            color: var(--secondary);
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        /* Auth Screens */
+        .auth-screen {
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        .auth-logo {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .auth-form {
+            width: 100%;
+            max-width: 350px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            font-size: 16px;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+        
+        .auth-button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .auth-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .auth-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        
+        .auth-link a {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+        
+        /* Game Screens */
+        .game-screen {
+            padding: 15px;
+            min-height: 100vh;
+        }
+        
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .game-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .game-balance {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .game-area {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bet-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .bet-amount {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .bet-button {
+            background-color: var(--secondary);
+            color: var(--dark);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .bet-button:hover {
+            transform: scale(1.05);
+        }
+        
+        .bet-button:disabled {
+            background-color: var(--gray);
+            cursor: not-allowed;
+        }
+        
+        /* Aviator Specific */
+        .aviator-plane {
+            font-size: 48px;
+            position: absolute;
+            transition: all 0.1s linear;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .aviator-multiplier {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            z-index: 10;
+        }
+        
+        .aviator-cashout {
+            font-size: 18px;
+            margin-bottom: 10px;
+            z-index: 10;
+        }
+        
+        .aviator-players {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            font-size: 12px;
+            background: rgba(0,0,0,0.7);
+            padding: 5px 10px;
+            border-radius: 10px;
+        }
+        
+        .aviator-previous {
+            margin-top: 10px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .aviator-auto-cashout {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Mines Specific */
+        .mines-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .mine-cell {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .mine-cell.revealed {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .mine-cell.mine {
+            background-color: var(--danger);
+        }
+        
+        .mine-cell.gem {
+            background-color: var(--success);
+        }
+        
+        .mines-settings {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .mines-setting {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .mines-setting-label {
+            font-size: 12px;
+            margin-bottom: 5px;
+            opacity: 0.8;
+        }
+        
+        .mines-setting-value {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .mines-setting-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .mines-control-btn {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--light);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .mines-multipliers {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .multiplier-tag {
+            background: rgba(255,255,255,0.1);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+        
+        /* Dice Game */
+        .dice-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .dice {
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: black;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .dice-bet-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .dice-bet-option {
+            padding: 10px 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .dice-bet-option.active {
+            background: var(--secondary);
+            color: var(--dark);
+        }
+        
+        /* Roulette Game */
+        .roulette-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .roulette-wheel {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(
+                red 0deg 15deg,
+                black 15deg 30deg,
+                red 30deg 45deg,
+                black 45deg 60deg,
+                red 60deg 75deg,
+                black 75deg 90deg,
+                red 90deg 105deg,
+                black 105deg 120deg,
+                red 120deg 135deg,
+                black 135deg 150deg,
+                red 150deg 165deg,
+                black 165deg 180deg,
+                red 180deg 195deg,
+                black 195deg 210deg,
+                red 210deg 225deg,
+                black 225deg 240deg,
+                red 240deg 255deg,
+                black 255deg 270deg,
+                red 270deg 285deg,
+                black 285deg 300deg,
+                red 300deg 315deg,
+                black 315deg 330deg,
+                red 330deg 345deg,
+                black 345deg 360deg
+            );
+            position: relative;
+            transition: transform 2s ease-out;
+        }
+        
+        .roulette-pointer {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 20px solid var(--secondary);
+            z-index: 10;
+        }
+        
+        .roulette-bet-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .roulette-bet-option {
+            padding: 10px 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .roulette-bet-option.active {
+            background: var(--secondary);
+            color: var(--dark);
+        }
+        
+        /* Sports Visual Game */
+        .sports-visual-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .sports-field {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(to bottom, #4CAF50, #2E7D32);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid white;
+        }
+        
+        .sports-score {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-weight: bold;
+            background: rgba(0,0,0,0.7);
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+        
+        .sports-ball {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 1s ease;
+        }
+        
+        .sports-team-home {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+        }
+        
+        .sports-team-away {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+        }
+        
+        .sports-timer {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            background: rgba(0,0,0,0.7);
+            padding: 3px 10px;
+            border-radius: 10px;
+        }
+        
+        /* Admin Panel */
+        .admin-panel {
+            padding: 15px;
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .admin-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .admin-stat {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .admin-stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .admin-stat-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .admin-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .admin-action {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            color: var(--light);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .admin-action:hover {
+            background-color: var(--secondary);
+            color: var(--dark);
+        }
+        
+        .users-list {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .user-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .user-info {
+            flex: 1;
+        }
+        
+        .user-name {
+            font-weight: bold;
+        }
+        
+        .user-email {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .user-balance {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .user-action {
+            background: none;
+            border: none;
+            color: var(--light);
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        /* Profile Page */
+        .profile-section {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .profile-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 15px;
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .profile-email {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .profile-stat {
+            text-align: center;
+        }
+        
+        .profile-stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .profile-stat-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        /* Referral Section */
+        .referral-section {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .referral-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+        
+        .referral-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        /* Hidden class for toggling screens */
+        .hidden {
+            display: none;
+        }
+        
+        /* Bet Slip */
+        .bet-slip {
+            position: fixed;
+            bottom: 70px;
+            right: 15px;
+            background-color: var(--primary);
+            border-radius: 10px;
+            padding: 15px;
+            width: 250px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+        
+        .bet-slip-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .bet-slip-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .bet-slip-close {
+            background: none;
+            border: none;
+            color: var(--light);
+            cursor: pointer;
+        }
+        
+        .bet-slip-item {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .bet-slip-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        
+        .bet-slip-button {
+            background-color: var(--secondary);
+            color: var(--dark);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .bet-amount-input {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            margin-top: 5px;
+        }
+        
+        /* Logout Button */
+        .logout-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--light);
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        /* Back Button */
+        .back-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: none;
+            border: none;
+            color: var(--light);
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        /* Loading Spinner */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Transfer Section */
+        .transfer-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="auth-screen">
+        <div class="auth-logo">
+            <i class="fas fa-water"></i> SeePlay
+        </div>
+        <div class="auth-form">
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" id="loginEmail" class="form-input" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password">
+            </div>
+            <button id="loginButton" class="auth-button">
+                <span id="loginButtonText">Login</span>
+                <span id="loginButtonLoading" class="loading hidden"></span>
+            </button>
+            <div class="auth-link">
+                Don't have an account? <a href="#" id="showRegister">Register</a>
+            </div>
+            <div class="auth-link">
+                <a href="#" id="showAdminLogin">Admin Login</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Register Screen -->
+    <div id="registerScreen" class="auth-screen hidden">
+        <div class="auth-logo">
+            <i class="fas fa-water"></i> SeePlay
+        </div>
+        <div class="auth-form">
+            <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" id="registerName" class="form-input" placeholder="Enter your full name">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" id="registerEmail" class="form-input" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" id="registerPassword" class="form-input" placeholder="Create a password">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Confirm Password</label>
+                <input type="password" id="registerConfirmPassword" class="form-input" placeholder="Confirm your password">
+            </div>
+            <div class="form-group">
+                <label class="form-label">4-Digit PIN</label>
+                <input type="password" id="registerPin" class="form-input" placeholder="Create a 4-digit PIN" maxlength="4">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Age</label>
+                <input type="number" id="registerAge" class="form-input" placeholder="Enter your age">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Country</label>
+                <select id="registerCountry" class="form-input">
+                    <option value="">Select your country</option>
+                    <option value="nigeria">Nigeria</option>
+                    <option value="ghana">Ghana</option>
+                    <option value="south-africa">South Africa</option>
+                    <option value="kenya">Kenya</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Referral Code (Optional)</label>
+                <input type="text" id="referralCodeInput" class="form-input" placeholder="Enter referral code if any">
+            </div>
+            <button id="registerButton" class="auth-button">
+                <span id="registerButtonText">Create Account</span>
+                <span id="registerButtonLoading" class="loading hidden"></span>
+            </button>
+            <div class="auth-link">
+                Already have an account? <a href="#" id="showLogin">Login</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Admin Login Screen -->
+    <div id="adminLoginScreen" class="auth-screen hidden">
+        <div class="auth-logo">
+            <i class="fas fa-crown"></i> Lord Panel
+        </div>
+        <div class="auth-form">
+            <div class="form-group">
+                <label class="form-label">Admin Email</label>
+                <input type="email" id="adminEmail" class="form-input" placeholder="Enter admin email">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" id="adminPassword" class="form-input" placeholder="Enter admin password">
+            </div>
+            <button id="adminLoginButton" class="auth-button">
+                <span id="adminLoginButtonText">Login as Lord</span>
+                <span id="adminLoginButtonLoading" class="loading hidden"></span>
+            </button>
+            <div class="auth-link">
+                <a href="#" id="showUserLogin">Back to User Login</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main App Screen -->
+    <div id="appScreen" class="container hidden">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-water"></i> SeePlay
+            </div>
+            <div class="time-display" id="currentTime">9:25</div>
+            <div class="winning-users" id="winningUsers">
+                <div class="winning-user">
+                    <i class="fas fa-trophy"></i>
+                    <span>Welcome to SeePlay!</span>
+                </div>
+            </div>
+            <button class="logout-btn" id="logoutButton">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Balance Card -->
+            <div class="balance-card">
+                <div class="balance-title">Your Balance</div>
+                <div class="balance-amount" id="userBalance">0 SEE</div>
+                <div class="balance-stats">
+                    <div class="stat-item">
+                        <div>Free Margin</div>
+                        <div class="stat-value">0 SEE</div>
+                    </div>
+                    <div class="stat-item">
+                        <div>Margin</div>
+                        <div class="stat-value">0 SEE</div>
+                    </div>
+                    <div class="stat-item">
+                        <div>Stop Out</div>
+                        <div class="stat-value">0%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation Tabs -->
+            <div class="nav-tabs">
+                <div class="nav-tab active" data-tab="games">Games</div>
+                <div class="nav-tab" data-tab="sports">Sports</div>
+                <div class="nav-tab" data-tab="transfer">Transfer</div>
+                <div class="nav-tab" data-tab="profile">Profile</div>
+            </div>
+            
+            <!-- Games Section -->
+            <div id="gamesSection" class="tab-content">
+                <div class="section-header">
+                    <div class="section-title">Popular Games</div>
+                    <div class="view-all">View All</div>
+                </div>
+                
+                <div class="games-grid">
+                    <div class="game-card" data-game="aviator">
+                        <div class="game-icon"><i class="fas fa-plane"></i></div>
+                        <div class="game-name">Aviator</div>
+                    </div>
+                    <div class="game-card" data-game="mines">
+                        <div class="game-icon"><i class="fas fa-bomb"></i></div>
+                        <div class="game-name">Mines</div>
+                    </div>
+                    <div class="game-card" data-game="roulette">
+                        <div class="game-icon"><i class="fas fa-dharmachakra"></i></div>
+                        <div class="game-name">Roulette</div>
+                    </div>
+                    <div class="game-card" data-game="dice">
+                        <div class="game-icon"><i class="fas fa-dice"></i></div>
+                        <div class="game-name">Dice</div>
+                    </div>
+                </div>
+                
+                <div class="promo-banner">
+                    <div class="promo-title">CLAIM FREE BETS</div>
+                    <div class="promo-subtitle">WORTH NGN 6,500,000 WEEKLY</div>
+                    <button class="promo-button">PLAY NOW</button>
+                </div>
+            </div>
+            
+            <!-- Sports Section -->
+            <div id="sportsSection" class="tab-content hidden">
+                <div class="section-header">
+                    <div class="section-title">Live Sports Visual</div>
+                    <div class="view-all">View All</div>
+                </div>
+                
+                <div class="matches-section">
+                    <div class="match-header">
+                        <div>Premier League</div>
+                        <div>Live</div>
+                    </div>
+                    <div class="match-teams">
+                        <div class="team">
+                            <div class="team-flag">ARS</div>
+                            <div class="team-name">Arsenal</div>
+                        </div>
+                        <div class="vs">VS</div>
+                        <div class="team">
+                            <div class="team-flag">MCI</div>
+                            <div class="team-name">Man City</div>
+                        </div>
+                    </div>
+                    <div class="match-odds">
+                        <div class="odd" data-bet="home" data-odd="3.20">3.20</div>
+                        <div class="odd" data-bet="draw" data-odd="3.10">3.10</div>
+                        <div class="odd" data-bet="away" data-odd="2.25">2.25</div>
+                    </div>
+                </div>
+                
+                <div class="matches-section">
+                    <div class="match-header">
+                        <div>Champions League</div>
+                        <div>Live</div>
+                    </div>
+                    <div class="match-teams">
+                        <div class="team">
+                            <div class="team-flag">RM</div>
+                            <div class="team-name">Real Madrid</div>
+                        </div>
+                        <div class="vs">VS</div>
+                        <div class="team">
+                            <div class="team-flag">PSG</div>
+                            <div class="team-name">PSG</div>
+                        </div>
+                    </div>
+                    <div class="match-odds">
+                        <div class="odd" data-bet="home" data-odd="2.10">2.10</div>
+                        <div class="odd" data-bet="draw" data-odd="3.50">3.50</div>
+                        <div class="odd" data-bet="away" data-odd="3.00">3.00</div>
+                    </div>
+                </div>
+                
+                <div class="promo-banner">
+                    <div class="promo-title">INSTANT JACK VISUAL</div>
+                    <div class="promo-subtitle">LIVE SPORTS BETTING</div>
+                    <button class="promo-button" id="startSportsVisual">START VISUAL</button>
+                </div>
+            </div>
+            
+            <!-- Transfer Section -->
+            <div id="transferSection" class="tab-content hidden">
+                <div class="section-header">
+                    <div class="section-title">Transfer SEE Coins</div>
+                </div>
+                
+                <div class="transfer-section">
+                    <div class="form-group">
+                        <label class="form-label">Recipient Email</label>
+                        <input type="email" id="transferEmail" class="form-input" placeholder="Enter recipient's email">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Amount (Min. 1 SEE)</label>
+                        <input type="number" id="transferAmount" class="form-input" placeholder="Enter amount" min="1" step="0.1">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">4-Digit PIN</label>
+                        <input type="password" id="transferPin" class="form-input" placeholder="Enter your PIN" maxlength="4">
+                    </div>
+                    <button class="auth-button" id="transferButton">Send SEE</button>
+                </div>
+                
+                <div class="section-header">
+                    <div class="section-title">Admin P2P</div>
+                </div>
+                
+                <div class="matches-section">
+                    <div class="match-header">
+                        <div>SeePlay Admin</div>
+                        <div>Verified</div>
+                    </div>
+                    <div class="match-teams">
+                        <div class="team">
+                            <div class="team-flag">📞</div>
+                            <div class="team-name">07079191406</div>
+                        </div>
+                        <div class="vs">-</div>
+                        <div class="team">
+                            <div class="team-flag">💰</div>
+                            <div class="team-name">50B SEE</div>
+                        </div>
+                    </div>
+                    <div class="match-odds">
+                        <div class="odd">Contact Admin</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Profile Section -->
+            <div id="profileSection" class="tab-content hidden">
+                <div class="profile-section">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="profile-info">
+                            <div class="profile-name" id="profileUserName">User Name</div>
+                            <div class="profile-email" id="profileUserEmail">user@example.com</div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-stats">
+                        <div class="profile-stat">
+                            <div class="profile-stat-value" id="profileGamesPlayed">0</div>
+                            <div class="profile-stat-label">Games Played</div>
+                        </div>
+                        <div class="profile-stat">
+                            <div class="profile-stat-value" id="profileWins">0</div>
+                            <div class="profile-stat-label">Wins</div>
+                        </div>
+                        <div class="profile-stat">
+                            <div class="profile-stat-value" id="profileReferrals">0</div>
+                            <div class="profile-stat-label">Referrals</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Your Referral Code</label>
+                        <input type="text" class="form-input" id="userReferralCode" value="Loading..." readonly>
+                    </div>
+                    <button class="auth-button" style="margin-top: 10px;" id="copyReferralBtn">Copy Referral Code</button>
+                </div>
+                
+                <div class="referral-section">
+                    <div class="section-header">
+                        <div class="section-title">Your Referrals</div>
+                    </div>
+                    <div class="referral-list" id="referralList">
+                        <div style="text-align: center; padding: 20px; opacity: 0.7;">
+                            <i class="fas fa-user-friends" style="font-size: 40px; margin-bottom: 10px;"></i>
+                            <div>No referrals yet</div>
+                            <div style="font-size: 12px; margin-top: 5px;">Share your code to earn 1 SEE for every 10 referrals</div>
+                        </div>
+                    </div>
+                    <button class="auth-button" id="claimReferralBtn" disabled>Claim Referral Bonus (0/10)</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item active" data-nav="home">
+                <div class="nav-icon"><i class="fas fa-home"></i></div>
+                <div>Home</div>
+            </div>
+            <div class="nav-item" data-nav="games">
+                <div class="nav-icon"><i class="fas fa-gamepad"></i></div>
+                <div>Games</div>
+            </div>
+            <div class="nav-item" data-nav="sports">
+                <div class="nav-icon"><i class="fas fa-futbol"></i></div>
+                <div>Sports</div>
+            </div>
+            <div class="nav-item" data-nav="transfer">
+                <div class="nav-icon"><i class="fas fa-exchange-alt"></i></div>
+                <div>Transfer</div>
+            </div>
+            <div class="nav-item" data-nav="profile">
+                <div class="nav-icon"><i class="fas fa-user"></i></div>
+                <div>Profile</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Game Screens -->
+    <div id="gameScreens" class="hidden">
+        <!-- Aviator Game -->
+        <div id="aviatorGame" class="game-screen hidden">
+            <button class="back-btn" id="aviatorBackBtn">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="game-header">
+                <div class="game-title">Aviator</div>
+                <div class="game-balance" id="aviatorBalance">0 SEE</div>
+            </div>
+            
+            <div class="aviator-previous" id="aviatorPrevious">
+                Previous: 1.25x, 2.80x, 1.05x
+            </div>
+            
+            <div class="game-area" id="aviatorArea">
+                <div class="aviator-multiplier" id="aviatorMultiplier">1.00x</div>
+                <div class="aviator-cashout" id="aviatorCashoutAmount">Cashout: 0.00 SEE</div>
+                <div class="aviator-plane" id="aviatorPlane">✈️</div>
+                <div class="aviator-players" id="aviatorPlayers">
+                    Online Players: 0
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Bet Amount</label>
+                <input type="number" id="aviatorBetAmountInput" class="form-input" value="0.20" min="0.20" step="0.10">
+            </div>
+            
+            <div class="aviator-auto-cashout">
+                <label class="form-label">Auto Cashout at:</label>
+                <input type="number" id="aviatorAutoCashoutInput" class="form-input" value="2.00" min="1.10" step="0.10" style="width: 80px;">
+                <span>x</span>
+            </div>
+            
+            <div class="bet-controls">
+                <button class="bet-button" id="aviatorBetButton">BET</button>
+                <button class="bet-button" id="aviatorCashoutButton" disabled>CASHOUT</button>
+            </div>
+        </div>
+        
+        <!-- Mines Game -->
+        <div id="minesGame" class="game-screen hidden">
+            <button class="back-btn" id="minesBackBtn">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="game-header">
+                <div class="game-title">Mines</div>
+                <div class="game-balance" id="minesBalance">0 SEE</div>
+            </div>
+            
+            <div class="mines-settings">
+                <div class="mines-setting">
+                    <div class="mines-setting-label">Mines</div>
+                    <div class="mines-setting-value" id="minesCount">3</div>
+                    <div class="mines-setting-controls">
+                        <button class="mines-control-btn" id="decreaseMines">-</button>
+                        <button class="mines-control-btn" id="increaseMines">+</button>
+                    </div>
+                </div>
+                <div class="mines-setting">
+                    <div class="mines-setting-label">Bet Amount</div>
+                    <input type="number" id="minesBetAmountInput" class="form-input" value="0.20" min="0.20" step="0.10" style="width: 100px; text-align: center;">
+                </div>
+            </div>
+            
+            <div class="mines-multipliers">
+                <div class="multiplier-tag">x1.20</div>
+                <div class="multiplier-tag">x1.25</div>
+                <div class="multiplier-tag">x1.50</div>
+                <div class="multiplier-tag">x2.00</div>
+            </div>
+            
+            <div class="game-area">
+                <div class="mines-grid" id="minesGrid">
+                    <!-- Mines grid will be generated here -->
+                </div>
+                <div class="aviator-cashout" id="minesCashoutAmount">Potential Cashout: 0.00 SEE</div>
+            </div>
+            <div class="bet-controls">
+                <button class="bet-button" id="minesPlayButton">PLAY</button>
+                <button class="bet-button" id="minesCashoutButton" disabled>CASHOUT</button>
+            </div>
+        </div>
+        
+        <!-- Dice Game -->
+        <div id="diceGame" class="game-screen hidden">
+            <button class="back-btn" id="diceBackBtn">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="game-header">
+                <div class="game-title">Dice</div>
+                <div class="game-balance" id="diceBalance">0 SEE</div>
+            </div>
+            
+            <div class="game-area">
+                <div class="dice-container">
+                    <div class="dice" id="diceElement">⚅</div>
+                    <div id="diceResult" style="font-size: 18px; font-weight: bold;">Roll the dice!</div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Bet Amount</label>
+                <input type="number" id="diceBetAmountInput" class="form-input" value="0.20" min="0.20" step="0.10">
+            </div>
+            
+            <div class="dice-bet-options">
+                <div class="dice-bet-option" data-bet="1">1</div>
+                <div class="dice-bet-option" data-bet="2">2</div>
+                <div class="dice-bet-option" data-bet="3">3</div>
+                <div class="dice-bet-option" data-bet="4">4</div>
+                <div class="dice-bet-option" data-bet="5">5</div>
+                <div class="dice-bet-option" data-bet="6">6</div>
+            </div>
+            
+            <div class="bet-controls">
+                <button class="bet-button" id="diceRollButton">ROLL</button>
+            </div>
+        </div>
+        
+        <!-- Roulette Game -->
+        <div id="rouletteGame" class="game-screen hidden">
+            <button class="back-btn" id="rouletteBackBtn">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="game-header">
+                <div class="game-title">Roulette</div>
+                <div class="game-balance" id="rouletteBalance">0 SEE</div>
+            </div>
+            
+            <div class="game-area">
+                <div class="roulette-container">
+                    <div class="roulette-wheel" id="rouletteWheel">
+                        <div class="roulette-pointer"></div>
+                    </div>
+                    <div id="rouletteResult" style="font-size: 18px; font-weight: bold;">Spin the wheel!</div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Bet Amount</label>
+                <input type="number" id="rouletteBetAmountInput" class="form-input" value="0.20" min="0.20" step="0.10">
+            </div>
+            
+            <div class="roulette-bet-options">
+                <div class="roulette-bet-option" data-bet="red">Red</div>
+                <div class="roulette-bet-option" data-bet="black">Black</div>
+                <div class="roulette-bet-option" data-bet="even">Even</div>
+                <div class="roulette-bet-option" data-bet="odd">Odd</div>
+            </div>
+            
+            <div class="bet-controls">
+                <button class="bet-button" id="rouletteSpinButton">SPIN</button>
+            </div>
+        </div>
+        
+        <!-- Sports Visual Game -->
+        <div id="sportsVisualGame" class="game-screen hidden">
+            <button class="back-btn" id="sportsVisualBackBtn">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="game-header">
+                <div class="game-title">Sports Visual</div>
+                <div class="game-balance" id="sportsVisualBalance">0 SEE</div>
+            </div>
+            
+            <div class="game-area">
+                <div class="sports-visual-container">
+                    <div class="sports-field">
+                        <div class="sports-score" id="sportsScore">0 - 0</div>
+                        <div class="sports-ball" id="sportsBall"></div>
+                        <div class="sports-team-home">
+                            <div>Arsenal</div>
+                            <div>Home</div>
+                        </div>
+                        <div class="sports-team-away">
+                            <div>Man City</div>
+                            <div>Away</div>
+                        </div>
+                        <div class="sports-timer" id="sportsTimer">1st Half: 00:00</div>
+                    </div>
+                    <div id="sportsResult" style="font-size: 18px; font-weight: bold;">Match starting soon...</div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Bet Amount</label>
+                <input type="number" id="sportsBetAmountInput" class="form-input" value="0.20" min="0.20" step="0.10">
+            </div>
+            
+            <div class="roulette-bet-options">
+                <div class="roulette-bet-option" data-bet="home">Home Win</div>
+                <div class="roulette-bet-option" data-bet="draw">Draw</div>
+                <div class="roulette-bet-option" data-bet="away">Away Win</div>
+            </div>
+            
+            <div class="bet-controls">
+                <button class="bet-button" id="sportsBetButton">PLACE BET</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="container hidden">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-crown"></i> Lord Panel
+            </div>
+            <button class="logout-btn" id="adminLogoutButton">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+        
+        <div class="admin-panel">
+            <div class="admin-header">
+                <div class="admin-title">Admin Dashboard</div>
+            </div>
+            
+            <div class="admin-stats">
+                <div class="admin-stat">
+                    <div class="admin-stat-value" id="totalUsers">0</div>
+                    <div class="admin-stat-label">Total Users</div>
+                </div>
+                <div class="admin-stat">
+                    <div class="admin-stat-value" id="totalBalance">0 SEE</div>
+                    <div class="admin-stat-label">User Balances</div>
+                </div>
+                <div class="admin-stat">
+                    <div class="admin-stat-value" id="vaultBalance">50,000,000,000 SEE</div>
+                    <div class="admin-stat-label">Vault Balance</div>
+                </div>
+                <div class="admin-stat">
+                    <div class="admin-stat-value" id="activeGames">0</div>
+                    <div class="admin-stat-label">Active Games</div>
+                </div>
+            </div>
+            
+            <div class="admin-actions">
+                <button class="admin-action" id="addCoinsBtn">Add Coins to User</button>
+                <button class="admin-action" id="banUserBtn">Ban User</button>
+                <button class="admin-action" id="messageUserBtn">Message User</button>
+                <button class="admin-action" id="viewReportsBtn">View Reports</button>
+            </div>
+            
+            <div class="section-header">
+                <div class="section-title">All Users</div>
+            </div>
+            
+            <div class="users-list" id="usersList">
+                <div style="text-align: center; padding: 20px; opacity: 0.7;">
+                    <div class="loading"></div>
+                    <div style="margin-top: 10px;">Loading users...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDDruUr6ONHIqZqNmvbnSfMF3nTlbejcvU",
+            authDomain: "seaplay-6a197.firebaseapp.com",
+            projectId: "seaplay-6a197",
+            storageBucket: "seaplay-6a197.firebasestorage.app",
+            messagingSenderId: "419084403907",
+            appId: "1:419084403907:web:2ef95d7c804c92f4808e76",
+            measurementId: "G-LDY3ZLKJFF"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // DOM Elements
+        const loginScreen = document.getElementById('loginScreen');
+        const registerScreen = document.getElementById('registerScreen');
+        const adminLoginScreen = document.getElementById('adminLoginScreen');
+        const appScreen = document.getElementById('appScreen');
+        const adminPanel = document.getElementById('adminPanel');
+        const gameScreens = document.getElementById('gameScreens');
+        
+        // Auth buttons with loading states
+        const loginButton = document.getElementById('loginButton');
+        const loginButtonText = document.getElementById('loginButtonText');
+        const loginButtonLoading = document.getElementById('loginButtonLoading');
+        
+        const registerButton = document.getElementById('registerButton');
+        const registerButtonText = document.getElementById('registerButtonText');
+        const registerButtonLoading = document.getElementById('registerButtonLoading');
+        
+        const adminLoginButton = document.getElementById('adminLoginButton');
+        const adminLoginButtonText = document.getElementById('adminLoginButtonText');
+        const adminLoginButtonLoading = document.getElementById('adminLoginButtonLoading');
+        
+        const logoutButton = document.getElementById('logoutButton');
+        const adminLogoutButton = document.getElementById('adminLogoutButton');
+        
+        const showRegister = document.getElementById('showRegister');
+        const showLogin = document.getElementById('showLogin');
+        const showAdminLogin = document.getElementById('showAdminLogin');
+        const showUserLogin = document.getElementById('showUserLogin');
+        
+        // Game elements
+        const aviatorBetButton = document.getElementById('aviatorBetButton');
+        const aviatorCashoutButton = document.getElementById('aviatorCashoutButton');
+        const aviatorMultiplier = document.getElementById('aviatorMultiplier');
+        const aviatorCashoutAmount = document.getElementById('aviatorCashoutAmount');
+        const aviatorPlane = document.getElementById('aviatorPlane');
+        const aviatorBackBtn = document.getElementById('aviatorBackBtn');
+        const aviatorPlayers = document.getElementById('aviatorPlayers');
+        const aviatorPrevious = document.getElementById('aviatorPrevious');
+        const aviatorBetAmountInput = document.getElementById('aviatorBetAmountInput');
+        const aviatorAutoCashoutInput = document.getElementById('aviatorAutoCashoutInput');
+        
+        const minesPlayButton = document.getElementById('minesPlayButton');
+        const minesCashoutButton = document.getElementById('minesCashoutButton');
+        const minesCashoutAmount = document.getElementById('minesCashoutAmount');
+        const minesGrid = document.getElementById('minesGrid');
+        const minesBackBtn = document.getElementById('minesBackBtn');
+        const minesCount = document.getElementById('minesCount');
+        const minesBetAmountInput = document.getElementById('minesBetAmountInput');
+        const decreaseMines = document.getElementById('decreaseMines');
+        const increaseMines = document.getElementById('increaseMines');
+        
+        // Dice elements
+        const diceRollButton = document.getElementById('diceRollButton');
+        const diceElement = document.getElementById('diceElement');
+        const diceResult = document.getElementById('diceResult');
+        const diceBackBtn = document.getElementById('diceBackBtn');
+        const diceBetAmountInput = document.getElementById('diceBetAmountInput');
+        
+        // Roulette elements
+        const rouletteSpinButton = document.getElementById('rouletteSpinButton');
+        const rouletteWheel = document.getElementById('rouletteWheel');
+        const rouletteResult = document.getElementById('rouletteResult');
+        const rouletteBackBtn = document.getElementById('rouletteBackBtn');
+        const rouletteBetAmountInput = document.getElementById('rouletteBetAmountInput');
+        
+        // Sports Visual elements
+        const startSportsVisual = document.getElementById('startSportsVisual');
+        const sportsVisualBackBtn = document.getElementById('sportsVisualBackBtn');
+        const sportsScore = document.getElementById('sportsScore');
+        const sportsBall = document.getElementById('sportsBall');
+        const sportsTimer = document.getElementById('sportsTimer');
+        const sportsResult = document.getElementById('sportsResult');
+        const sportsBetButton = document.getElementById('sportsBetButton');
+        const sportsBetAmountInput = document.getElementById('sportsBetAmountInput');
+        
+        // Transfer elements
+        const transferButton = document.getElementById('transferButton');
+        const transferEmail = document.getElementById('transferEmail');
+        const transferAmount = document.getElementById('transferAmount');
+        const transferPin = document.getElementById('transferPin');
+        
+        // Profile elements
+        const profileUserName = document.getElementById('profileUserName');
+        const profileUserEmail = document.getElementById('profileUserEmail');
+        const profileGamesPlayed = document.getElementById('profileGamesPlayed');
+        const profileWins = document.getElementById('profileWins');
+        const profileReferrals = document.getElementById('profileReferrals');
+        const userReferralCode = document.getElementById('userReferralCode');
+        const copyReferralBtn = document.getElementById('copyReferralBtn');
+        const referralList = document.getElementById('referralList');
+        const claimReferralBtn = document.getElementById('claimReferralBtn');
+        
+        // Admin elements
+        const addCoinsBtn = document.getElementById('addCoinsBtn');
+        const banUserBtn = document.getElementById('banUserBtn');
+        const messageUserBtn = document.getElementById('messageUserBtn');
+        const viewReportsBtn = document.getElementById('viewReportsBtn');
+        const usersList = document.getElementById('usersList');
+        
+        // App state
+        let currentUser = null;
+        let isAdmin = false;
+        let userBalance = 0;
+        let currentGame = null;
+        let gameIntervals = {};
+        let adminVaultBalance = 50000000000; // 50B SEE
+        
+        // Mines game state
+        let minesGameState = {
+            betAmount: 0.20,
+            minesCount: 3,
+            grid: [],
+            revealed: [],
+            gameActive: false,
+            cashoutMultiplier: 1.0
+        };
+        
+        // Dice game state
+        let diceGameState = {
+            selectedBet: null,
+            betAmount: 0.20
+        };
+        
+        // Roulette game state
+        let rouletteGameState = {
+            selectedBet: null,
+            betAmount: 0.20
+        };
+        
+        // Sports Visual state
+        let sportsVisualState = {
+            selectedBet: null,
+            betAmount: 0.20,
+            homeScore: 0,
+            awayScore: 0,
+            gameActive: false,
+            timer: 0
+        };
+        
+        // Aviator state
+        let aviatorState = {
+            previousRounds: [],
+            autoCashout: 2.00
+        };
+        
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            document.getElementById('currentTime').textContent = timeString;
+        }
+        
+        setInterval(updateTime, 1000);
+        updateTime();
+        
+        // Show/Hide Screens
+        function showScreen(screen) {
+            loginScreen.classList.add('hidden');
+            registerScreen.classList.add('hidden');
+            adminLoginScreen.classList.add('hidden');
+            appScreen.classList.add('hidden');
+            adminPanel.classList.add('hidden');
+            gameScreens.classList.add('hidden');
+            
+            screen.classList.remove('hidden');
+        }
+        
+        // Set loading state for buttons
+        function setButtonLoading(button, textElement, loadingElement, isLoading) {
+            if (isLoading) {
+                textElement.classList.add('hidden');
+                loadingElement.classList.remove('hidden');
+                button.disabled = true;
+            } else {
+                textElement.classList.remove('hidden');
+                loadingElement.classList.add('hidden');
+                button.disabled = false;
+            }
+        }
+        
+        // Navigation Functions
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            
+            // Show selected tab content
+            document.getElementById(`${tabName}Section`).classList.remove('hidden');
+            
+            // Update active tab
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                if (tab.dataset.tab === tabName) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+        }
+        
+        function switchBottomNav(navItem) {
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                if (item.dataset.nav === navItem) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+            
+            // Handle navigation based on nav item
+            switch(navItem) {
+                case 'home':
+                case 'games':
+                    switchTab('games');
+                    break;
+                case 'sports':
+                    switchTab('sports');
+                    break;
+                case 'transfer':
+                    switchTab('transfer');
+                    break;
+                case 'profile':
+                    switchTab('profile');
+                    updateProfile();
+                    break;
+            }
+        }
+        
+        // Update profile information
+        function updateProfile() {
+            if (!currentUser) return;
+            
+            profileUserName.textContent = currentUser.name || 'User Name';
+            profileUserEmail.textContent = currentUser.email || 'user@example.com';
+            
+            // Update referral button
+            const referralCount = currentUser.referrals ? currentUser.referrals.length : 0;
+            claimReferralBtn.textContent = `Claim Referral Bonus (${referralCount}/10)`;
+            claimReferralBtn.disabled = referralCount < 10;
+            
+            // Update referral list
+            updateReferralList();
+            
+            // Update user referral code
+            if (currentUser.referralCode) {
+                userReferralCode.value = currentUser.referralCode;
+            }
+        }
+        
+        // Update referral list
+        function updateReferralList() {
+            const referrals = currentUser.referrals || [];
+            referralList.innerHTML = '';
+            
+            if (referrals.length === 0) {
+                referralList.innerHTML = `
+                    <div style="text-align: center; padding: 20px; opacity: 0.7;">
+                        <i class="fas fa-user-friends" style="font-size: 40px; margin-bottom: 10px;"></i>
+                        <div>No referrals yet</div>
+                        <div style="font-size: 12px; margin-top: 5px;">Share your code to earn 1 SEE for every 10 referrals</div>
+                    </div>
+                `;
+            } else {
+                referrals.forEach(ref => {
+                    const refItem = document.createElement('div');
+                    refItem.className = 'referral-item';
+                    refItem.innerHTML = `
+                        <div>${ref.email}</div>
+                        <div>${new Date(ref.date).toLocaleDateString()}</div>
+                    `;
+                    referralList.appendChild(refItem);
+                });
+            }
+        }
+        
+        // Generate unique referral code
+        function generateReferralCode() {
+            return 'SEE' + Math.random().toString(36).substring(2, 8).toUpperCase();
+        }
+        
+        // Update user balance in Firebase
+        async function updateUserBalance(userId, newBalance) {
+            try {
+                await db.collection('users').doc(userId).update({
+                    balance: newBalance,
+                    lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                return true;
+            } catch (error) {
+                console.error('Error updating balance:', error);
+                return false;
+            }
+        }
+        
+        // Update vault balance in Firebase
+        async function updateVaultBalance(newBalance) {
+            try {
+                await db.collection('admin').doc('vault').update({
+                    balance: newBalance,
+                    lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                return true;
+            } catch (error) {
+                console.error('Error updating vault:', error);
+                return false;
+            }
+        }
+        
+        // Record transaction
+        async function recordTransaction(userId, type, category, amount, description) {
+            try {
+                await db.collection('transactions').add({
+                    userId: userId,
+                    type: type,
+                    category: category,
+                    amount: amount,
+                    description: description,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                return true;
+            } catch (error) {
+                console.error('Error recording transaction:', error);
+                return false;
+            }
+        }
+        
+        // Add referral to user
+        async function addReferral(referrerId, referredEmail) {
+            try {
+                const referralData = {
+                    email: referredEmail,
+                    date: new Date().toISOString(),
+                    claimed: false
+                };
+                
+                await db.collection('users').doc(referrerId).update({
+                    referrals: firebase.firestore.FieldValue.arrayUnion(referralData)
+                });
+                return true;
+            } catch (error) {
+                console.error('Error adding referral:', error);
+                return false;
+            }
+        }
+        
+        // Game Functions
+        function startGame(gameName) {
+            currentGame = gameName;
+            appScreen.classList.add('hidden');
+            document.getElementById(`${gameName}Game`).classList.remove('hidden');
+            gameScreens.classList.remove('hidden');
+            
+            // Update game balance
+            document.querySelectorAll('.game-balance').forEach(el => {
+                el.textContent = `${userBalance.toFixed(2)} SEE`;
+            });
+            
+            // Initialize specific game
+            if (gameName === 'mines') {
+                initializeMinesGame();
+            } else if (gameName === 'aviator') {
+                resetAviatorGame();
+            } else if (gameName === 'dice') {
+                initializeDiceGame();
+            } else if (gameName === 'roulette') {
+                initializeRouletteGame();
+            } else if (gameName === 'sportsVisual') {
+                initializeSportsVisualGame();
+            }
+        }
+        
+        function exitGame() {
+            gameScreens.classList.add('hidden');
+            appScreen.classList.remove('hidden');
+            currentGame = null;
+            
+            // Clear any game intervals
+            Object.values(gameIntervals).forEach(interval => clearInterval(interval));
+            gameIntervals = {};
+        }
+        
+        // Aviator Game Logic
+        function resetAviatorGame() {
+            aviatorMultiplier.textContent = '1.00x';
+            aviatorCashoutAmount.textContent = 'Cashout: 0.00 SEE';
+            aviatorPlane.style.left = '0px';
+            aviatorBetButton.disabled = false;
+            aviatorCashoutButton.disabled = true;
+            
+            // Update online players
+            const onlinePlayers = Math.floor(Math.random() * 5) + 1;
+            aviatorPlayers.textContent = `Online Players: ${onlinePlayers}`;
+            
+            // Update previous rounds
+            if (aviatorState.previousRounds.length > 0) {
+                aviatorPrevious.textContent = `Previous: ${aviatorState.previousRounds.slice(-3).join(', ')}`;
+            }
+        }
+        
+        function startAviatorGame() {
+            const betAmount = parseFloat(aviatorBetAmountInput.value);
+            
+            if (userBalance < betAmount) {
+                alert('Insufficient balance!');
+                return;
+            }
+            
+            if (betAmount < 0.20) {
+                alert('Minimum bet is 0.20 SEE!');
+                return;
+            }
+            
+            // Deduct from user and add to vault
+            userBalance -= betAmount;
+            adminVaultBalance += betAmount;
+            updateBalance();
+            updateUserBalance(currentUser.uid, userBalance);
+            updateVaultBalance(adminVaultBalance);
+            recordTransaction(currentUser.uid, 'casino', 'bet', -betAmount, 'Aviator game bet');
+            
+            aviatorBetButton.disabled = true;
+            aviatorCashoutButton.disabled = false;
+            
+            let multiplier = 1.00;
+            let crashed = false;
+            const planeElement = aviatorPlane;
+            const gameArea = document.getElementById('aviatorArea');
+            const maxWidth = gameArea.offsetWidth - 50;
+            
+            planeElement.style.left = '0px';
+            
+            gameIntervals.aviator = setInterval(() => {
+                if (crashed) return;
+                
+                multiplier += 0.01;
+                aviatorMultiplier.textContent = `${multiplier.toFixed(2)}x`;
+                
+                // Update plane position
+                const currentLeft = parseInt(planeElement.style.left) || 0;
+                const newLeft = Math.min(currentLeft + 2, maxWidth);
+                planeElement.style.left = `${newLeft}px`;
+                
+                // Update cashout amount
+                const cashoutAmount = (betAmount * multiplier).toFixed(2);
+                aviatorCashoutAmount.textContent = `Cashout: ${cashoutAmount} SEE`;
+                
+                // Auto cashout check
+                if (multiplier >= parseFloat(aviatorAutoCashoutInput.value)) {
+                    cashoutAviator();
+                    return;
+                }
+                
+                // Random crash between 1.10x and 5.00x
+                if (multiplier > 1.10 && Math.random() < 0.015) {
+                    crashed = true;
+                    aviatorCashoutButton.disabled = true;
+                    aviatorBetButton.disabled = false;
+                    aviatorMultiplier.textContent = 'CRASHED!';
+                    aviatorCashoutAmount.textContent = `You lost ${betAmount} SEE`;
+                    clearInterval(gameIntervals.aviator);
+                    
+                    // Add to previous rounds
+                    aviatorState.previousRounds.push(`${multiplier.toFixed(2)}x`);
+                    
+                    // Record transaction
+                    recordTransaction(currentUser.uid, 'casino', 'loss', -betAmount, 'Aviator game loss');
+                }
+            }, 100);
+        }
+        
+        function cashoutAviator() {
+            const multiplier = parseFloat(aviatorMultiplier.textContent);
+            const betAmount = parseFloat(aviatorBetAmountInput.value);
+            const winAmount = betAmount * multiplier;
+            
+            // Check if vault has enough funds
+            if (adminVaultBalance < winAmount) {
+                alert('Insufficient funds in vault!');
+                return;
+            }
+            
+            // Transfer from vault to user
+            userBalance += winAmount;
+            adminVaultBalance -= winAmount;
+            updateBalance();
+            updateUserBalance(currentUser.uid, userBalance);
+            updateVaultBalance(adminVaultBalance);
+            
+            aviatorCashoutButton.disabled = true;
+            aviatorBetButton.disabled = false;
+            
+            clearInterval(gameIntervals.aviator);
+            
+            // Add to previous rounds
+            aviatorState.previousRounds.push(`${multiplier.toFixed(2)}x`);
+            
+            // Record transaction
+            recordTransaction(currentUser.uid, 'casino', 'win', winAmount - betAmount, `Aviator win at ${multiplier.toFixed(2)}x`);
+            
+            // Update winning users display
+            updateWinningUsers(currentUser.name, winAmount - betAmount);
+            
+            setTimeout(() => {
+                resetAviatorGame();
+            }, 2000);
+        }
+        
+        // Mines Game Logic
+        function initializeMinesGame() {
+            minesBetAmountInput.value = minesGameState.betAmount.toFixed(2);
+            minesCount.textContent = minesGameState.minesCount;
+            generateMinesGrid();
+            updateMinesCashout();
+        }
+        
+        function generateMinesGrid() {
+            minesGrid.innerHTML = '';
+            minesGameState.grid = [];
+            minesGameState.revealed = [];
+            minesGameState.gameActive = false;
+            minesGameState.cashoutMultiplier = 1.0;
+            
+            // Create 5x5 grid
+            for (let i = 0; i < 25; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'mine-cell';
+                cell.dataset.index = i;
+                cell.innerHTML = '💎';
+                cell.addEventListener('click', () => revealMineCell(i));
+                
+                minesGrid.appendChild(cell);
+                minesGameState.grid.push('gem'); // Start with all gems
+            }
+            
+            // Place mines randomly
+            let minesPlaced = 0;
+            while (minesPlaced < minesGameState.minesCount) {
+                const randomIndex = Math.floor(Math.random() * 25);
+                if (minesGameState.grid[randomIndex] === 'gem') {
+                    minesGameState.grid[randomIndex] = 'mine';
+                    minesPlaced++;
+                }
+            }
+            
+            minesPlayButton.disabled = false;
+            minesCashoutButton.disabled = true;
+        }
+        
+        function revealMineCell(index) {
+            if (!minesGameState.gameActive || minesGameState.revealed.includes(index)) {
+                return;
+            }
+            
+            minesGameState.revealed.push(index);
+            const cell = minesGrid.children[index];
+            cell.classList.add('revealed');
+            
+            if (minesGameState.grid[index] === 'mine') {
+                // Hit a mine - game over
+                cell.innerHTML = '💣';
+                cell.classList.add('mine');
+                minesGameState.gameActive = false;
+                minesCashoutButton.disabled = true;
+                
+                // Reveal all mines
+                for (let i = 0; i < 25; i++) {
+                    if (minesGameState.grid[i] === 'mine') {
+                        const mineCell = minesGrid.children[i];
+                        mineCell.innerHTML = '💣';
+                        mineCell.classList.add('mine');
+                        mineCell.classList.add('revealed');
+                    }
+                }
+                
+                // Record transaction
+                recordTransaction(currentUser.uid, 'casino', 'loss', -minesGameState.betAmount, 'Mines game loss');
+                
+                setTimeout(() => {
+                    alert('Game Over! You hit a mine.');
+                    initializeMinesGame();
+                }, 1000);
+            } else {
+                // Found a gem
+                cell.innerHTML = '💎';
+                cell.classList.add('gem');
+                
+                // Increase cashout multiplier
+                minesGameState.cashoutMultiplier += 0.2;
+                updateMinesCashout();
+                
+                // Check if all gems are found
+                const totalGems = 25 - minesGameState.minesCount;
+                if (minesGameState.revealed.length === totalGems) {
+                    // All gems found - auto cashout
+                    cashoutMines();
+                }
+            }
+        }
+        
+        function updateMinesCashout() {
+            const cashoutAmount = (minesGameState.betAmount * minesGameState.cashoutMultiplier).toFixed(2);
+            minesCashoutAmount.textContent = `Potential Cashout: ${cashoutAmount} SEE`;
+        }
+        
+        function startMinesGame() {
+            minesGameState.betAmount = parseFloat(minesBetAmountInput.value);
+            
+            if (userBalance < minesGameState.betAmount) {
+                alert('Insufficient balance!');
+                return;
+            }
+            
+            if (minesGameState.betAmount < 0.20) {
+                alert('Minimum bet is 0.20 SEE!');
+                return;
+            }
+            
+            // Deduct from user and add to vault
+            userBalance -= minesGameState.betAmount;
+            adminVaultBalance += minesGameState.betAmount;
+            updateBalance();
+            updateUserBalance(currentUser.uid, userBalance);
+            updateVaultBalance(adminVaultBalance);
+            recordTransaction(currentUser.uid, 'casino', 'bet', -minesGameState.betAmount, 'Mines game bet');
+            
+            minesGameState.gameActive = true;
+            minesPlayButton.disabled = true;
+            minesCashoutButton.disabled = false;
+            minesGameState.cashoutMultiplier = 1.0;
+            updateMinesCashout();
+        }
+        
+        function cashoutMines() {
+            const winAmount = minesGameState.betAmount * minesGameState.cashoutMultiplier;
+            
+            // Check if vault has enough funds
+            if (adminVaultBalance < winAmount) {
+                alert('Insufficient funds in vault!');
+                return;
+            }
+            
+            // Transfer from vault to user
+            userBalance += winAmount;
+            adminVaultBalance -= winAmount;
+            updateBalance();
+            updateUserBalance(currentUser.uid, userBalance);
+            updateVaultBalance(adminVaultBalance);
+            
+            minesCashoutButton.disabled = true;
+            minesPlayButton.disabled = false;
+            minesGameState.gameActive = false;
+            
+            // Record transaction
+            recordTransaction(currentUser.uid, 'casino', 'win', winAmount - minesGameState.betAmount, `Mines win with ${minesGameState.cashoutMultiplier.toFixed(1)}x multiplier`);
+            
+            // Update winning users display
+            updateWinningUsers(currentUser.name, winAmount - minesGameState.betAmount);
+            
+            setTimeout(() => {
+                alert(`You cashed out ${winAmount.toFixed(2)} SEE!`);
+                initializeMinesGame();
+            }, 500);
+        }
+        
+        // Dice Game Logic
+        function initializeDiceGame() {
+            // Set up dice bet options
+            document.querySelectorAll('.dice-bet-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.dice-bet-option').forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    diceGameState.selectedBet = parseInt(this.dataset.bet);
+                });
+            });
+        }
+        
+        function rollDice() {
+            if (!diceGameState.selectedBet) {
+                alert('Please select a number to bet on!');
+                return;
+            }
+            
+            diceGameState.betAmount = parseFloat(diceBetAmountInput.value);
+            
+            if (userBalance < diceGameState.betAmount) {
+                alert('Insufficient balance!');
+                return;
+            }
+            
+            if (diceGameState.betAmount < 0.20) {
+                alert('Minimum bet is 0.20 SEE!');
+                return;
+            }
+            
+            // Deduct from user and add to vault
+            userBalance -= diceGameState.betAmount;
+            adminVaultBalance += diceGameState.betAmount;
+            updateBalance();
+            updateUserBalance(currentUser.uid, userBalance);
+            updateVaultBalance(adminVaultBalance);
+            recordTransaction(currentUser.uid, 'casino', 'bet', -diceGameState.betAmount, 'Dice game bet');
+            
+            diceRollButton.disabled = true;
+            
+            // Animate dice roll
+            let rolls = 0;
+            const maxRolls = 10;
+            const rollInterval = setInterval(() => {
+                const randomNum = Math.floor(Math.random() * 6) + 1;
+                diceElement.textContent = getDiceFace(randomNum);
+                rolls++;
+                
+                if (rolls >= maxRolls) {
+                    clearInterval(rollInterval);
+                    
+                    const finalNumber = Math.floor(Math.random() * 6) + 1;
+                    diceElement.textContent = getDiceFace(finalNumber);
+                    
+                    // Check win
+                    if (finalNumber === diceGameState.selectedBet) {
+                        const winAmount = diceGameState.betAmount * 6; // 6x payout
+                        
+                        // Check if vault has enough funds
+                        if (adminVaultBalance < winAmount) {
+                            alert('Insufficient funds in vault!');
+                            diceRollButton.disabled = false;
+                            return;
+                        }
+                        
+                        // Transfer from vault to user
+                        userBalance += winAmount;
+                        adminVaultBalance -= winAmount;
+                        updateBalance();
+                        updateUserBalance(currentUser.uid, userBalance);
+                        updateVaultBalance(adminVaultBalance);
+                        
+                        diceResult.textContent = `You won ${(winAmount - diceGameState.betAmount).toFixed(2)} SEE!`;
+                        recordTransaction(currentUser.uid, 'casino', 'win', winAmount - diceGameState.betAmount, 'Dice game win');
+                        updateWinningUsers(currentUser.name, winAmount - diceGameState.betAmount);
+                    } else {
+                        diceResult.textContent = 'You lost! Try again.';
+                        recordTransaction(currentUser.uid, 'casino', 'loss', -diceGameState.betAmount, 'Dice game loss');
+                    }
+                    
+                    diceRollButton.disabled = false;
+                }
+            }, 100);
+        }
+        
+        function getDiceFace(number) {
+            const diceFaces = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+            return diceFaces[number - 1];
+        }
+        
+        // Roulette Game Logic
+        function initializeRouletteGame() {
+            // Set up roulette bet options
+            document.querySelectorAll('.roulette-bet-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.roulette-bet-option').forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    rouletteGameState.selectedBet = this.dataset.bet;
+                });
+            });
+        }
+        
+        function spinRoulette() {
+            if (!rouletteGameState.selectedBet) {
+                alert('Please select a bet option!');
+                return;
+            }
+            
+            rouletteGameState.betAmount = parseFloat(rouletteBetAmountInput.value);
+            
+            if (userBalance < rouletteGameState.betAmount) {
+                alert('Insufficient balance!');
+                return;
+            }
+            
+            if (rouletteGameState.betAmount < 0.20) {
+                alert('Minimum bet is 0.20 SEE!');
+                return;
+            }
+            
+            // Deduct from user and add to vault
+            userBalance -= rouletteGameState.betAmount;
+            adminVaultBalance += rouletteGameState.betAmount;
+            updateBalance();
+            updateUserBalance(currentUser.uid, userBalance);
+            updateVaultBalance(adminVaultBalance);
+            recordTransaction(currentUser.uid, 'casino', 'bet', -rouletteGameState.betAmount, 'Roulette game bet');
+            
+            rouletteSpinButton.disabled = true;
+            
+            // Animate roulette spin (2x faster)
+            const spins = 2 + Math.floor(Math.random() * 3); // 2-4 spins (faster)
+            const totalDegrees = 360 * spins + Math.floor(Math.random() * 360);
+            
+            rouletteWheel.style.transform = `rotate(${totalDegrees}deg)`;
+            
+            setTimeout(() => {
+                // Determine result
+                const winningNumber = Math.floor(Math.random() * 37); // 0-36
+                const isRed = [1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36].includes(winningNumber);
+                const isBlack = [2,4,6,8,10,11,13,15,17,20,22,24,26,28,29,31,33,35].includes(winningNumber);
+                const isEven = winningNumber !== 0 && winningNumber % 2 === 0;
+                const isOdd = winningNumber % 2 === 1;
+                
+                let won = false;
+                
+                if (rouletteGameState.selectedBet === 'red' && isRed) won = true;
+                if (rouletteGameState.selectedBet === 'black' && isBlack) won = true;
+                if (rouletteGameState.selectedBet === 'even' && isEven) won = true;
+                if (rouletteGameState.selectedBet === 'odd' && isOdd) won = true;
+                
+                if (won) {
+                    const winAmount = rouletteGameState.betAmount * 2; // 2x payout
+                    
+                    // Check if vault has enough funds
+                    if (adminVaultBalance < winAmount) {
+                        alert('Insufficient funds in vault!');
+                        rouletteSpinButton.disabled = false;
+                        return;
+                    }
+                    
+                    // Transfer from vault to user
+                    userBalance += winAmount;
+                    adminVaultBalance -= winAmount;
+                    updateBalance();
+                    updateUserBalance(currentUser.uid, userBalance);
+                    updateVaultBalance(adminVaultBalance);
+                    
+                    rouletteResult.textContent = `You won ${(winAmount - rouletteGameState.betAmount).toFixed(2)} SEE!`;
+                    recordTransaction(currentUser.uid, 'casino', 'win', winAmount - rouletteGameState.betAmount, 'Roulette game win');
+                    updateWinningUsers(currentUser.name, winAmount - rouletteGameState.betAmount);
+                } else {
+                    rouletteResult.textContent = 'You lost! Try again.';
+                    recordTransaction(currentUser.uid, 'casino', 'loss', -rouletteGameState.betAmount, 'Roulette game loss');
+                }
+                
+                rouletteSpinButton.disabled = false;
+            }, 2000); // 2 seconds (faster)
+        }
+        
+        // Sports Visual Game Logic
+        function initializeSportsVisualGame() {
+            sportsVisualState.homeScore = 0;
+            sportsVisualState.awayScore = 0;
+            sportsVisualState.gameActive = false;
+            sportsVisualState.timer = 0;
+            
+            sportsScore.textContent = '0 - 0';
+            sportsTimer.textContent = '1st Half: 00:00';
+            sportsResult.textContent = 'Match starting soon...';
+            sportsBall.style.left = '50%';
+            sportsBall.style.top = '50%';
+            
+            // Set up sports bet options
+            document.querySelectorAll('.roulette-bet-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.roulette-bet-option').forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    sportsVisualState.selectedBet = this.dataset.bet;
+                });
+            });
+        }
+        
+        function startSportsVisualGame() {
+            if (!sportsVisualState.selectedBet) {
+                alert('Please select a bet option!');
+                return;
+            }
+            
+            sportsVisualState.betAmount = parseFloat(sportsBetAmountInput.value);
+            
+            if (userBalance < sportsVisualState.betAmount) {
+                alert('Insufficient balance!');
+                return;
+            }
+            
+            if (sportsVisualState.betAmount < 0.20) {
+                alert('Minimum bet is 0.20 SEE!');
+                return;
+            }
+            
+            // Deduct from user and add to vault
+            userBalance -= sportsVisualState.betAmount;
+            adminVaultBalance += sportsVisualState.betAmount;
+            updateBalance();
+            updateUserBalance(currentUser.uid, userBalance);
+            updateVaultBalance(adminVaultBalance);
+            recordTransaction(currentUser.uid, 'sports', 'bet', -sportsVisualState.betAmount, 'Sports visual bet');
+            
+            sportsVisualState.gameActive = true;
+            sportsBetButton.disabled = true;
+            sportsResult.textContent = 'Match in progress...';
+            
+            // Start match simulation
+            simulateMatch();
+        }
+        
+        function simulateMatch() {
+            let half = 1;
+            let minutes = 0;
+            let seconds = 0;
+            
+            gameIntervals.sportsTimer = setInterval(() => {
+                seconds++;
+                if (seconds >= 60) {
+                    minutes++;
+                    seconds = 0;
+                }
+                
+                if (minutes >= 45 && half === 1) {
+                    half = 2;
+                    minutes = 0;
+                    seconds = 0;
+                } else if (minutes >= 45 && half === 2) {
+                    endMatch();
+                    return;
+                }
+                
+                sportsTimer.textContent = `${half === 1 ? '1st' : '2nd'} Half: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Random goal events
+                if (Math.random() < 0.02) { // 2% chance per second
+                    if (Math.random() < 0.6) { // 60% chance home scores
+                        sportsVisualState.homeScore++;
+                        sportsScore.textContent = `${sportsVisualState.homeScore} - ${sportsVisualState.awayScore}`;
+                        animateGoal('home');
+                    } else { // 40% chance away scores
+                        sportsVisualState.awayScore++;
+                        sportsScore.textContent = `${sportsVisualState.homeScore} - ${sportsVisualState.awayScore}`;
+                        animateGoal('away');
+                    }
+                }
+                
+                // Ball movement
+                moveBall();
+            }, 1000); // Update every second
+        }
+        
+        function animateGoal(scoringTeam) {
+            // Animate ball to scoring team's goal
+            const ball = sportsBall;
+            if (scoringTeam === 'home') {
+                ball.style.left = '20px';
+            } else {
+                ball.style.left = 'calc(100% - 20px)';
+            }
+            ball.style.top = '50%';
+            
+            // Reset ball position after goal animation
+            setTimeout(() => {
+                ball.style.left = '50%';
+                ball.style.top = '50%';
+            }, 2000);
+        }
+        
+        function moveBall() {
+            // Simple ball movement animation
+            const ball = sportsBall;
+            const currentLeft = parseInt(ball.style.left) || 50;
+            const currentTop = parseInt(ball.style.top) || 50;
+            
+            const newLeft = currentLeft + (Math.random() * 10 - 5);
+            const newTop = currentTop + (Math.random() * 10 - 5);
+            
+            // Keep ball within field bounds
+            ball.style.left = Math.max(10, Math.min(90, newLeft)) + '%';
+            ball.style.top = Math.max(10, Math.min(90, newTop)) + '%';
+        }
+        
+        function endMatch() {
+            clearInterval(gameIntervals.sportsTimer);
+            sportsVisualState.gameActive = false;
+            sportsBetButton.disabled = false;
+            
+            // Determine result
+            let result = 'draw';
+            if (sportsVisualState.homeScore > sportsVisualState.awayScore) {
+                result = 'home';
+            } else if (sportsVisualState.awayScore > sportsVisualState.homeScore) {
+                result = 'away';
+            }
+            
+            // Check if user won
+            let won = false;
+            if (sportsVisualState.selectedBet === result) {
+                won = true;
+            }
+            
+            if (won) {
+                const winAmount = sportsVisualState.betAmount * 3; // 3x payout for sports
+                
+                // Check if vault has enough funds
+                if (adminVaultBalance < winAmount) {
+                    alert('Insufficient funds in vault!');
+                    sportsResult.textContent = `Match ended ${sportsVisualState.homeScore}-${sportsVisualState.awayScore}. You won but insufficient vault funds!`;
+                    return;
+                }
+                
+                // Transfer from vault to user
+                userBalance += winAmount;
+                adminVaultBalance -= winAmount;
+                updateBalance();
+                updateUserBalance(currentUser.uid, userBalance);
+                updateVaultBalance(adminVaultBalance);
+                
+                sportsResult.textContent = `Congratulations! You won ${(winAmount - sportsVisualState.betAmount).toFixed(2)} SEE!`;
+                recordTransaction(currentUser.uid, 'sports', 'win', winAmount - sportsVisualState.betAmount, 'Sports visual win');
+                updateWinningUsers(currentUser.name, winAmount - sportsVisualState.betAmount);
+            } else {
+                sportsResult.textContent = `Match ended ${sportsVisualState.homeScore}-${sportsVisualState.awayScore}. You lost!`;
+                recordTransaction(currentUser.uid, 'sports', 'loss', -sportsVisualState.betAmount, 'Sports visual loss');
+            }
+        }
+        
+        // Transfer coins between users
+        async function transferCoins() {
+            const recipientEmail = transferEmail.value.trim();
+            const amount = parseFloat(transferAmount.value);
+            const pin = transferPin.value;
+            
+            if (!recipientEmail || !amount || !pin) {
+                alert('Please fill all fields!');
+                return;
+            }
+            
+            if (amount < 1) {
+                alert('Minimum transfer is 1 SEE!');
+                return;
+            }
+            
+            if (userBalance < amount) {
+                alert('Insufficient balance!');
+                return;
+            }
+            
+            if (pin !== currentUser.pin) {
+                alert('Invalid PIN!');
+                return;
+            }
+            
+            try {
+                // Find recipient user
+                const usersSnapshot = await db.collection('users')
+                    .where('email', '==', recipientEmail)
+                    .get();
+                
+                if (usersSnapshot.empty) {
+                    alert('Recipient not found!');
+                    return;
+                }
+                
+                const recipientDoc = usersSnapshot.docs[0];
+                const recipientData = recipientDoc.data();
+                const recipientBalance = recipientData.balance || 0;
+                
+                // Update balances
+                userBalance -= amount;
+                await updateUserBalance(currentUser.uid, userBalance);
+                await updateUserBalance(recipientDoc.id, recipientBalance + amount);
+                
+                // Record transactions
+                await recordTransaction(currentUser.uid, 'transfer', 'sent', -amount, `Transfer to ${recipientEmail}`);
+                await recordTransaction(recipientDoc.id, 'transfer', 'received', amount, `Transfer from ${currentUser.email}`);
+                
+                updateBalance();
+                alert(`Successfully transferred ${amount} SEE to ${recipientEmail}`);
+                
+                // Clear form
+                transferEmail.value = '';
+                transferAmount.value = '';
+                transferPin.value = '';
+                
+            } catch (error) {
+                console.error('Transfer error:', error);
+                alert('Transfer failed! Please try again.');
+            }
+        }
+        
+        // Mines controls
+        decreaseMines.addEventListener('click', () => {
+            if (minesGameState.minesCount > 1) {
+                minesGameState.minesCount--;
+                minesCount.textContent = minesGameState.minesCount;
+                generateMinesGrid();
+            }
+        });
+        
+        increaseMines.addEventListener('click', () => {
+            if (minesGameState.minesCount < 10) {
+                minesGameState.minesCount++;
+                minesCount.textContent = minesGameState.minesCount;
+                generateMinesGrid();
+            }
+        });
+        
+        // Utility Functions
+        function updateBalance() {
+            document.getElementById('userBalance').textContent = `${userBalance.toFixed(2)} SEE`;
+            
+            document.querySelectorAll('.game-balance').forEach(el => {
+                el.textContent = `${userBalance.toFixed(2)} SEE`;
+            });
+            
+            // Update vault balance in admin panel
+            document.getElementById('vaultBalance').textContent = `${adminVaultBalance.toLocaleString()} SEE`;
+        }
+        
+        function updateWinningUsers(name, amount) {
+            const winningUsers = document.getElementById('winningUsers');
+            const userElement = document.createElement('div');
+            userElement.className = 'winning-user';
+            userElement.innerHTML = `
+                <i class="fas fa-trophy"></i>
+                <span>${name} won ${amount.toFixed(2)} SEE</span>
+            `;
+            
+            winningUsers.appendChild(userElement);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                userElement.remove();
+            }, 5000);
+        }
+        
+        // Admin Functions
+        async function loadAdminPanel() {
+            try {
+                // Load users
+                const usersSnapshot = await db.collection('users').get();
+                const users = [];
+                let totalUserBalance = 0;
+                
+                usersSnapshot.forEach(doc => {
+                    const userData = doc.data();
+                    users.push({
+                        id: doc.id,
+                        ...userData
+                    });
+                    totalUserBalance += userData.balance || 0;
+                });
+                
+                // Update stats
+                document.getElementById('totalUsers').textContent = users.length;
+                document.getElementById('totalBalance').textContent = `${totalUserBalance.toFixed(2)} SEE`;
+                
+                // Update users list
+                usersList.innerHTML = '';
+                
+                if (users.length === 0) {
+                    usersList.innerHTML = '<div style="text-align: center; padding: 20px; opacity: 0.7;">No users found</div>';
+                } else {
+                    users.forEach(user => {
+                        const userItem = document.createElement('div');
+                        userItem.className = 'user-item';
+                        userItem.innerHTML = `
+                            <div class="user-info">
+                                <div class="user-name">${user.name || 'Unknown'}</div>
+                                <div class="user-email">${user.email}</div>
+                            </div>
+                            <div class="user-balance">${(user.balance || 0).toFixed(2)} SEE</div>
+                            <div class="user-actions">
+                                <button class="user-action" title="Add Coins" onclick="adminAddCoins('${user.id}', '${user.email}')">
+                                    <i class="fas fa-coins"></i>
+                                </button>
+                                <button class="user-action" title="Ban User" onclick="adminBanUser('${user.id}', '${user.email}')">
+                                    <i class="fas fa-ban"></i>
+                                </button>
+                                <button class="user-action" title="Message User" onclick="adminMessageUser('${user.id}', '${user.email}')">
+                                    <i class="fas fa-envelope"></i>
+                                </button>
+                            </div>
+                        `;
+                        usersList.appendChild(userItem);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading admin panel:', error);
+                usersList.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--danger);">Error loading users</div>';
+            }
+        }
+        
+        // Admin functions for user actions
+        window.adminAddCoins = async function(userId, userEmail) {
+            const amount = parseFloat(prompt(`Enter amount of SEE to add to ${userEmail}:`));
+            if (!amount || isNaN(amount) || amount <= 0) {
+                alert('Invalid amount!');
+                return;
+            }
+            
+            // Check if vault has enough funds
+            if (adminVaultBalance < amount) {
+                alert('Insufficient funds in vault!');
+                return;
+            }
+            
+            try {
+                // Get current user balance
+                const userDoc = await db.collection('users').doc(userId).get();
+                const currentBalance = userDoc.data().balance || 0;
+                
+                // Update balances
+                await updateUserBalance(userId, currentBalance + amount);
+                await updateVaultBalance(adminVaultBalance - amount);
+                
+                // Update local state
+                adminVaultBalance -= amount;
+                
+                // Record transaction
+                await recordTransaction(userId, 'admin', 'credit', amount, 'Admin credit');
+                
+                alert(`Added ${amount} SEE to ${userEmail}`);
+                loadAdminPanel(); // Refresh the list
+            } catch (error) {
+                console.error('Error adding coins:', error);
+                alert('Failed to add coins!');
+            }
+        };
+        
+        window.adminBanUser = function(userId, userEmail) {
+            const reason = prompt(`Enter reason for banning ${userEmail}:`);
+            if (reason) {
+                // In a real app, this would update user.banned = true in Firestore
+                alert(`User ${userEmail} has been banned for: ${reason}`);
+            }
+        };
+        
+        window.adminMessageUser = function(userId, userEmail) {
+            const message = prompt(`Enter message to send to ${userEmail}:`);
+            if (message) {
+                // In a real app, this would add to user's inbox in Firestore
+                alert(`Message sent to ${userEmail}`);
+            }
+        };
+        
+        // Event Listeners for Navigation
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                switchTab(tab.dataset.tab);
+            });
+        });
+        
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                switchBottomNav(item.dataset.nav);
+            });
+        });
+        
+        // Game card clicks
+        document.querySelectorAll('.game-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const gameName = card.dataset.game;
+                startGame(gameName);
+            });
+        });
+        
+        // Sports visual start
+        startSportsVisual.addEventListener('click', () => {
+            startGame('sportsVisual');
+        });
+        
+        // Game controls
+        aviatorBetButton.addEventListener('click', startAviatorGame);
+        aviatorCashoutButton.addEventListener('click', cashoutAviator);
+        aviatorBackBtn.addEventListener('click', exitGame);
+        
+        minesPlayButton.addEventListener('click', startMinesGame);
+        minesCashoutButton.addEventListener('click', cashoutMines);
+        minesBackBtn.addEventListener('click', exitGame);
+        
+        diceRollButton.addEventListener('click', rollDice);
+        diceBackBtn.addEventListener('click', exitGame);
+        
+        rouletteSpinButton.addEventListener('click', spinRoulette);
+        rouletteBackBtn.addEventListener('click', exitGame);
+        
+        sportsBetButton.addEventListener('click', startSportsVisualGame);
+        sportsVisualBackBtn.addEventListener('click', exitGame);
+        
+        // Transfer button
+        transferButton.addEventListener('click', transferCoins);
+        
+        // Copy referral code
+        copyReferralBtn.addEventListener('click', () => {
+            userReferralCode.select();
+            document.execCommand('copy');
+            alert('Referral code copied to clipboard!');
+        });
+        
+        // Claim referral bonus
+        claimReferralBtn.addEventListener('click', async () => {
+            if (currentUser.referrals && currentUser.referrals.length >= 10) {
+                // Check if vault has enough funds
+                if (adminVaultBalance < 1) {
+                    alert('Insufficient funds in vault!');
+                    return;
+                }
+                
+                // Transfer from vault to user
+                userBalance += 1;
+                adminVaultBalance -= 1;
+                updateBalance();
+                await updateUserBalance(currentUser.uid, userBalance);
+                await updateVaultBalance(adminVaultBalance);
+                
+                alert('Referral bonus of 1 SEE has been added to your account!');
+                await recordTransaction(currentUser.uid, 'referral', 'bonus', 1, 'Referral bonus');
+            }
+        });
+        
+        // Auth Event Listeners
+        showRegister.addEventListener('click', (e) => {
+            e.preventDefault();
+            showScreen(registerScreen);
+        });
+        
+        showLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            showScreen(loginScreen);
+        });
+        
+        showAdminLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            showScreen(adminLoginScreen);
+        });
+        
+        showUserLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            showScreen(loginScreen);
+        });
+        
+        // Login function
+        loginButton.addEventListener('click', async () => {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                alert('Please enter both email and password');
+                return;
+            }
+            
+            setButtonLoading(loginButton, loginButtonText, loginButtonLoading, true);
+            
+            try {
+                // Check if admin login
+                if (email === 'ebubechichukwu8@gmail.com' && password === 'Ebube@123') {
+                    isAdmin = true;
+                    showScreen(adminPanel);
+                    await loadAdminPanel();
+                    setButtonLoading(loginButton, loginButtonText, loginButtonLoading, false);
+                    return;
+                }
+                
+                // Regular user login
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                // Get user data from Firestore
+                const userDoc = await db.collection('users').doc(user.uid).get();
+                
+                if (userDoc.exists) {
+                    const userData = userDoc.data();
+                    currentUser = {
+                        uid: user.uid,
+                        ...userData
+                    };
+                    userBalance = userData.balance || 0;
+                    
+                    updateBalance();
+                    updateProfile();
+                    showScreen(appScreen);
+                } else {
+                    alert('User data not found!');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Login failed: ' + error.message);
+            }
+            
+            setButtonLoading(loginButton, loginButtonText, loginButtonLoading, false);
+        });
+        
+        // Register function
+        registerButton.addEventListener('click', async () => {
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+            const pin = document.getElementById('registerPin').value;
+            const age = document.getElementById('registerAge').value;
+            const country = document.getElementById('registerCountry').value;
+            const referralCode = document.getElementById('referralCodeInput').value;
+            
+            if (!name || !email || !password || !confirmPassword || !pin || !age || !country) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+            
+            if (pin.length !== 4 || isNaN(pin)) {
+                alert('PIN must be 4 digits');
+                return;
+            }
+            
+            if (parseInt(age) < 17) {
+                alert('You must be at least 17 years old to register');
+                return;
+            }
+            
+            setButtonLoading(registerButton, registerButtonText, registerButtonLoading, true);
+            
+            try {
+                // Create user in Firebase Auth
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                // Generate referral code
+                const referralCode = generateReferralCode();
+                
+                // Create user document in Firestore
+                await db.collection('users').doc(user.uid).set({
+                    name: name,
+                    email: email,
+                    pin: pin,
+                    age: parseInt(age),
+                    country: country,
+                    balance: 0,
+                    referralCode: referralCode,
+                    referrals: [],
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                // Handle referral if provided
+                if (referralCode) {
+                    // Find referrer and add referral
+                    const referrerSnapshot = await db.collection('users')
+                        .where('referralCode', '==', referralCode)
+                        .get();
+                    
+                    if (!referrerSnapshot.empty) {
+                        const referrerDoc = referrerSnapshot.docs[0];
+                        await addReferral(referrerDoc.id, email);
+                    }
+                }
+                
+                // Set current user
+                currentUser = {
+                    uid: user.uid,
+                    name: name,
+                    email: email,
+                    pin: pin,
+                    balance: 0,
+                    referralCode: referralCode,
+                    referrals: []
+                };
+                
+                userBalance = 0;
+                updateBalance();
+                updateProfile();
+                showScreen(appScreen);
+                
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('Registration failed: ' + error.message);
+            }
+            
+            setButtonLoading(registerButton, registerButtonText, registerButtonLoading, false);
+        });
+        
+        // Admin login
+        adminLoginButton.addEventListener('click', async () => {
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            if (!email || !password) {
+                alert('Please enter both email and password');
+                return;
+            }
+            
+            setButtonLoading(adminLoginButton, adminLoginButtonText, adminLoginButtonLoading, true);
+            
+            try {
+                if (email === 'ebubechichukwu8@gmail.com' && password === 'Ebube@123') {
+                    isAdmin = true;
+                    showScreen(adminPanel);
+                    await loadAdminPanel();
+                } else {
+                    alert('Invalid admin credentials!');
+                }
+            } catch (error) {
+                console.error('Admin login error:', error);
+                alert('Admin login failed: ' + error.message);
+            }
+            
+            setButtonLoading(adminLoginButton, adminLoginButtonText, adminLoginButtonLoading, false);
+        });
+        
+        // Logout functions
+        logoutButton.addEventListener('click', () => {
+            if (confirm('Are you sure you want to logout?')) {
+                auth.signOut().then(() => {
+                    userBalance = 0;
+                    currentUser = null;
+                    showScreen(loginScreen);
+                });
+            }
+        });
+        
+        adminLogoutButton.addEventListener('click', () => {
+            if (confirm('Are you sure you want to logout from admin panel?')) {
+                isAdmin = false;
+                showScreen(loginScreen);
+            }
+        });
+        
+        // Admin action buttons
+        addCoinsBtn.addEventListener('click', () => {
+            alert('Click the coin icon next to any user to add coins');
+        });
+        
+        banUserBtn.addEventListener('click', () => {
+            alert('Click the ban icon next to any user to ban them');
+        });
+        
+        messageUserBtn.addEventListener('click', () => {
+            alert('Click the envelope icon next to any user to message them');
+        });
+        
+        viewReportsBtn.addEventListener('click', () => {
+            alert('Reports panel would open here');
+        });
+        
+        // Initialize Firebase data
+        async function initializeFirebaseData() {
+            try {
+                // Check if vault exists
+                const vaultDoc = await db.collection('admin').doc('vault').get();
+                if (!vaultDoc.exists) {
+                    // Create vault with 50B SEE
+                    await db.collection('admin').doc('vault').set({
+                        balance: 50000000000,
+                        lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                } else {
+                    adminVaultBalance = vaultDoc.data().balance;
+                }
+            } catch (error) {
+                console.error('Error initializing Firebase data:', error);
+            }
+        }
+        
+        // Initialize app
+        showScreen(loginScreen);
+        initializeFirebaseData();
+    </script>
+</body>
+</html>
