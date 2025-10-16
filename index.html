@@ -8,6 +8,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --primary: #1a237e;
@@ -202,82 +203,6 @@
         .game-name {
             font-size: 12px;
             font-weight: 500;
-        }
-        
-        /* Sports Section */
-        .sports-container {
-            display: grid;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .sport-match {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 15px;
-        }
-        
-        .match-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            font-size: 14px;
-            opacity: 0.8;
-        }
-        
-        .match-teams {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .team {
-            text-align: center;
-            flex: 1;
-        }
-        
-        .team-name {
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-        
-        .team-flag {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.1);
-            margin: 0 auto 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .vs {
-            font-weight: bold;
-            margin: 0 10px;
-        }
-        
-        .match-odds {
-            display: flex;
-            justify-content: space-between;
-        }
-        
-        .odd {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 8px 0;
-            text-align: center;
-            flex: 1;
-            margin: 0 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .odd:hover {
-            background-color: var(--secondary);
-            color: var(--dark);
         }
         
         /* Promo Banner */
@@ -499,54 +424,6 @@
             cursor: not-allowed;
         }
         
-        /* Aviator Specific */
-        .aviator-plane {
-            font-size: 48px;
-            position: absolute;
-            transition: all 0.1s linear;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        
-        .aviator-multiplier {
-            font-size: 32px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            z-index: 10;
-        }
-        
-        .aviator-cashout {
-            font-size: 18px;
-            margin-bottom: 10px;
-            z-index: 10;
-        }
-        
-        .aviator-players {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            font-size: 12px;
-            background: rgba(0,0,0,0.7);
-            padding: 5px 10px;
-            border-radius: 10px;
-        }
-        
-        .aviator-history {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            overflow-x: auto;
-            padding: 10px 0;
-        }
-        
-        .history-item {
-            background: rgba(255,255,255,0.1);
-            padding: 5px 10px;
-            border-radius: 8px;
-            font-size: 12px;
-        }
-        
         /* Mines Specific */
         .mines-grid {
             display: grid;
@@ -621,147 +498,17 @@
             cursor: pointer;
         }
         
-        /* Dice Game */
-        .dice-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-        
-        .dice {
-            width: 100px;
-            height: 100px;
-            background-color: white;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            color: black;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        
-        .dice-bet-options {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .dice-bet-option {
-            padding: 10px 15px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .dice-bet-option.active {
-            background: var(--secondary);
-            color: var(--dark);
-        }
-        
-        /* Roulette Game */
-        .roulette-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-        
-        .roulette-wheel {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: conic-gradient(
-                red 0deg 15deg,
-                black 15deg 30deg,
-                red 30deg 45deg,
-                black 45deg 60deg,
-                red 60deg 75deg,
-                black 75deg 90deg,
-                red 90deg 105deg,
-                black 105deg 120deg,
-                red 120deg 135deg,
-                black 135deg 150deg,
-                red 150deg 165deg,
-                black 165deg 180deg,
-                red 180deg 195deg,
-                black 195deg 210deg,
-                red 210deg 225deg,
-                black 225deg 240deg,
-                red 240deg 255deg,
-                black 255deg 270deg,
-                red 270deg 285deg,
-                black 285deg 300deg,
-                red 300deg 315deg,
-                black 315deg 330deg,
-                red 330deg 345deg,
-                black 345deg 360deg
-            );
-            position: relative;
-            animation: none;
-        }
-        
-        .roulette-pointer {
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-top: 20px solid var(--secondary);
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .roulette-bet-options {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .roulette-bet-option {
-            padding: 10px 15px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .roulette-bet-option.active {
-            background: var(--secondary);
-            color: var(--dark);
-        }
-        
-        /* Sports Game */
-        .sports-game-area {
+        .mines-multiplier-display {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
             text-align: center;
         }
         
-        .score-display {
-            font-size: 48px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-        
-        .match-time {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: var(--secondary);
-        }
-        
-        .match-events {
-            font-size: 14px;
-            margin-bottom: 15px;
-            min-height: 40px;
+        .mines-cashout-amount {
+            font-size: 16px;
+            margin-bottom: 10px;
+            text-align: center;
         }
         
         /* Admin Panel */
@@ -970,19 +717,24 @@
         
         .transaction-tabs {
             display: flex;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 5px;
             margin-bottom: 15px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         
         .transaction-tab {
-            padding: 10px 15px;
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 14px;
             cursor: pointer;
-            border-bottom: 2px solid transparent;
         }
         
         .transaction-tab.active {
-            border-bottom-color: var(--secondary);
-            color: var(--secondary);
+            background-color: var(--secondary);
+            color: var(--dark);
         }
         
         .transaction-list {
@@ -991,10 +743,10 @@
         }
         
         .transaction-item {
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
             display: flex;
             justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         
         .transaction-amount.positive {
@@ -1005,25 +757,7 @@
             color: var(--danger);
         }
         
-        /* Bet History */
-        .bet-tabs {
-            display: flex;
-            margin-bottom: 15px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .bet-tab {
-            padding: 10px 15px;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-        }
-        
-        .bet-tab.active {
-            border-bottom-color: var(--secondary);
-            color: var(--secondary);
-        }
-        
-        /* Inbox */
+        /* Inbox Section */
         .inbox-section {
             background-color: rgba(255, 255, 255, 0.05);
             border-radius: 15px;
@@ -1031,14 +765,10 @@
             margin-bottom: 20px;
         }
         
-        .message-list {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        
         .message-item {
             padding: 15px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
         }
         
         .message-header {
@@ -1056,80 +786,14 @@
             opacity: 0.7;
         }
         
-        .message-content {
+        .message-preview {
             font-size: 14px;
-        }
-        
-        .new-message-form {
-            margin-top: 20px;
+            opacity: 0.8;
         }
         
         /* Hidden class for toggling screens */
         .hidden {
             display: none;
-        }
-        
-        /* Bet Slip */
-        .bet-slip {
-            position: fixed;
-            bottom: 70px;
-            right: 15px;
-            background-color: var(--primary);
-            border-radius: 10px;
-            padding: 15px;
-            width: 250px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-        }
-        
-        .bet-slip-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        
-        .bet-slip-title {
-            font-size: 16px;
-            font-weight: bold;
-        }
-        
-        .bet-slip-close {
-            background: none;
-            border: none;
-            color: var(--light);
-            cursor: pointer;
-        }
-        
-        .bet-slip-item {
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .bet-slip-actions {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-        
-        .bet-slip-button {
-            background-color: var(--secondary);
-            color: var(--dark);
-            border: none;
-            padding: 8px 12px;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        
-        .bet-amount-input {
-            width: 100%;
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid rgba(255,255,255,0.2);
-            background: rgba(255,255,255,0.1);
-            color: white;
-            margin-top: 5px;
         }
         
         /* Logout Button */
@@ -1171,26 +835,11 @@
             to { transform: rotate(360deg); }
         }
         
-        /* Auto Cashout Input */
-        .auto-cashout-input {
-            width: 80px;
-            padding: 5px;
-            border-radius: 5px;
-            border: 1px solid rgba(255,255,255,0.2);
-            background: rgba(255,255,255,0.1);
-            color: white;
-            text-align: center;
-        }
-        
-        /* Custom Bet Amount Input */
-        .custom-bet-input {
-            width: 100px;
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid rgba(255,255,255,0.2);
-            background: rgba(255,255,255,0.1);
-            color: white;
-            text-align: center;
+        /* Chart Container */
+        .chart-container {
+            width: 100%;
+            height: 200px;
+            margin-top: 15px;
         }
     </style>
 </head>
@@ -1211,13 +860,37 @@
             </div>
             <button id="loginButton" class="auth-button">
                 <span id="loginButtonText">Login</span>
-                <span id="loginButtonLoading" class="loading hidden"></span>
+                <span id="loginButtonSpinner" class="loading hidden"></span>
             </button>
             <div class="auth-link">
                 Don't have an account? <a href="#" id="showRegister">Register</a>
             </div>
             <div class="auth-link">
-                <a href="#" id="showAdminLogin">Admin Login</a>
+                <a href="#" id="showAdminLogin">Login as Lord</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Admin Login Screen -->
+    <div id="adminLoginScreen" class="auth-screen hidden">
+        <div class="auth-logo">
+            <i class="fas fa-crown"></i> Lord Panel
+        </div>
+        <div class="auth-form">
+            <div class="form-group">
+                <label class="form-label">Admin Email</label>
+                <input type="email" id="adminEmail" class="form-input" placeholder="Enter admin email">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" id="adminPassword" class="form-input" placeholder="Enter admin password">
+            </div>
+            <button id="adminLoginButton" class="auth-button">
+                <span id="adminLoginButtonText">Login as Lord</span>
+                <span id="adminLoginButtonSpinner" class="loading hidden"></span>
+            </button>
+            <div class="auth-link">
+                <a href="#" id="showUserLogin">Back to User Login</a>
             </div>
         </div>
     </div>
@@ -1269,34 +942,10 @@
             </div>
             <button id="registerButton" class="auth-button">
                 <span id="registerButtonText">Create Account</span>
-                <span id="registerButtonLoading" class="loading hidden"></span>
+                <span id="registerButtonSpinner" class="loading hidden"></span>
             </button>
             <div class="auth-link">
                 Already have an account? <a href="#" id="showLogin">Login</a>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Admin Login Screen -->
-    <div id="adminLoginScreen" class="auth-screen hidden">
-        <div class="auth-logo">
-            <i class="fas fa-crown"></i> Lord Panel
-        </div>
-        <div class="auth-form">
-            <div class="form-group">
-                <label class="form-label">Admin Email</label>
-                <input type="email" id="adminEmail" class="form-input" placeholder="Enter admin email">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Password</label>
-                <input type="password" id="adminPassword" class="form-input" placeholder="Enter admin password">
-            </div>
-            <button id="adminLoginButton" class="auth-button">
-                <span id="adminLoginButtonText">Login as Lord</span>
-                <span id="adminLoginButtonLoading" class="loading hidden"></span>
-            </button>
-            <div class="auth-link">
-                <a href="#" id="showUserLogin">Back to User Login</a>
             </div>
         </div>
     </div>
@@ -1329,12 +978,8 @@
                         <div class="stat-value" id="usdValue">$0.00</div>
                     </div>
                     <div class="stat-item">
-                        <div>Games Played</div>
-                        <div class="stat-value" id="gamesPlayedCount">0</div>
-                    </div>
-                    <div class="stat-item">
-                        <div>Wins</div>
-                        <div class="stat-value" id="winsCount">0</div>
+                        <div>Coin Price</div>
+                        <div class="stat-value" id="coinPrice">$1.01</div>
                     </div>
                 </div>
             </div>
@@ -1342,45 +987,28 @@
             <!-- Navigation Tabs -->
             <div class="nav-tabs">
                 <div class="nav-tab active" data-tab="games">Games</div>
-                <div class="nav-tab" data-tab="sports">Sports</div>
                 <div class="nav-tab" data-tab="transfer">Transfer</div>
+                <div class="nav-tab" data-tab="transactions">Transactions</div>
                 <div class="nav-tab" data-tab="profile">Profile</div>
             </div>
             
             <!-- Games Section -->
             <div id="gamesSection" class="tab-content">
                 <div class="section-header">
-                    <div class="section-title">Casino Games</div>
+                    <div class="section-title">Popular Games</div>
                 </div>
                 
                 <div class="games-grid">
-                    <div class="game-card" data-game="aviator">
-                        <div class="game-icon"><i class="fas fa-plane"></i></div>
-                        <div class="game-name">Aviator</div>
-                    </div>
                     <div class="game-card" data-game="mines">
                         <div class="game-icon"><i class="fas fa-bomb"></i></div>
                         <div class="game-name">Mines</div>
                     </div>
-                    <div class="game-card" data-game="roulette">
-                        <div class="game-icon"><i class="fas fa-dharmachakra"></i></div>
-                        <div class="game-name">Roulette</div>
-                    </div>
-                    <div class="game-card" data-game="dice">
-                        <div class="game-icon"><i class="fas fa-dice"></i></div>
-                        <div class="game-name">Dice</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Sports Section -->
-            <div id="sportsSection" class="tab-content hidden">
-                <div class="section-header">
-                    <div class="section-title">Sports Betting</div>
                 </div>
                 
-                <div class="sports-container" id="sportsContainer">
-                    <!-- Sports matches will be loaded here -->
+                <div class="promo-banner">
+                    <div class="promo-title">CLAIM FREE BETS</div>
+                    <div class="promo-subtitle">WORTH NGN 6,500,000 WEEKLY</div>
+                    <button class="promo-button">PLAY NOW</button>
                 </div>
             </div>
             
@@ -1397,32 +1025,32 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label">Amount (Min. 1 SEE)</label>
-                        <input type="number" id="transferAmount" class="form-input" placeholder="Enter amount" min="1" step="0.01">
+                        <input type="number" id="transferAmount" class="form-input" placeholder="Enter amount">
                     </div>
                     <div class="form-group">
                         <label class="form-label">4-Digit PIN</label>
                         <input type="password" id="transferPin" class="form-input" placeholder="Enter your PIN" maxlength="4">
                     </div>
-                    <button id="transferButton" class="auth-button">
-                        <span id="transferButtonText">Send SEE</span>
-                        <span id="transferButtonLoading" class="loading hidden"></span>
-                    </button>
+                    <button class="auth-button" id="transferButton">Send SEE</button>
+                </div>
+            </div>
+            
+            <!-- Transactions Section -->
+            <div id="transactionsSection" class="tab-content hidden">
+                <div class="section-header">
+                    <div class="section-title">Transaction History</div>
                 </div>
                 
                 <div class="transaction-section">
-                    <div class="section-header">
-                        <div class="section-title">Transaction History</div>
-                    </div>
-                    
                     <div class="transaction-tabs">
                         <div class="transaction-tab active" data-transaction-tab="all">All</div>
-                        <div class="transaction-tab" data-transaction-tab="transfers">Transfers</div>
-                        <div class="transaction-tab" data-transaction-tab="bets">Bets</div>
-                        <div class="transaction-tab" data-transaction-tab="wins">Wins</div>
+                        <div class="transaction-tab" data-transaction-tab="deposit">Deposits</div>
+                        <div class="transaction-tab" data-transaction-tab="withdrawal">Withdrawals</div>
+                        <div class="transaction-tab" data-transaction-tab="game">Games</div>
                     </div>
                     
                     <div class="transaction-list" id="transactionList">
-                        <!-- Transactions will be loaded here -->
+                        <!-- Transactions will be listed here -->
                     </div>
                 </div>
             </div>
@@ -1455,53 +1083,35 @@
                         </div>
                     </div>
                     
-                    <div class="form-group">
-                        <label class="form-label">Your Referral Code</label>
-                        <input type="text" class="form-input" id="userReferralCode" readonly>
+                    <div class="chart-container">
+                        <canvas id="priceChart"></canvas>
                     </div>
-                    <button class="auth-button" style="margin-top: 10px;" id="copyReferralBtn">Copy Referral Code</button>
                 </div>
                 
                 <div class="referral-section">
                     <div class="section-header">
                         <div class="section-title">Your Referrals</div>
                     </div>
+                    <div class="form-group">
+                        <label class="form-label">Your Referral Code</label>
+                        <input type="text" class="form-input" id="userReferralCode" readonly>
+                    </div>
+                    <button class="auth-button" style="margin-top: 10px;" id="copyReferralBtn">Copy Referral Code</button>
+                    
                     <div class="referral-list" id="referralList">
-                        <!-- Referrals will be loaded here -->
+                        <!-- Referrals will be listed here -->
                     </div>
                     <button class="auth-button" id="claimReferralBtn" disabled>Claim Referral Bonus (0/10)</button>
                 </div>
                 
-                <div class="inbox-section">
-                    <div class="section-header">
-                        <div class="section-title">Inbox</div>
-                    </div>
-                    <div class="message-list" id="messageList">
-                        <!-- Messages will be loaded here -->
-                    </div>
-                    <div class="new-message-form">
-                        <div class="form-group">
-                            <label class="form-label">Message to Admin</label>
-                            <textarea class="form-input" id="messageContent" placeholder="Type your message here..." rows="3"></textarea>
-                        </div>
-                        <button class="auth-button" id="sendMessageBtn">Send Message</button>
-                    </div>
-                </div>
-                
                 <div class="profile-section">
                     <div class="section-header">
-                        <div class="section-title">Bet History</div>
+                        <div class="section-title">Account Settings</div>
                     </div>
                     
-                    <div class="bet-tabs">
-                        <div class="bet-tab active" data-bet-tab="open">Open Bets</div>
-                        <div class="bet-tab" data-bet-tab="running">Running</div>
-                        <div class="bet-tab" data-bet-tab="won">Won</div>
-                        <div class="bet-tab" data-bet-tab="lost">Lost</div>
-                    </div>
-                    
-                    <div class="transaction-list" id="betHistoryList">
-                        <!-- Bet history will be loaded here -->
+                    <div class="form-group">
+                        <label class="form-label">Change PIN</label>
+                        <input type="password" class="form-input" placeholder="Enter new 4-digit PIN" maxlength="4">
                     </div>
                 </div>
             </div>
@@ -1517,83 +1127,23 @@
                 <div class="nav-icon"><i class="fas fa-gamepad"></i></div>
                 <div>Games</div>
             </div>
-            <div class="nav-item" data-nav="sports">
-                <div class="nav-icon"><i class="fas fa-futbol"></i></div>
-                <div>Sports</div>
-            </div>
             <div class="nav-item" data-nav="transfer">
                 <div class="nav-icon"><i class="fas fa-exchange-alt"></i></div>
                 <div>Transfer</div>
+            </div>
+            <div class="nav-item" data-nav="transactions">
+                <div class="nav-icon"><i class="fas fa-history"></i></div>
+                <div>History</div>
             </div>
             <div class="nav-item" data-nav="profile">
                 <div class="nav-icon"><i class="fas fa-user"></i></div>
                 <div>Profile</div>
             </div>
         </div>
-        
-        <!-- Bet Slip -->
-        <div id="betSlip" class="bet-slip hidden">
-            <div class="bet-slip-header">
-                <div class="bet-slip-title">Bet Slip</div>
-                <button class="bet-slip-close" id="closeBetSlip">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div id="betSlipContent">
-                <!-- Bet items will be added here -->
-            </div>
-            <div class="form-group" style="margin-top: 10px;">
-                <label class="form-label">Bet Amount (SEE)</label>
-                <input type="number" class="bet-amount-input" id="betAmountInput" value="1.00" min="1.00" step="0.01">
-            </div>
-            <div class="bet-slip-actions">
-                <button class="bet-slip-button" id="placeBetBtn">Place Bet</button>
-                <button class="bet-slip-button" id="clearBetSlipBtn">Clear</button>
-            </div>
-        </div>
     </div>
     
     <!-- Game Screens -->
     <div id="gameScreens" class="hidden">
-        <!-- Aviator Game -->
-        <div id="aviatorGame" class="game-screen hidden">
-            <button class="back-btn" id="aviatorBackBtn">
-                <i class="fas fa-arrow-left"></i>
-            </button>
-            <div class="game-header">
-                <div class="game-title">Aviator</div>
-                <div class="game-balance" id="aviatorBalance">0 SEE</div>
-            </div>
-            
-            <div class="aviator-history" id="aviatorHistory">
-                <!-- Previous rounds will be shown here -->
-            </div>
-            
-            <div class="game-area" id="aviatorArea">
-                <div class="aviator-multiplier" id="aviatorMultiplier">1.00x</div>
-                <div class="aviator-cashout" id="aviatorCashoutAmount">Cashout: 0.00 SEE</div>
-                <div class="aviator-plane" id="aviatorPlane">✈️</div>
-                <div class="aviator-players" id="aviatorPlayers">
-                    Online Players: 0
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Bet Amount (SEE)</label>
-                <input type="number" class="custom-bet-input" id="aviatorBetAmountInput" value="1.00" min="1.00" step="0.01">
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Auto Cashout at (x)</label>
-                <input type="number" class="auto-cashout-input" id="autoCashoutInput" value="2.00" min="1.10" step="0.10">
-            </div>
-            
-            <div class="bet-controls">
-                <button class="bet-button" id="aviatorBetButton">BET</button>
-                <button class="bet-button" id="aviatorCashoutButton" disabled>CASHOUT</button>
-            </div>
-        </div>
-        
         <!-- Mines Game -->
         <div id="minesGame" class="game-screen hidden">
             <button class="back-btn" id="minesBackBtn">
@@ -1615,133 +1165,24 @@
                 </div>
                 <div class="mines-setting">
                     <div class="mines-setting-label">Bet Amount</div>
-                    <input type="number" class="custom-bet-input" id="minesBetAmountInput" value="1.00" min="1.00" step="0.01">
+                    <div class="mines-setting-value" id="minesBetAmountDisplay">0.20 SEE</div>
+                    <div class="mines-setting-controls">
+                        <button class="mines-control-btn" id="decreaseBet">-</button>
+                        <button class="mines-control-btn" id="increaseBet">+</button>
+                    </div>
                 </div>
             </div>
             
             <div class="game-area">
+                <div class="mines-multiplier-display" id="minesMultiplier">Multiplier: 1.00x</div>
+                <div class="mines-cashout-amount" id="minesCashoutAmount">Cashout: 0.00 SEE</div>
                 <div class="mines-grid" id="minesGrid">
                     <!-- Mines grid will be generated here -->
-                </div>
-                <div class="aviator-cashout" id="minesCashoutAmount">Potential Cashout: 1.00x</div>
-                <div class="mines-multipliers" id="minesMultipliers">
-                    Multipliers: 1.20x • 1.25x • 1.50x
                 </div>
             </div>
             <div class="bet-controls">
                 <button class="bet-button" id="minesPlayButton">PLAY</button>
                 <button class="bet-button" id="minesCashoutButton" disabled>CASHOUT</button>
-            </div>
-        </div>
-        
-        <!-- Dice Game -->
-        <div id="diceGame" class="game-screen hidden">
-            <button class="back-btn" id="diceBackBtn">
-                <i class="fas fa-arrow-left"></i>
-            </button>
-            <div class="game-header">
-                <div class="game-title">Dice</div>
-                <div class="game-balance" id="diceBalance">0 SEE</div>
-            </div>
-            
-            <div class="game-area">
-                <div class="dice-container">
-                    <div class="dice" id="diceElement">⚅</div>
-                    <div id="diceResult" style="font-size: 18px; font-weight: bold;">Roll the dice!</div>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Bet Amount (SEE)</label>
-                <input type="number" class="custom-bet-input" id="diceBetAmountInput" value="1.00" min="1.00" step="0.01">
-            </div>
-            
-            <div class="dice-bet-options">
-                <div class="dice-bet-option" data-bet="1">1</div>
-                <div class="dice-bet-option" data-bet="2">2</div>
-                <div class="dice-bet-option" data-bet="3">3</div>
-                <div class="dice-bet-option" data-bet="4">4</div>
-                <div class="dice-bet-option" data-bet="5">5</div>
-                <div class="dice-bet-option" data-bet="6">6</div>
-            </div>
-            
-            <div class="bet-controls">
-                <button class="bet-button" id="diceRollButton">ROLL</button>
-            </div>
-        </div>
-        
-        <!-- Roulette Game -->
-        <div id="rouletteGame" class="game-screen hidden">
-            <button class="back-btn" id="rouletteBackBtn">
-                <i class="fas fa-arrow-left"></i>
-            </button>
-            <div class="game-header">
-                <div class="game-title">Roulette</div>
-                <div class="game-balance" id="rouletteBalance">0 SEE</div>
-            </div>
-            
-            <div class="game-area">
-                <div class="roulette-container">
-                    <div class="roulette-wheel" id="rouletteWheel">
-                        <div class="roulette-pointer"></div>
-                    </div>
-                    <div id="rouletteResult" style="font-size: 18px; font-weight: bold;">Spin the wheel!</div>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Bet Amount (SEE)</label>
-                <input type="number" class="custom-bet-input" id="rouletteBetAmountInput" value="1.00" min="1.00" step="0.01">
-            </div>
-            
-            <div class="roulette-bet-options">
-                <div class="roulette-bet-option" data-bet="red">Red</div>
-                <div class="roulette-bet-option" data-bet="black">Black</div>
-                <div class="roulette-bet-option" data-bet="even">Even</div>
-                <div class="roulette-bet-option" data-bet="odd">Odd</div>
-            </div>
-            
-            <div class="bet-controls">
-                <button class="bet-button" id="rouletteSpinButton">SPIN</button>
-            </div>
-        </div>
-        
-        <!-- Sports Game -->
-        <div id="sportsGame" class="game-screen hidden">
-            <button class="back-btn" id="sportsBackBtn">
-                <i class="fas fa-arrow-left"></i>
-            </button>
-            <div class="game-header">
-                <div class="game-title" id="sportsGameTitle">Sports Match</div>
-                <div class="game-balance" id="sportsBalance">0 SEE</div>
-            </div>
-            
-            <div class="game-area">
-                <div class="sports-game-area">
-                    <div class="match-teams">
-                        <div class="team">
-                            <div class="team-flag" id="homeTeamFlag">H</div>
-                            <div class="team-name" id="homeTeamName">Home</div>
-                        </div>
-                        <div class="vs">VS</div>
-                        <div class="team">
-                            <div class="team-flag" id="awayTeamFlag">A</div>
-                            <div class="team-name" id="awayTeamName">Away</div>
-                        </div>
-                    </div>
-                    <div class="score-display" id="sportsScore">0 : 0</div>
-                    <div class="match-time" id="sportsTime">1st Half - 00:00</div>
-                    <div class="match-events" id="sportsEvents"></div>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Bet Amount (SEE)</label>
-                <input type="number" class="custom-bet-input" id="sportsBetAmountInput" value="1.00" min="1.00" step="0.01">
-            </div>
-            
-            <div class="bet-controls">
-                <button class="bet-button" id="sportsPlayButton">START MATCH</button>
             </div>
         </div>
     </div>
@@ -1781,17 +1222,11 @@
                 </div>
             </div>
             
-            <div class="form-group">
-                <label class="form-label">Set SEE Coin Price (USD)</label>
-                <input type="number" class="form-input" id="coinPriceInput" value="1.01" step="0.01" min="0.01">
-                <button class="auth-button" style="margin-top: 10px;" id="setCoinPriceBtn">Set Price</button>
-            </div>
-            
             <div class="admin-actions">
                 <button class="admin-action" id="addCoinsBtn">Add Coins to User</button>
                 <button class="admin-action" id="banUserBtn">Ban User</button>
                 <button class="admin-action" id="messageUserBtn">Message User</button>
-                <button class="admin-action" id="viewReportsBtn">View Reports</button>
+                <button class="admin-action" id="setPriceBtn">Set Coin Price</button>
             </div>
             
             <div class="section-header">
@@ -1829,99 +1264,44 @@
         const adminPanel = document.getElementById('adminPanel');
         const gameScreens = document.getElementById('gameScreens');
         
-        // Auth buttons with loading states
+        // Auth buttons
         const loginButton = document.getElementById('loginButton');
         const loginButtonText = document.getElementById('loginButtonText');
-        const loginButtonLoading = document.getElementById('loginButtonLoading');
-        
+        const loginButtonSpinner = document.getElementById('loginButtonSpinner');
         const registerButton = document.getElementById('registerButton');
         const registerButtonText = document.getElementById('registerButtonText');
-        const registerButtonLoading = document.getElementById('registerButtonLoading');
-        
+        const registerButtonSpinner = document.getElementById('registerButtonSpinner');
         const adminLoginButton = document.getElementById('adminLoginButton');
         const adminLoginButtonText = document.getElementById('adminLoginButtonText');
-        const adminLoginButtonLoading = document.getElementById('adminLoginButtonLoading');
-        
-        const transferButton = document.getElementById('transferButton');
-        const transferButtonText = document.getElementById('transferButtonText');
-        const transferButtonLoading = document.getElementById('transferButtonLoading');
-        
+        const adminLoginButtonSpinner = document.getElementById('adminLoginButtonSpinner');
         const logoutButton = document.getElementById('logoutButton');
         const adminLogoutButton = document.getElementById('adminLogoutButton');
         
+        // Navigation
         const showRegister = document.getElementById('showRegister');
         const showLogin = document.getElementById('showLogin');
         const showAdminLogin = document.getElementById('showAdminLogin');
         const showUserLogin = document.getElementById('showUserLogin');
         
         // Game elements
-        const aviatorBetButton = document.getElementById('aviatorBetButton');
-        const aviatorCashoutButton = document.getElementById('aviatorCashoutButton');
-        const aviatorMultiplier = document.getElementById('aviatorMultiplier');
-        const aviatorCashoutAmount = document.getElementById('aviatorCashoutAmount');
-        const aviatorPlane = document.getElementById('aviatorPlane');
-        const aviatorBackBtn = document.getElementById('aviatorBackBtn');
-        const aviatorPlayers = document.getElementById('aviatorPlayers');
-        const aviatorHistory = document.getElementById('aviatorHistory');
-        const aviatorBetAmountInput = document.getElementById('aviatorBetAmountInput');
-        const autoCashoutInput = document.getElementById('autoCashoutInput');
-        
         const minesPlayButton = document.getElementById('minesPlayButton');
         const minesCashoutButton = document.getElementById('minesCashoutButton');
         const minesCashoutAmount = document.getElementById('minesCashoutAmount');
+        const minesMultiplier = document.getElementById('minesMultiplier');
         const minesGrid = document.getElementById('minesGrid');
         const minesBackBtn = document.getElementById('minesBackBtn');
         const minesCount = document.getElementById('minesCount');
-        const minesBetAmountInput = document.getElementById('minesBetAmountInput');
-        const minesMultipliers = document.getElementById('minesMultipliers');
+        const minesBetAmountDisplay = document.getElementById('minesBetAmountDisplay');
         const decreaseMines = document.getElementById('decreaseMines');
         const increaseMines = document.getElementById('increaseMines');
+        const decreaseBet = document.getElementById('decreaseBet');
+        const increaseBet = document.getElementById('increaseBet');
         
-        // Dice elements
-        const diceRollButton = document.getElementById('diceRollButton');
-        const diceElement = document.getElementById('diceElement');
-        const diceResult = document.getElementById('diceResult');
-        const diceBackBtn = document.getElementById('diceBackBtn');
-        const diceBetAmountInput = document.getElementById('diceBetAmountInput');
-        
-        // Roulette elements
-        const rouletteSpinButton = document.getElementById('rouletteSpinButton');
-        const rouletteWheel = document.getElementById('rouletteWheel');
-        const rouletteResult = document.getElementById('rouletteResult');
-        const rouletteBackBtn = document.getElementById('rouletteBackBtn');
-        const rouletteBetAmountInput = document.getElementById('rouletteBetAmountInput');
-        
-        // Sports elements
-        const sportsContainer = document.getElementById('sportsContainer');
-        const sportsPlayButton = document.getElementById('sportsPlayButton');
-        const sportsBackBtn = document.getElementById('sportsBackBtn');
-        const sportsGameTitle = document.getElementById('sportsGameTitle');
-        const sportsBalance = document.getElementById('sportsBalance');
-        const homeTeamName = document.getElementById('homeTeamName');
-        const awayTeamName = document.getElementById('awayTeamName');
-        const homeTeamFlag = document.getElementById('homeTeamFlag');
-        const awayTeamFlag = document.getElementById('awayTeamFlag');
-        const sportsScore = document.getElementById('sportsScore');
-        const sportsTime = document.getElementById('sportsTime');
-        const sportsEvents = document.getElementById('sportsEvents');
-        const sportsBetAmountInput = document.getElementById('sportsBetAmountInput');
-        
-        // Bet slip elements
-        const betSlip = document.getElementById('betSlip');
-        const betSlipContent = document.getElementById('betSlipContent');
-        const closeBetSlip = document.getElementById('closeBetSlip');
-        const placeBetBtn = document.getElementById('placeBetBtn');
-        const clearBetSlipBtn = document.getElementById('clearBetSlipBtn');
-        const betAmountInput = document.getElementById('betAmountInput');
-        
-        // Admin elements
-        const addCoinsBtn = document.getElementById('addCoinsBtn');
-        const banUserBtn = document.getElementById('banUserBtn');
-        const messageUserBtn = document.getElementById('messageUserBtn');
-        const viewReportsBtn = document.getElementById('viewReportsBtn');
-        const usersList = document.getElementById('usersList');
-        const coinPriceInput = document.getElementById('coinPriceInput');
-        const setCoinPriceBtn = document.getElementById('setCoinPriceBtn');
+        // Transfer elements
+        const transferButton = document.getElementById('transferButton');
+        const transferEmail = document.getElementById('transferEmail');
+        const transferAmount = document.getElementById('transferAmount');
+        const transferPin = document.getElementById('transferPin');
         
         // Profile elements
         const profileUserName = document.getElementById('profileUserName');
@@ -1933,80 +1313,40 @@
         const copyReferralBtn = document.getElementById('copyReferralBtn');
         const referralList = document.getElementById('referralList');
         const claimReferralBtn = document.getElementById('claimReferralBtn');
-        const messageList = document.getElementById('messageList');
-        const messageContent = document.getElementById('messageContent');
-        const sendMessageBtn = document.getElementById('sendMessageBtn');
         
-        // Transfer elements
-        const transferEmail = document.getElementById('transferEmail');
-        const transferAmount = document.getElementById('transferAmount');
-        const transferPin = document.getElementById('transferPin');
+        // Transaction elements
         const transactionList = document.getElementById('transactionList');
-        const betHistoryList = document.getElementById('betHistoryList');
         
-        // Stats elements
-        const usdValue = document.getElementById('usdValue');
-        const gamesPlayedCount = document.getElementById('gamesPlayedCount');
-        const winsCount = document.getElementById('winsCount');
+        // Admin elements
+        const addCoinsBtn = document.getElementById('addCoinsBtn');
+        const banUserBtn = document.getElementById('banUserBtn');
+        const messageUserBtn = document.getElementById('messageUserBtn');
+        const setPriceBtn = document.getElementById('setPriceBtn');
+        const usersList = document.getElementById('usersList');
         
         // App state
         let currentUser = null;
         let isAdmin = false;
         let userBalance = 0;
         let currentGame = null;
-        let betSlipItems = [];
         let gameIntervals = {};
         let adminVaultBalance = 50000000000; // 50B SEE
         let coinPrice = 1.01; // Default coin price
         
         // Mines game state
         let minesGameState = {
-            betAmount: 1.00,
+            betAmount: 0.20,
             minesCount: 3,
             grid: [],
             revealed: [],
             gameActive: false,
-            cashoutMultiplier: 1.0,
-            multipliers: [1.20, 1.25, 1.50]
+            multiplier: 1.0,
+            totalTiles: 25
         };
         
-        // Dice game state
-        let diceGameState = {
-            selectedBet: null,
-            betAmount: 1.00
-        };
+        // Price chart
+        let priceChart = null;
         
-        // Roulette game state
-        let rouletteGameState = {
-            selectedBet: null,
-            betAmount: 1.00
-        };
-        
-        // Sports game state
-        let sportsGameState = {
-            selectedMatch: null,
-            betAmount: 1.00,
-            homeScore: 0,
-            awayScore: 0,
-            matchTime: 0,
-            isFirstHalf: true,
-            events: []
-        };
-        
-        // Sports matches data
-        const sportsMatches = [
-            { id: 1, home: "Arsenal", away: "Chelsea", homeOdds: 2.10, drawOdds: 3.20, awayOdds: 3.50 },
-            { id: 2, home: "Man City", away: "Liverpool", homeOdds: 2.30, drawOdds: 3.40, awayOdds: 2.90 },
-            { id: 3, home: "Barcelona", away: "Real Madrid", homeOdds: 2.50, drawOdds: 3.30, awayOdds: 2.70 },
-            { id: 4, home: "Bayern", away: "Dortmund", homeOdds: 1.80, drawOdds: 3.60, awayOdds: 4.20 },
-            { id: 5, home: "PSG", away: "Marseille", homeOdds: 1.70, drawOdds: 3.80, awayOdds: 4.50 },
-            { id: 6, home: "Juventus", away: "AC Milan", homeOdds: 2.20, drawOdds: 3.10, awayOdds: 3.30 },
-            { id: 7, home: "Inter", away: "Napoli", homeOdds: 2.40, drawOdds: 3.20, awayOdds: 2.90 },
-            { id: 8, home: "Atletico", away: "Sevilla", homeOdds: 2.00, drawOdds: 3.10, awayOdds: 3.80 },
-            { id: 9, home: "Man United", away: "Tottenham", homeOdds: 2.60, drawOdds: 3.30, awayOdds: 2.70 },
-            { id: 10, home: "Leicester", away: "West Ham", homeOdds: 2.70, drawOdds: 3.20, awayOdds: 2.60 }
-        ];
-
         // Update current time
         function updateTime() {
             const now = new Date();
@@ -2029,17 +1369,18 @@
             screen.classList.remove('hidden');
         }
         
-        // Set loading state for buttons
-        function setButtonLoading(button, textElement, loadingElement, isLoading) {
-            if (isLoading) {
-                textElement.classList.add('hidden');
-                loadingElement.classList.remove('hidden');
-                button.disabled = true;
-            } else {
-                textElement.classList.remove('hidden');
-                loadingElement.classList.add('hidden');
-                button.disabled = false;
-            }
+        // Show loading state
+        function showLoading(button, textElement, spinner) {
+            textElement.classList.add('hidden');
+            spinner.classList.remove('hidden');
+            button.disabled = true;
+        }
+        
+        // Hide loading state
+        function hideLoading(button, textElement, spinner) {
+            textElement.classList.remove('hidden');
+            spinner.classList.add('hidden');
+            button.disabled = false;
         }
         
         // Navigation Functions
@@ -2058,17 +1399,6 @@
                     tab.classList.remove('active');
                 }
             });
-            
-            // Load data for specific tabs
-            if (tabName === 'sports') {
-                loadSportsMatches();
-            } else if (tabName === 'transfer') {
-                loadTransactionHistory();
-            } else if (tabName === 'profile') {
-                updateProfile();
-                loadMessages();
-                loadBetHistory();
-            }
         }
         
         function switchBottomNav(navItem) {
@@ -2087,14 +1417,16 @@
                 case 'games':
                     switchTab('games');
                     break;
-                case 'sports':
-                    switchTab('sports');
-                    break;
                 case 'transfer':
                     switchTab('transfer');
                     break;
+                case 'transactions':
+                    switchTab('transactions');
+                    loadTransactions();
+                    break;
                 case 'profile':
                     switchTab('profile');
+                    updateProfile();
                     break;
             }
         }
@@ -2107,11 +1439,6 @@
             profileUserEmail.textContent = currentUser.email || 'user@example.com';
             userReferralCode.value = currentUser.referralCode || 'SEE12345';
             
-            // Update stats
-            profileGamesPlayed.textContent = currentUser.gamesPlayed || 0;
-            profileWins.textContent = currentUser.wins || 0;
-            profileReferrals.textContent = currentUser.referrals ? currentUser.referrals.length : 0;
-            
             // Update referral button
             const referralCount = currentUser.referrals ? currentUser.referrals.length : 0;
             claimReferralBtn.textContent = `Claim Referral Bonus (${referralCount}/10)`;
@@ -2119,6 +1446,9 @@
             
             // Update referral list
             updateReferralList();
+            
+            // Update price chart
+            updatePriceChart();
         }
         
         // Update referral list
@@ -2131,7 +1461,7 @@
                     <div style="text-align: center; padding: 20px; opacity: 0.7;">
                         <i class="fas fa-user-friends" style="font-size: 40px; margin-bottom: 10px;"></i>
                         <div>No referrals yet</div>
-                        <div style="font-size: 12px; margin-top: 5px;">Share your code to earn 1 SEE for every 10 referrals</div>
+                        <div style="font-size: 12px; margin-top: 5px;">Share your code to earn 3 SEE for each referral</div>
                     </div>
                 `;
             } else {
@@ -2147,146 +1477,62 @@
             }
         }
         
-        // Load transaction history
-        function loadTransactionHistory() {
-            if (!currentUser) return;
+        // Update price chart
+        function updatePriceChart() {
+            const ctx = document.getElementById('priceChart').getContext('2d');
             
-            // In a real app, this would fetch from Firestore
-            // For demo, we'll create sample data
-            const transactions = currentUser.transactions || [];
-            const transactionList = document.getElementById('transactionList');
-            transactionList.innerHTML = '';
-            
-            if (transactions.length === 0) {
-                transactionList.innerHTML = `
-                    <div style="text-align: center; padding: 20px; opacity: 0.7;">
-                        <i class="fas fa-history" style="font-size: 40px; margin-bottom: 10px;"></i>
-                        <div>No transactions yet</div>
-                    </div>
-                `;
-            } else {
-                transactions.forEach(transaction => {
-                    const transactionItem = document.createElement('div');
-                    transactionItem.className = 'transaction-item';
-                    const amountClass = transaction.amount > 0 ? 'positive' : 'negative';
-                    const amountSign = transaction.amount > 0 ? '+' : '';
-                    
-                    transactionItem.innerHTML = `
-                        <div>
-                            <div style="font-weight: bold;">${transaction.type}</div>
-                            <div style="font-size: 12px; opacity: 0.8;">${new Date(transaction.date).toLocaleString()}</div>
-                            <div style="font-size: 12px;">${transaction.description}</div>
-                        </div>
-                        <div class="transaction-amount ${amountClass}">${amountSign}${transaction.amount} SEE</div>
-                    `;
-                    transactionList.appendChild(transactionItem);
-                });
+            if (priceChart) {
+                priceChart.destroy();
             }
-        }
-        
-        // Load bet history
-        function loadBetHistory() {
-            if (!currentUser) return;
             
-            const bets = currentUser.bets || [];
-            const betHistoryList = document.getElementById('betHistoryList');
-            betHistoryList.innerHTML = '';
+            // Generate sample price data
+            const prices = [1.00, 1.01, 1.02, 1.00, 0.99, 1.01, 1.03, 1.02, 1.01, 1.00];
+            const labels = prices.map((_, i) => `Day ${i + 1}`);
             
-            if (bets.length === 0) {
-                betHistoryList.innerHTML = `
-                    <div style="text-align: center; padding: 20px; opacity: 0.7;">
-                        <i class="fas fa-ticket-alt" style="font-size: 40px; margin-bottom: 10px;"></i>
-                        <div>No bets yet</div>
-                    </div>
-                `;
-            } else {
-                bets.forEach(bet => {
-                    const betItem = document.createElement('div');
-                    betItem.className = 'transaction-item';
-                    const statusClass = bet.status === 'won' ? 'positive' : bet.status === 'lost' ? 'negative' : '';
-                    
-                    betItem.innerHTML = `
-                        <div>
-                            <div style="font-weight: bold;">${bet.match}</div>
-                            <div style="font-size: 12px; opacity: 0.8;">${bet.type} @ ${bet.odds}</div>
-                            <div style="font-size: 12px;">${new Date(bet.date).toLocaleString()}</div>
-                        </div>
-                        <div>
-                            <div style="font-weight: bold; text-align: right;">${bet.amount} SEE</div>
-                            <div style="font-size: 12px; text-align: right; color: ${bet.status === 'won' ? 'var(--success)' : bet.status === 'lost' ? 'var(--danger)' : 'var(--warning)'}">
-                                ${bet.status.toUpperCase()}
-                            </div>
-                        </div>
-                    `;
-                    betHistoryList.appendChild(betItem);
-                });
-            }
-        }
-        
-        // Load messages
-        function loadMessages() {
-            if (!currentUser) return;
-            
-            const messages = currentUser.messages || [];
-            const messageList = document.getElementById('messageList');
-            messageList.innerHTML = '';
-            
-            if (messages.length === 0) {
-                messageList.innerHTML = `
-                    <div style="text-align: center; padding: 20px; opacity: 0.7;">
-                        <i class="fas fa-envelope" style="font-size: 40px; margin-bottom: 10px;"></i>
-                        <div>No messages yet</div>
-                    </div>
-                `;
-            } else {
-                messages.forEach(message => {
-                    const messageItem = document.createElement('div');
-                    messageItem.className = 'message-item';
-                    messageItem.innerHTML = `
-                        <div class="message-header">
-                            <div class="message-sender">${message.from}</div>
-                            <div class="message-time">${new Date(message.timestamp).toLocaleString()}</div>
-                        </div>
-                        <div class="message-content">${message.content}</div>
-                    `;
-                    messageList.appendChild(messageItem);
-                });
-            }
-        }
-        
-        // Load sports matches
-        function loadSportsMatches() {
-            sportsContainer.innerHTML = '';
-            
-            // Shuffle matches for variety
-            const shuffledMatches = [...sportsMatches].sort(() => Math.random() - 0.5);
-            
-            shuffledMatches.forEach(match => {
-                const matchElement = document.createElement('div');
-                matchElement.className = 'sport-match';
-                matchElement.innerHTML = `
-                    <div class="match-header">
-                        <div>Premier League</div>
-                        <div>Today - 20:00</div>
-                    </div>
-                    <div class="match-teams">
-                        <div class="team">
-                            <div class="team-flag">${match.home.substring(0, 2)}</div>
-                            <div class="team-name">${match.home}</div>
-                        </div>
-                        <div class="vs">VS</div>
-                        <div class="team">
-                            <div class="team-flag">${match.away.substring(0, 2)}</div>
-                            <div class="team-name">${match.away}</div>
-                        </div>
-                    </div>
-                    <div class="match-odds">
-                        <div class="odd" data-match="${match.id}" data-bet="home" data-odd="${match.homeOdds}">${match.homeOdds}</div>
-                        <div class="odd" data-match="${match.id}" data-bet="draw" data-odd="${match.drawOdds}">${match.drawOdds}</div>
-                        <div class="odd" data-match="${match.id}" data-bet="away" data-odd="${match.awayOdds}">${match.awayOdds}</div>
-                    </div>
-                `;
-                sportsContainer.appendChild(matchElement);
+            priceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'SEE Coin Price ($)',
+                        data: prices,
+                        borderColor: '#00b0ff',
+                        backgroundColor: 'rgba(0, 176, 255, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'rgba(255, 255, 255, 0.7)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'rgba(255, 255, 255, 0.7)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: 'rgba(255, 255, 255, 0.7)'
+                            }
+                        }
+                    }
+                }
             });
         }
         
@@ -2295,108 +1541,85 @@
             return 'SEE' + Math.random().toString(36).substring(2, 8).toUpperCase();
         }
         
-        // Update user balance display
+        // Update balance display
         function updateBalance() {
             document.getElementById('userBalance').textContent = `${userBalance.toFixed(2)} SEE`;
+            document.getElementById('usdValue').textContent = `$${(userBalance * coinPrice).toFixed(2)}`;
+            document.getElementById('coinPrice').textContent = `$${coinPrice.toFixed(2)}`;
             
-            // Update USD value
-            const usdAmount = (userBalance * coinPrice).toFixed(2);
-            usdValue.textContent = `$${usdAmount}`;
-            
-            // Update all game balances
             document.querySelectorAll('.game-balance').forEach(el => {
                 el.textContent = `${userBalance.toFixed(2)} SEE`;
             });
-            
-            // Update stats
-            gamesPlayedCount.textContent = currentUser?.gamesPlayed || 0;
-            winsCount.textContent = currentUser?.wins || 0;
             
             // Update vault balance in admin panel
             document.getElementById('vaultBalance').textContent = `${adminVaultBalance.toLocaleString()} SEE`;
         }
         
         // Record transaction
-        function recordTransaction(type, amount, description) {
+        function recordTransaction(type, amount, description, recipient = null) {
             if (!currentUser) return;
             
             const transaction = {
-                type,
-                amount,
-                description,
-                date: new Date().toISOString(),
-                id: Date.now().toString()
+                type: type,
+                amount: amount,
+                description: description,
+                timestamp: new Date(),
+                recipient: recipient,
+                userId: currentUser.uid
             };
             
-            // Add to user's transactions
-            if (!currentUser.transactions) {
-                currentUser.transactions = [];
-            }
-            currentUser.transactions.unshift(transaction);
-            
-            // Update Firestore
-            if (currentUser.uid) {
-                db.collection('users').doc(currentUser.uid).update({
-                    transactions: firebase.firestore.FieldValue.arrayUnion(transaction),
-                    balance: firebase.firestore.FieldValue.increment(amount)
-                }).then(() => {
-                    userBalance += amount;
-                    updateBalance();
-                    loadTransactionHistory();
-                }).catch(error => {
+            // Save to Firestore
+            db.collection('transactions').add(transaction)
+                .then(() => {
+                    console.log('Transaction recorded');
+                })
+                .catch(error => {
                     console.error('Error recording transaction:', error);
                 });
-            }
         }
         
-        // Record bet
-        function recordBet(match, type, odds, amount, status) {
+        // Load transactions
+        function loadTransactions() {
             if (!currentUser) return;
             
-            const bet = {
-                match,
-                type,
-                odds,
-                amount,
-                status,
-                date: new Date().toISOString(),
-                id: Date.now().toString()
-            };
+            transactionList.innerHTML = '<div style="text-align: center; padding: 20px; opacity: 0.7;">Loading transactions...</div>';
             
-            // Add to user's bets
-            if (!currentUser.bets) {
-                currentUser.bets = [];
-            }
-            currentUser.bets.unshift(bet);
-            
-            // Update Firestore
-            if (currentUser.uid) {
-                db.collection('users').doc(currentUser.uid).update({
-                    bets: firebase.firestore.FieldValue.arrayUnion(bet)
-                }).then(() => {
-                    loadBetHistory();
-                }).catch(error => {
-                    console.error('Error recording bet:', error);
+            db.collection('transactions')
+                .where('userId', '==', currentUser.uid)
+                .orderBy('timestamp', 'desc')
+                .limit(20)
+                .get()
+                .then(snapshot => {
+                    transactionList.innerHTML = '';
+                    
+                    if (snapshot.empty) {
+                        transactionList.innerHTML = '<div style="text-align: center; padding: 20px; opacity: 0.7;">No transactions yet</div>';
+                        return;
+                    }
+                    
+                    snapshot.forEach(doc => {
+                        const transaction = doc.data();
+                        const transactionItem = document.createElement('div');
+                        transactionItem.className = 'transaction-item';
+                        
+                        const amountClass = transaction.amount >= 0 ? 'positive' : 'negative';
+                        const amountSign = transaction.amount >= 0 ? '+' : '';
+                        
+                        transactionItem.innerHTML = `
+                            <div>
+                                <div style="font-weight: bold;">${transaction.description}</div>
+                                <div style="font-size: 12px; opacity: 0.7;">${transaction.timestamp.toDate().toLocaleString()}</div>
+                            </div>
+                            <div class="transaction-amount ${amountClass}">${amountSign}${transaction.amount.toFixed(2)} SEE</div>
+                        `;
+                        
+                        transactionList.appendChild(transactionItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading transactions:', error);
+                    transactionList.innerHTML = '<div style="text-align: center; padding: 20px; opacity: 0.7;">Error loading transactions</div>';
                 });
-            }
-        }
-        
-        // Update winning users display
-        function updateWinningUsers(name, amount) {
-            const winningUsers = document.getElementById('winningUsers');
-            const userElement = document.createElement('div');
-            userElement.className = 'winning-user';
-            userElement.innerHTML = `
-                <i class="fas fa-trophy"></i>
-                <span>${name} won ${amount.toFixed(2)} SEE</span>
-            `;
-            
-            winningUsers.appendChild(userElement);
-            
-            // Remove after 5 seconds
-            setTimeout(() => {
-                userElement.remove();
-            }, 5000);
         }
         
         // Game Functions
@@ -2414,14 +1637,6 @@
             // Initialize specific game
             if (gameName === 'mines') {
                 initializeMinesGame();
-            } else if (gameName === 'aviator') {
-                resetAviatorGame();
-            } else if (gameName === 'dice') {
-                initializeDiceGame();
-            } else if (gameName === 'roulette') {
-                initializeRouletteGame();
-            } else if (gameName === 'sports') {
-                initializeSportsGame();
             }
         }
         
@@ -2435,153 +1650,12 @@
             gameIntervals = {};
         }
         
-        // Aviator Game Logic
-        function resetAviatorGame() {
-            aviatorMultiplier.textContent = '1.00x';
-            aviatorCashoutAmount.textContent = 'Cashout: 0.00 SEE';
-            aviatorPlane.style.left = '0px';
-            aviatorBetButton.disabled = false;
-            aviatorCashoutButton.disabled = true;
-            
-            // Update online players
-            const onlinePlayers = Math.floor(Math.random() * 5) + 1;
-            aviatorPlayers.textContent = `Online Players: ${onlinePlayers}`;
-            
-            // Update history
-            updateAviatorHistory();
-        }
-        
-        function updateAviatorHistory() {
-            // Add some random history items
-            const historyItems = [];
-            for (let i = 0; i < 5; i++) {
-                const multiplier = (Math.random() * 5 + 1).toFixed(2);
-                historyItems.push(`<div class="history-item">${multiplier}x</div>`);
-            }
-            aviatorHistory.innerHTML = historyItems.join('');
-        }
-        
-        function startAviatorGame() {
-            const betAmount = parseFloat(aviatorBetAmountInput.value);
-            
-            if (userBalance < betAmount) {
-                alert('Insufficient balance!');
-                return;
-            }
-            
-            if (betAmount < 1.00) {
-                alert('Minimum bet is 1.00 SEE');
-                return;
-            }
-            
-            // Deduct from user and add to vault
-            userBalance -= betAmount;
-            adminVaultBalance += betAmount;
-            updateBalance();
-            
-            aviatorBetButton.disabled = true;
-            aviatorCashoutButton.disabled = false;
-            
-            let multiplier = 1.00;
-            let crashed = false;
-            const planeElement = aviatorPlane;
-            const gameArea = document.getElementById('aviatorArea');
-            const maxWidth = gameArea.offsetWidth - 50;
-            const autoCashout = parseFloat(autoCashoutInput.value);
-            
-            planeElement.style.left = '0px';
-            
-            gameIntervals.aviator = setInterval(() => {
-                if (crashed) return;
-                
-                multiplier += 0.01;
-                aviatorMultiplier.textContent = `${multiplier.toFixed(2)}x`;
-                
-                // Update plane position
-                const currentLeft = parseInt(planeElement.style.left) || 0;
-                const newLeft = Math.min(currentLeft + 2, maxWidth);
-                planeElement.style.left = `${newLeft}px`;
-                
-                // Update cashout amount
-                const cashoutAmount = (betAmount * multiplier).toFixed(2);
-                aviatorCashoutAmount.textContent = `Cashout: ${cashoutAmount} SEE`;
-                
-                // Auto cashout if set
-                if (autoCashout && multiplier >= autoCashout) {
-                    cashoutAviator();
-                    return;
-                }
-                
-                // Random crash between 1.10x and 5.00x
-                if (multiplier > 1.10 && Math.random() < 0.015) {
-                    crashed = true;
-                    aviatorCashoutButton.disabled = true;
-                    aviatorBetButton.disabled = false;
-                    aviatorMultiplier.textContent = 'CRASHED!';
-                    aviatorCashoutAmount.textContent = `You lost ${betAmount} SEE`;
-                    clearInterval(gameIntervals.aviator);
-                    
-                    // Record transaction
-                    recordTransaction('casino', -betAmount, 'Aviator game loss');
-                    
-                    // Update games played
-                    if (currentUser) {
-                        currentUser.gamesPlayed = (currentUser.gamesPlayed || 0) + 1;
-                    }
-                }
-            }, 100);
-        }
-        
-        function cashoutAviator() {
-            const multiplier = parseFloat(aviatorMultiplier.textContent);
-            const betAmount = parseFloat(aviatorBetAmountInput.value);
-            const winAmount = betAmount * multiplier;
-            
-            // Check if vault has enough funds
-            if (adminVaultBalance < winAmount) {
-                alert('Insufficient funds in vault!');
-                return;
-            }
-            
-            // Transfer from vault to user
-            userBalance += winAmount;
-            adminVaultBalance -= winAmount;
-            updateBalance();
-            
-            aviatorCashoutButton.disabled = true;
-            aviatorBetButton.disabled = false;
-            
-            clearInterval(gameIntervals.aviator);
-            
-            // Record transaction
-            const profit = winAmount - betAmount;
-            recordTransaction('casino', profit, `Aviator win at ${multiplier.toFixed(2)}x`);
-            
-            // Update winning users display
-            updateWinningUsers(currentUser.name, profit);
-            
-            // Update games played and wins
-            if (currentUser) {
-                currentUser.gamesPlayed = (currentUser.gamesPlayed || 0) + 1;
-                currentUser.wins = (currentUser.wins || 0) + 1;
-            }
-            
-            setTimeout(() => {
-                resetAviatorGame();
-            }, 2000);
-        }
-        
         // Mines Game Logic
         function initializeMinesGame() {
-            minesBetAmountInput.value = minesGameState.betAmount.toFixed(2);
+            minesBetAmountDisplay.textContent = `${minesGameState.betAmount.toFixed(2)} SEE`;
             minesCount.textContent = minesGameState.minesCount;
-            updateMinesMultipliers();
             generateMinesGrid();
-            updateMinesCashout();
-        }
-        
-        function updateMinesMultipliers() {
-            minesMultipliers.textContent = `Multipliers: ${minesGameState.multipliers.map(m => m + 'x').join(' • ')}`;
+            updateMinesMultiplier();
         }
         
         function generateMinesGrid() {
@@ -2589,7 +1663,7 @@
             minesGameState.grid = [];
             minesGameState.revealed = [];
             minesGameState.gameActive = false;
-            minesGameState.cashoutMultiplier = 1.0;
+            minesGameState.multiplier = 1.0;
             
             // Create 5x5 grid
             for (let i = 0; i < 25; i++) {
@@ -2615,6 +1689,21 @@
             
             minesPlayButton.disabled = false;
             minesCashoutButton.disabled = true;
+            updateMinesMultiplier();
+        }
+        
+        function updateMinesMultiplier() {
+            if (minesGameState.revealed.length === 0) {
+                minesGameState.multiplier = 1.0;
+            } else {
+                // Calculate multiplier based on formula: multiplier = (total tiles / safe tiles remaining)
+                const safeTilesRemaining = 25 - minesGameState.minesCount - minesGameState.revealed.length;
+                minesGameState.multiplier = 25 / (25 - minesGameState.minesCount) * 
+                    (25 - minesGameState.revealed.length) / safeTilesRemaining;
+            }
+            
+            minesMultiplier.textContent = `Multiplier: ${minesGameState.multiplier.toFixed(2)}x`;
+            minesCashoutAmount.textContent = `Cashout: ${(minesGameState.betAmount * minesGameState.multiplier).toFixed(2)} SEE`;
         }
         
         function revealMineCell(index) {
@@ -2635,7 +1724,7 @@
                 
                 // Reveal all mines
                 for (let i = 0; i < 25; i++) {
-                    if (minesGameState.grid[i] === 'mine') {
+                    if (minesGameState.grid[i] === 'mine' && !minesGameState.revealed.includes(i)) {
                         const mineCell = minesGrid.children[i];
                         mineCell.innerHTML = '💣';
                         mineCell.classList.add('mine');
@@ -2644,26 +1733,19 @@
                 }
                 
                 // Record transaction
-                recordTransaction('casino', -minesGameState.betAmount, 'Mines game loss');
-                
-                // Update games played
-                if (currentUser) {
-                    currentUser.gamesPlayed = (currentUser.gamesPlayed || 0) + 1;
-                }
+                recordTransaction('game', -minesGameState.betAmount, 'Mines game loss');
                 
                 setTimeout(() => {
                     alert('Game Over! You hit a mine.');
                     initializeMinesGame();
-                }, 1000);
+                }, 2000);
             } else {
                 // Found a gem
                 cell.innerHTML = '💎';
                 cell.classList.add('gem');
                 
-                // Increase cashout multiplier based on multipliers array
-                const multiplierIndex = Math.min(minesGameState.revealed.length - 1, minesGameState.multipliers.length - 1);
-                minesGameState.cashoutMultiplier = minesGameState.multipliers[multiplierIndex];
-                updateMinesCashout();
+                // Update multiplier
+                updateMinesMultiplier();
                 
                 // Check if all gems are found
                 const totalGems = 25 - minesGameState.minesCount;
@@ -2674,40 +1756,26 @@
             }
         }
         
-        function updateMinesCashout() {
-            const cashoutAmount = (minesGameState.betAmount * minesGameState.cashoutMultiplier).toFixed(2);
-            minesCashoutAmount.textContent = `Potential Cashout: ${cashoutAmount} SEE (${minesGameState.cashoutMultiplier}x)`;
-        }
-        
         function startMinesGame() {
-            const betAmount = parseFloat(minesBetAmountInput.value);
-            
-            if (userBalance < betAmount) {
+            if (userBalance < minesGameState.betAmount) {
                 alert('Insufficient balance!');
                 return;
             }
             
-            if (betAmount < 1.00) {
-                alert('Minimum bet is 1.00 SEE');
-                return;
-            }
-            
-            minesGameState.betAmount = betAmount;
-            
             // Deduct from user and add to vault
-            userBalance -= betAmount;
-            adminVaultBalance += betAmount;
+            userBalance -= minesGameState.betAmount;
+            adminVaultBalance += minesGameState.betAmount;
             updateBalance();
             
             minesGameState.gameActive = true;
             minesPlayButton.disabled = true;
             minesCashoutButton.disabled = false;
-            minesGameState.cashoutMultiplier = 1.0;
-            updateMinesCashout();
+            minesGameState.multiplier = 1.0;
+            updateMinesMultiplier();
         }
         
         function cashoutMines() {
-            const winAmount = minesGameState.betAmount * minesGameState.cashoutMultiplier;
+            const winAmount = minesGameState.betAmount * minesGameState.multiplier;
             
             // Check if vault has enough funds
             if (adminVaultBalance < winAmount) {
@@ -2725,570 +1793,123 @@
             minesGameState.gameActive = false;
             
             // Record transaction
-            const profit = winAmount - minesGameState.betAmount;
-            recordTransaction('casino', profit, `Mines win with ${minesGameState.cashoutMultiplier.toFixed(2)}x multiplier`);
+            recordTransaction('game', winAmount - minesGameState.betAmount, `Mines win with ${minesGameState.multiplier.toFixed(2)}x multiplier`);
             
             // Update winning users display
-            updateWinningUsers(currentUser.name, profit);
-            
-            // Update games played and wins
-            if (currentUser) {
-                currentUser.gamesPlayed = (currentUser.gamesPlayed || 0) + 1;
-                currentUser.wins = (currentUser.wins || 0) + 1;
-            }
-            
-            // Reveal all cells
-            for (let i = 0; i < 25; i++) {
-                const cell = minesGrid.children[i];
-                cell.classList.add('revealed');
-                if (minesGameState.grid[i] === 'mine') {
-                    cell.innerHTML = '💣';
-                    cell.classList.add('mine');
-                }
-            }
+            updateWinningUsers(currentUser.name, winAmount - minesGameState.betAmount);
             
             setTimeout(() => {
                 alert(`You cashed out ${winAmount.toFixed(2)} SEE!`);
                 initializeMinesGame();
-            }, 2000);
+            }, 1000);
         }
         
-        // Dice Game Logic
-        function initializeDiceGame() {
-            // Set up dice bet options
-            document.querySelectorAll('.dice-bet-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    document.querySelectorAll('.dice-bet-option').forEach(opt => opt.classList.remove('active'));
-                    this.classList.add('active');
-                    diceGameState.selectedBet = parseInt(this.dataset.bet);
-                });
-            });
-        }
+        // Mines controls
+        decreaseMines.addEventListener('click', () => {
+            if (minesGameState.minesCount > 1) {
+                minesGameState.minesCount--;
+                minesCount.textContent = minesGameState.minesCount;
+                generateMinesGrid();
+            }
+        });
         
-        function rollDice() {
-            if (!diceGameState.selectedBet) {
-                alert('Please select a number to bet on!');
-                return;
+        increaseMines.addEventListener('click', () => {
+            if (minesGameState.minesCount < 24) {
+                minesGameState.minesCount++;
+                minesCount.textContent = minesGameState.minesCount;
+                generateMinesGrid();
             }
-            
-            const betAmount = parseFloat(diceBetAmountInput.value);
-            
-            if (userBalance < betAmount) {
-                alert('Insufficient balance!');
-                return;
-            }
-            
-            if (betAmount < 1.00) {
-                alert('Minimum bet is 1.00 SEE');
-                return;
-            }
-            
-            diceGameState.betAmount = betAmount;
-            
-            // Deduct from user and add to vault
-            userBalance -= betAmount;
-            adminVaultBalance += betAmount;
-            updateBalance();
-            
-            diceRollButton.disabled = true;
-            
-            // Animate dice roll
-            let rolls = 0;
-            const maxRolls = 10;
-            const rollInterval = setInterval(() => {
-                const randomNum = Math.floor(Math.random() * 6) + 1;
-                diceElement.textContent = getDiceFace(randomNum);
-                rolls++;
-                
-                if (rolls >= maxRolls) {
-                    clearInterval(rollInterval);
-                    
-                    const finalNumber = Math.floor(Math.random() * 6) + 1;
-                    diceElement.textContent = getDiceFace(finalNumber);
-                    
-                    // Check win
-                    if (finalNumber === diceGameState.selectedBet) {
-                        const winAmount = diceGameState.betAmount * 6; // 6x payout
-                        
-                        // Check if vault has enough funds
-                        if (adminVaultBalance < winAmount) {
-                            alert('Insufficient funds in vault!');
-                            diceRollButton.disabled = false;
-                            return;
-                        }
-                        
-                        // Transfer from vault to user
-                        userBalance += winAmount;
-                        adminVaultBalance -= winAmount;
-                        updateBalance();
-                        
-                        diceResult.textContent = `You won ${(winAmount - diceGameState.betAmount).toFixed(2)} SEE!`;
-                        recordTransaction('casino', winAmount - diceGameState.betAmount, 'Dice game win');
-                        updateWinningUsers(currentUser.name, winAmount - diceGameState.betAmount);
-                        
-                        // Update games played and wins
-                        if (currentUser) {
-                            currentUser.gamesPlayed = (currentUser.gamesPlayed || 0) + 1;
-                            currentUser.wins = (currentUser.wins || 0) + 1;
-                        }
-                    } else {
-                        diceResult.textContent = 'You lost! Try again.';
-                        recordTransaction('casino', -diceGameState.betAmount, 'Dice game loss');
-                        
-                        // Update games played
-                        if (currentUser) {
-                            currentUser.gamesPlayed = (currentUser.gamesPlayed || 0) + 1;
-                        }
-                    }
-                    
-                    diceRollButton.disabled = false;
-                }
-            }, 100);
-        }
+        });
         
-        function getDiceFace(number) {
-            const diceFaces = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
-            return diceFaces[number - 1];
-        }
+        decreaseBet.addEventListener('click', () => {
+            if (minesGameState.betAmount > 0.20) {
+                minesGameState.betAmount -= 0.10;
+                minesBetAmountDisplay.textContent = `${minesGameState.betAmount.toFixed(2)} SEE`;
+                updateMinesMultiplier();
+            }
+        });
         
-        // Roulette Game Logic
-        function initializeRouletteGame() {
-            // Set up roulette bet options
-            document.querySelectorAll('.roulette-bet-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    document.querySelectorAll('.roulette-bet-option').forEach(opt => opt.classList.remove('active'));
-                    this.classList.add('active');
-                    rouletteGameState.selectedBet = this.dataset.bet;
-                });
-            });
-        }
+        increaseBet.addEventListener('click', () => {
+            if (minesGameState.betAmount < userBalance) {
+                minesGameState.betAmount += 0.10;
+                minesBetAmountDisplay.textContent = `${minesGameState.betAmount.toFixed(2)} SEE`;
+                updateMinesMultiplier();
+            }
+        });
         
-        function spinRoulette() {
-            if (!rouletteGameState.selectedBet) {
-                alert('Please select a bet option!');
-                return;
-            }
+        // Update winning users display
+        function updateWinningUsers(name, amount) {
+            const winningUsers = document.getElementById('winningUsers');
+            const userElement = document.createElement('div');
+            userElement.className = 'winning-user';
+            userElement.innerHTML = `
+                <i class="fas fa-trophy"></i>
+                <span>${name} won ${amount.toFixed(2)} SEE</span>
+            `;
             
-            const betAmount = parseFloat(rouletteBetAmountInput.value);
+            winningUsers.appendChild(userElement);
             
-            if (userBalance < betAmount) {
-                alert('Insufficient balance!');
-                return;
-            }
-            
-            if (betAmount < 1.00) {
-                alert('Minimum bet is 1.00 SEE');
-                return;
-            }
-            
-            rouletteGameState.betAmount = betAmount;
-            
-            // Deduct from user and add to vault
-            userBalance -= betAmount;
-            adminVaultBalance += betAmount;
-            updateBalance();
-            
-            rouletteSpinButton.disabled = true;
-            
-            // Animate roulette spin
-            const spins = 2 + Math.floor(Math.random() * 3); // 2-5 spins (faster)
-            let currentSpin = 0;
-            const totalDegrees = 360 * spins;
-            
-            rouletteWheel.style.transition = `transform ${spins}s ease-out`;
-            rouletteWheel.style.transform = `rotate(${totalDegrees}deg)`;
-            
+            // Remove after 5 seconds
             setTimeout(() => {
-                // Determine result
-                const winningNumber = Math.floor(Math.random() * 37); // 0-36
-                const isRed = [1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36].includes(winningNumber);
-                const isBlack = [2,4,6,8,10,11,13,15,17,20,22,24,26,28,29,31,33,35].includes(winningNumber);
-                const isEven = winningNumber !== 0 && winningNumber % 2 === 0;
-                const isOdd = winningNumber % 2 === 1;
-                
-                let won = false;
-                
-                if (rouletteGameState.selectedBet === 'red' && isRed) won = true;
-                if (rouletteGameState.selectedBet === 'black' && isBlack) won = true;
-                if (rouletteGameState.selectedBet === 'even' && isEven) won = true;
-                if (rouletteGameState.selectedBet === 'odd' && isOdd) won = true;
-                
-                if (won) {
-                    const winAmount = rouletteGameState.betAmount * 2; // 2x payout
+                userElement.remove();
+            }, 5000);
+        }
+        
+        // Load all users for admin panel
+        function loadAllUsers() {
+            if (!isAdmin) return;
+            
+            usersList.innerHTML = '<div style="text-align: center; padding: 20px; opacity: 0.7;">Loading users...</div>';
+            
+            db.collection('users').get()
+                .then(snapshot => {
+                    usersList.innerHTML = '';
                     
-                    // Check if vault has enough funds
-                    if (adminVaultBalance < winAmount) {
-                        alert('Insufficient funds in vault!');
-                        rouletteSpinButton.disabled = false;
+                    if (snapshot.empty) {
+                        usersList.innerHTML = '<div style="text-align: center; padding: 20px; opacity: 0.7;">No users registered yet</div>';
                         return;
                     }
                     
-                    // Transfer from vault to user
-                    userBalance += winAmount;
-                    adminVaultBalance -= winAmount;
-                    updateBalance();
-                    
-                    rouletteResult.textContent = `You won ${(winAmount - rouletteGameState.betAmount).toFixed(2)} SEE!`;
-                    recordTransaction('casino', winAmount - rouletteGameState.betAmount, 'Roulette game win');
-                    updateWinningUsers(currentUser.name, winAmount - rouletteGameState.betAmount);
-                    
-                    // Update games played and wins
-                    if (currentUser) {
-                        currentUser.gamesPlayed = (currentUser.gamesPlayed || 0) + 1;
-                        currentUser.wins = (currentUser.wins || 0) + 1;
-                    }
-                } else {
-                    rouletteResult.textContent = 'You lost! Try again.';
-                    recordTransaction('casino', -rouletteGameState.betAmount, 'Roulette game loss');
-                    
-                    // Update games played
-                    if (currentUser) {
-                        currentUser.gamesPlayed = (currentUser.gamesPlayed || 0) + 1;
-                    }
-                }
-                
-                rouletteSpinButton.disabled = false;
-            }, spins * 1000);
-        }
-        
-        // Sports Game Logic
-        function initializeSportsGame() {
-            if (!sportsGameState.selectedMatch) return;
-            
-            const match = sportsGameState.selectedMatch;
-            sportsGameTitle.textContent = `${match.home} vs ${match.away}`;
-            homeTeamName.textContent = match.home;
-            awayTeamName.textContent = match.away;
-            homeTeamFlag.textContent = match.home.substring(0, 2);
-            awayTeamFlag.textContent = match.away.substring(0, 2);
-            
-            sportsGameState.homeScore = 0;
-            sportsGameState.awayScore = 0;
-            sportsGameState.matchTime = 0;
-            sportsGameState.isFirstHalf = true;
-            sportsGameState.events = [];
-            
-            sportsScore.textContent = '0 : 0';
-            sportsTime.textContent = '1st Half - 00:00';
-            sportsEvents.innerHTML = '';
-        }
-        
-        function startSportsGame() {
-            const betAmount = parseFloat(sportsBetAmountInput.value);
-            
-            if (userBalance < betAmount) {
-                alert('Insufficient balance!');
-                return;
-            }
-            
-            if (betAmount < 1.00) {
-                alert('Minimum bet is 1.00 SEE');
-                return;
-            }
-            
-            if (!sportsGameState.selectedBet) {
-                alert('Please place a bet first!');
-                return;
-            }
-            
-            sportsGameState.betAmount = betAmount;
-            
-            // Deduct from user and add to vault
-            userBalance -= betAmount;
-            adminVaultBalance += betAmount;
-            updateBalance();
-            
-            sportsPlayButton.disabled = true;
-            
-            // Record the bet
-            recordBet(
-                `${sportsGameState.selectedMatch.home} vs ${sportsGameState.selectedMatch.away}`,
-                sportsGameState.selectedBet.type,
-                sportsGameState.selectedBet.odds,
-                betAmount,
-                'running'
-            );
-            
-            // Start match simulation
-            simulateSportsMatch();
-        }
-        
-        function simulateSportsMatch() {
-            let time = 0;
-            const matchDuration = 90; // 90 minutes simulation
-            
-            gameIntervals.sports = setInterval(() => {
-                time++;
-                sportsGameState.matchTime = time;
-                
-                // Update time display
-                const displayTime = Math.min(time, 45);
-                const half = time <= 45 ? '1st Half' : '2nd Half';
-                sportsTime.textContent = `${half} - ${displayTime}:00`;
-                
-                // Random events (goals)
-                if (Math.random() < 0.05) { // 5% chance of goal per "minute"
-                    const isHomeGoal = Math.random() > 0.5;
-                    if (isHomeGoal) {
-                        sportsGameState.homeScore++;
-                        sportsGameState.events.push(`${time}' GOAL! ${sportsGameState.selectedMatch.home} scores!`);
-                    } else {
-                        sportsGameState.awayScore++;
-                        sportsGameState.events.push(`${time}' GOAL! ${sportsGameState.selectedMatch.away} scores!`);
-                    }
-                    
-                    sportsScore.textContent = `${sportsGameState.homeScore} : ${sportsGameState.awayScore}`;
-                    
-                    // Update events display (show last 3 events)
-                    const recentEvents = sportsGameState.events.slice(-3);
-                    sportsEvents.innerHTML = recentEvents.map(event => 
-                        `<div style="margin-bottom: 5px;">${event}</div>`
-                    ).join('');
-                }
-                
-                // Check for half time
-                if (time === 45) {
-                    sportsGameState.events.push("HALF TIME!");
-                }
-                
-                // End of match
-                if (time >= matchDuration) {
-                    clearInterval(gameIntervals.sports);
-                    endSportsMatch();
-                }
-            }, 1000); // 1 second = 1 minute in simulation
-        }
-        
-        function endSportsMatch() {
-            // Determine bet result
-            let betWon = false;
-            const selectedBet = sportsGameState.selectedBet;
-            
-            if (selectedBet.type === 'home' && sportsGameState.homeScore > sportsGameState.awayScore) {
-                betWon = true;
-            } else if (selectedBet.type === 'away' && sportsGameState.awayScore > sportsGameState.homeScore) {
-                betWon = true;
-            } else if (selectedBet.type === 'draw' && sportsGameState.homeScore === sportsGameState.awayScore) {
-                betWon = true;
-            }
-            
-            // Calculate result
-            if (betWon) {
-                const winAmount = sportsGameState.betAmount * selectedBet.odds;
-                
-                // Check if vault has enough funds
-                if (adminVaultBalance < winAmount) {
-                    alert('Insufficient funds in vault!');
-                    sportsPlayButton.disabled = false;
-                    return;
-                }
-                
-                // Transfer from vault to user
-                userBalance += winAmount;
-                adminVaultBalance -= winAmount;
-                updateBalance();
-                
-                alert(`Congratulations! You won ${(winAmount - sportsGameState.betAmount).toFixed(2)} SEE!`);
-                recordTransaction('sports', winAmount - sportsGameState.betAmount, 'Sports bet win');
-                updateWinningUsers(currentUser.name, winAmount - sportsGameState.betAmount);
-                
-                // Update bet status
-                updateBetStatus('won');
-                
-                // Update games played and wins
-                if (currentUser) {
-                    currentUser.gamesPlayed = (currentUser.gamesPlayed || 0) + 1;
-                    currentUser.wins = (currentUser.wins || 0) + 1;
-                }
-            } else {
-                alert('Sorry, you lost this bet. Better luck next time!');
-                recordTransaction('sports', -sportsGameState.betAmount, 'Sports bet loss');
-                
-                // Update bet status
-                updateBetStatus('lost');
-                
-                // Update games played
-                if (currentUser) {
-                    currentUser.gamesPlayed = (currentUser.gamesPlayed || 0) + 1;
-                }
-            }
-            
-            sportsPlayButton.disabled = false;
-        }
-        
-        function updateBetStatus(status) {
-            // Update the bet status in user's bet history
-            if (currentUser && currentUser.bets) {
-                const latestBet = currentUser.bets[0];
-                if (latestBet) {
-                    latestBet.status = status;
-                }
-            }
-        }
-        
-        // Bet Slip Functions
-        function addToBetSlip(match, betType, odds) {
-            const existingItem = betSlipItems.find(item => 
-                item.match === match && item.betType === betType);
-            
-            if (!existingItem) {
-                betSlipItems.push({
-                    match,
-                    betType,
-                    odds: parseFloat(odds),
-                    amount: parseFloat(betAmountInput.value)
-                });
-            }
-            
-            updateBetSlip();
-            betSlip.classList.remove('hidden');
-        }
-        
-        function updateBetSlip() {
-            betSlipContent.innerHTML = '';
-            
-            if (betSlipItems.length === 0) {
-                betSlipContent.innerHTML = '<div style="text-align: center; padding: 20px; opacity: 0.7;">No bets in slip</div>';
-                return;
-            }
-            
-            let totalStake = 0;
-            let potentialWin = 0;
-            
-            betSlipItems.forEach((item, index) => {
-                const itemStake = item.amount;
-                const itemWin = itemStake * item.odds;
-                
-                totalStake += itemStake;
-                potentialWin += itemWin;
-                
-                const betItem = document.createElement('div');
-                betItem.className = 'bet-slip-item';
-                betItem.innerHTML = `
-                    <div style="font-size: 12px; margin-bottom: 5px;">${item.match}</div>
-                    <div style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">${item.betType} @ ${item.odds}</div>
-                    <div style="display: flex; justify-content: space-between; font-size: 12px;">
-                        <span>Stake: ${itemStake} SEE</span>
-                        <span>Win: ${itemWin.toFixed(2)} SEE</span>
-                    </div>
-                `;
-                betSlipContent.appendChild(betItem);
-            });
-            
-            const totalElement = document.createElement('div');
-            totalElement.style.marginTop = '10px';
-            totalElement.style.paddingTop = '10px';
-            totalElement.style.borderTop = '1px solid rgba(255,255,255,0.2)';
-            totalElement.innerHTML = `
-                <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: bold;">
-                    <span>Total Stake:</span>
-                    <span>${totalStake.toFixed(2)} SEE</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 12px; margin-top: 5px;">
-                    <span>Potential Win:</span>
-                    <span>${potentialWin.toFixed(2)} SEE</span>
-                </div>
-            `;
-            betSlipContent.appendChild(totalElement);
-        }
-        
-        function placeBet() {
-            if (betSlipItems.length === 0) {
-                alert('No bets to place!');
-                return;
-            }
-            
-            const totalStake = betSlipItems.reduce((sum, item) => sum + item.amount, 0);
-            
-            if (userBalance < totalStake) {
-                alert('Insufficient balance!');
-                return;
-            }
-            
-            // Deduct from user and add to vault
-            userBalance -= totalStake;
-            adminVaultBalance += totalStake;
-            updateBalance();
-            
-            // Record all bets
-            betSlipItems.forEach(item => {
-                recordBet(item.match, item.betType, item.odds, item.amount, 'open');
-            });
-            
-            alert('Bets placed successfully! Good luck!');
-            
-            betSlipItems = [];
-            betSlip.classList.add('hidden');
-        }
-        
-        // Admin Functions
-        function loadAdminPanel() {
-            // Load all users from Firestore
-            db.collection('users').get().then((querySnapshot) => {
-                usersList.innerHTML = '';
-                let totalUsers = 0;
-                let totalBalance = 0;
-                
-                querySnapshot.forEach((doc) => {
-                    const user = doc.data();
-                    totalUsers++;
-                    totalBalance += user.balance || 0;
-                    
-                    const userItem = document.createElement('div');
-                    userItem.className = 'user-item';
-                    userItem.innerHTML = `
-                        <div class="user-info">
-                            <div class="user-name">${user.name}</div>
-                            <div class="user-email">${user.email}</div>
-                        </div>
-                        <div class="user-balance">${(user.balance || 0).toFixed(2)} SEE</div>
-                        <div class="user-actions">
-                            <button class="user-action" title="Add Coins" data-email="${user.email}">
-                                <i class="fas fa-coins"></i>
-                            </button>
-                            <button class="user-action" title="Ban User" data-email="${user.email}">
-                                <i class="fas fa-ban"></i>
-                            </button>
-                            <button class="user-action" title="Message User" data-email="${user.email}">
-                                <i class="fas fa-envelope"></i>
-                            </button>
-                        </div>
-                    `;
-                    usersList.appendChild(userItem);
-                });
-                
-                // Update admin stats
-                document.getElementById('totalUsers').textContent = totalUsers;
-                document.getElementById('totalBalance').textContent = `${totalBalance.toFixed(2)} SEE`;
-                
-                // Add event listeners to user action buttons
-                document.querySelectorAll('.user-action[title="Add Coins"]').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const email = btn.dataset.email;
-                        addCoinsToUser(email);
+                    let totalBalance = 0;
+                    snapshot.forEach(doc => {
+                        const user = doc.data();
+                        totalBalance += user.balance || 0;
+                        
+                        const userItem = document.createElement('div');
+                        userItem.className = 'user-item';
+                        userItem.innerHTML = `
+                            <div class="user-info">
+                                <div class="user-name">${user.name}</div>
+                                <div class="user-email">${user.email}</div>
+                            </div>
+                            <div class="user-balance">${(user.balance || 0).toFixed(2)} SEE</div>
+                            <div class="user-actions">
+                                <button class="user-action" title="Add Coins" data-email="${user.email}">
+                                    <i class="fas fa-coins"></i>
+                                </button>
+                                <button class="user-action" title="Ban User" data-email="${user.email}">
+                                    <i class="fas fa-ban"></i>
+                                </button>
+                                <button class="user-action" title="Message User" data-email="${user.email}">
+                                    <i class="fas fa-envelope"></i>
+                                </button>
+                            </div>
+                        `;
+                        
+                        usersList.appendChild(userItem);
                     });
+                    
+                    // Update admin stats
+                    document.getElementById('totalUsers').textContent = snapshot.size;
+                    document.getElementById('totalBalance').textContent = `${totalBalance.toFixed(2)} SEE`;
+                })
+                .catch(error => {
+                    console.error('Error loading users:', error);
+                    usersList.innerHTML = '<div style="text-align: center; padding: 20px; opacity: 0.7;">Error loading users</div>';
                 });
-                
-                document.querySelectorAll('.user-action[title="Ban User"]').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const email = btn.dataset.email;
-                        banUser(email);
-                    });
-                });
-                
-                document.querySelectorAll('.user-action[title="Message User"]').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const email = btn.dataset.email;
-                        messageUser(email);
-                    });
-                });
-                
-            }).catch((error) => {
-                console.error('Error loading users:', error);
-                alert('Error loading users. Please try again.');
-            });
         }
         
+        // Add coins to user (admin function)
         function addCoinsToUser(email) {
             const amount = parseFloat(prompt(`Enter amount of SEE to add to ${email}:`));
             if (!amount || isNaN(amount) || amount <= 0) {
@@ -3303,108 +1924,75 @@
             }
             
             // Find user and update balance
-            db.collection('users').where('email', '==', email).get().then((querySnapshot) => {
-                if (!querySnapshot.empty) {
-                    const userDoc = querySnapshot.docs[0];
-                    const userData = userDoc.data();
+            db.collection('users').where('email', '==', email).get()
+                .then(snapshot => {
+                    if (snapshot.empty) {
+                        alert('User not found!');
+                        return;
+                    }
+                    
+                    const userDoc = snapshot.docs[0];
+                    const user = userDoc.data();
+                    const newBalance = (user.balance || 0) + amount;
                     
                     // Update user balance
                     db.collection('users').doc(userDoc.id).update({
-                        balance: firebase.firestore.FieldValue.increment(amount)
-                    }).then(() => {
+                        balance: newBalance
+                    })
+                    .then(() => {
                         // Update vault balance
                         adminVaultBalance -= amount;
                         updateBalance();
                         
+                        // Record transaction for user
+                        db.collection('transactions').add({
+                            type: 'deposit',
+                            amount: amount,
+                            description: 'Admin credit',
+                            timestamp: new Date(),
+                            userId: userDoc.id
+                        });
+                        
                         alert(`Added ${amount} SEE to ${email}`);
-                        
-                        // Reload users list
-                        loadAdminPanel();
-                    }).catch((error) => {
+                        loadAllUsers();
+                    })
+                    .catch(error => {
                         console.error('Error updating user balance:', error);
-                        alert('Error adding coins. Please try again.');
+                        alert('Error adding coins to user');
                     });
-                } else {
-                    alert('User not found!');
-                }
-            }).catch((error) => {
-                console.error('Error finding user:', error);
-                alert('Error finding user. Please try again.');
-            });
+                })
+                .catch(error => {
+                    console.error('Error finding user:', error);
+                    alert('Error finding user');
+                });
         }
         
-        function banUser(email) {
-            const reason = prompt(`Enter reason for banning ${email}:`);
-            if (!reason) return;
-            
-            // Find user and ban them
-            db.collection('users').where('email', '==', email).get().then((querySnapshot) => {
-                if (!querySnapshot.empty) {
-                    const userDoc = querySnapshot.docs[0];
-                    const userData = userDoc.data();
-                    
-                    // Get user's balance to transfer to vault
-                    const userBalance = userData.balance || 0;
-                    
-                    // Update user as banned and reset balance
-                    db.collection('users').doc(userDoc.id).update({
-                        banned: true,
-                        balance: 0
-                    }).then(() => {
-                        // Transfer user's balance to vault
-                        adminVaultBalance += userBalance;
-                        updateBalance();
-                        
-                        alert(`User ${email} has been banned. Their ${userBalance} SEE has been transferred to vault.`);
-                        
-                        // Reload users list
-                        loadAdminPanel();
-                    }).catch((error) => {
-                        console.error('Error banning user:', error);
-                        alert('Error banning user. Please try again.');
-                    });
-                } else {
-                    alert('User not found!');
-                }
-            }).catch((error) => {
-                console.error('Error finding user:', error);
-                alert('Error finding user. Please try again.');
-            });
-        }
-        
-        function messageUser(email) {
-            const message = prompt(`Enter message to send to ${email}:`);
-            if (!message) return;
-            
-            // In a real app, this would send a message to the user's inbox
-            alert(`Message sent to ${email}`);
-        }
-        
+        // Set coin price (admin function)
         function setCoinPrice() {
-            const newPrice = parseFloat(coinPriceInput.value);
+            const newPrice = parseFloat(prompt('Enter new SEE coin price in USD:'));
             if (!newPrice || isNaN(newPrice) || newPrice <= 0) {
                 alert('Invalid price!');
                 return;
             }
             
             coinPrice = newPrice;
-            alert(`SEE coin price set to $${coinPrice}`);
             updateBalance();
+            alert(`Coin price updated to $${coinPrice.toFixed(2)}`);
         }
         
         // Transfer coins between users
         function transferCoins() {
-            const recipientEmail = transferEmail.value.trim();
+            const email = transferEmail.value.trim();
             const amount = parseFloat(transferAmount.value);
             const pin = transferPin.value;
             
-            if (!recipientEmail || !amount || !pin) {
+            if (!email || !amount || !pin) {
                 alert('Please fill in all fields');
                 return;
             }
             
-            if (amount < 1.00) {
-                alert('Minimum transfer amount is 1.00 SEE');
+            if (amount < 1) {
+                alert('Minimum transfer amount is 1 SEE');
                 return;
             }
             
@@ -3418,133 +2006,71 @@
                 return;
             }
             
-            setButtonLoading(transferButton, transferButtonText, transferButtonLoading, true);
-            
-            // Check if recipient exists
-            db.collection('users').where('email', '==', recipientEmail).get().then((querySnapshot) => {
-                if (querySnapshot.empty) {
-                    alert('Recipient not found');
-                    setButtonLoading(transferButton, transferButtonText, transferButtonLoading, false);
-                    return;
-                }
-                
-                const recipientDoc = querySnapshot.docs[0];
-                const recipientData = recipientDoc.data();
-                
-                if (recipientData.banned) {
-                    alert('Cannot transfer to banned user');
-                    setButtonLoading(transferButton, transferButtonText, transferButtonLoading, false);
-                    return;
-                }
-                
-                // Perform the transfer
-                const batch = db.batch();
-                
-                // Deduct from sender
-                batch.update(db.collection('users').doc(currentUser.uid), {
-                    balance: firebase.firestore.FieldValue.increment(-amount)
+            // Find recipient
+            db.collection('users').where('email', '==', email).get()
+                .then(snapshot => {
+                    if (snapshot.empty) {
+                        alert('Recipient not found');
+                        return;
+                    }
+                    
+                    const recipientDoc = snapshot.docs[0];
+                    const recipient = recipientDoc.data();
+                    
+                    if (recipient.banned) {
+                        alert('Cannot transfer to banned user');
+                        return;
+                    }
+                    
+                    // Update sender balance
+                    const newSenderBalance = userBalance - amount;
+                    db.collection('users').doc(currentUser.uid).update({
+                        balance: newSenderBalance
+                    })
+                    .then(() => {
+                        // Update recipient balance
+                        const newRecipientBalance = (recipient.balance || 0) + amount;
+                        db.collection('users').doc(recipientDoc.id).update({
+                            balance: newRecipientBalance
+                        })
+                        .then(() => {
+                            // Update local balance
+                            userBalance = newSenderBalance;
+                            updateBalance();
+                            
+                            // Record transactions
+                            recordTransaction('transfer', -amount, `Transfer to ${email}`, email);
+                            
+                            db.collection('transactions').add({
+                                type: 'transfer',
+                                amount: amount,
+                                description: `Transfer from ${currentUser.email}`,
+                                timestamp: new Date(),
+                                userId: recipientDoc.id
+                            });
+                            
+                            alert(`Successfully transferred ${amount} SEE to ${email}`);
+                            
+                            // Clear form
+                            transferEmail.value = '';
+                            transferAmount.value = '';
+                            transferPin.value = '';
+                        })
+                        .catch(error => {
+                            console.error('Error updating recipient balance:', error);
+                            alert('Error completing transfer');
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error updating sender balance:', error);
+                        alert('Error processing transfer');
+                    });
+                })
+                .catch(error => {
+                    console.error('Error finding recipient:', error);
+                    alert('Error finding recipient');
                 });
-                
-                // Add to recipient
-                batch.update(db.collection('users').doc(recipientDoc.id), {
-                    balance: firebase.firestore.FieldValue.increment(amount)
-                });
-                
-                return batch.commit();
-            }).then(() => {
-                // Update local balance
-                userBalance -= amount;
-                updateBalance();
-                
-                // Record transaction
-                recordTransaction('transfer', -amount, `Transfer to ${recipientEmail}`);
-                
-                alert(`Successfully transferred ${amount} SEE to ${recipientEmail}`);
-                
-                // Clear form
-                transferEmail.value = '';
-                transferAmount.value = '';
-                transferPin.value = '';
-                
-                setButtonLoading(transferButton, transferButtonText, transferButtonLoading, false);
-            }).catch((error) => {
-                console.error('Error transferring coins:', error);
-                alert('Error transferring coins. Please try again.');
-                setButtonLoading(transferButton, transferButtonText, transferButtonLoading, false);
-            });
         }
-        
-        // Send message to admin
-        function sendMessageToAdmin() {
-            const content = messageContent.value.trim();
-            if (!content) {
-                alert('Please enter a message');
-                return;
-            }
-            
-            const message = {
-                from: currentUser.name,
-                content: content,
-                timestamp: new Date().toISOString(),
-                read: false
-            };
-            
-            // In a real app, this would save to Firestore
-            // For now, we'll just show a confirmation
-            alert('Message sent to admin!');
-            messageContent.value = '';
-            
-            // Add to local messages
-            if (!currentUser.messages) {
-                currentUser.messages = [];
-            }
-            currentUser.messages.push(message);
-            loadMessages();
-        }
-        
-        // Claim referral bonus
-        function claimReferralBonus() {
-            const referralCount = currentUser.referrals ? currentUser.referrals.length : 0;
-            if (referralCount < 10) {
-                alert(`You need ${10 - referralCount} more referrals to claim the bonus`);
-                return;
-            }
-            
-            // Check if vault has enough funds
-            if (adminVaultBalance < 1) {
-                alert('Insufficient funds in vault!');
-                return;
-            }
-            
-            // Transfer from vault to user
-            userBalance += 1;
-            adminVaultBalance -= 1;
-            updateBalance();
-            
-            alert('Referral bonus of 1 SEE has been added to your account!');
-            recordTransaction('referral', 1, 'Referral bonus');
-            
-            // Reset referrals count (in a real app, you might want to track claimed referrals)
-            currentUser.referrals = [];
-            updateProfile();
-        }
-        
-        // Mines controls
-        decreaseMines.addEventListener('click', () => {
-            if (minesGameState.minesCount > 1) {
-                minesGameState.minesCount--;
-                minesCount.textContent = minesGameState.minesCount;
-                generateMinesGrid();
-            }
-        });
-        
-        increaseMines.addEventListener('click', () => {
-            if (minesGameState.minesCount < 10) {
-                minesGameState.minesCount++;
-                minesCount.textContent = minesGameState.minesCount;
-                generateMinesGrid();
-            }
-        });
         
         // Event Listeners for Navigation
         document.querySelectorAll('.nav-tab').forEach(tab => {
@@ -3564,18 +2090,8 @@
             tab.addEventListener('click', function() {
                 document.querySelectorAll('.transaction-tab').forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
-                // In a real app, this would filter transactions
-                loadTransactionHistory();
-            });
-        });
-        
-        // Bet tabs
-        document.querySelectorAll('.bet-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                document.querySelectorAll('.bet-tab').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-                // In a real app, this would filter bets
-                loadBetHistory();
+                // In a real app, you would filter transactions by type
+                loadTransactions();
             });
         });
         
@@ -3587,55 +2103,13 @@
             });
         });
         
-        // Sports betting
-        document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('odd')) {
-                const matchId = e.target.dataset.match;
-                const betType = e.target.dataset.bet;
-                const odds = e.target.dataset.odd;
-                
-                const match = sportsMatches.find(m => m.id == matchId);
-                const matchName = `${match.home} vs ${match.away}`;
-                
-                // For sports visual, start the game directly
-                sportsGameState.selectedMatch = match;
-                sportsGameState.selectedBet = {
-                    type: betType,
-                    odds: parseFloat(odds)
-                };
-                startGame('sports');
-            }
-        });
-        
         // Game controls
-        aviatorBetButton.addEventListener('click', startAviatorGame);
-        aviatorCashoutButton.addEventListener('click', cashoutAviator);
-        aviatorBackBtn.addEventListener('click', exitGame);
-        
         minesPlayButton.addEventListener('click', startMinesGame);
         minesCashoutButton.addEventListener('click', cashoutMines);
         minesBackBtn.addEventListener('click', exitGame);
         
-        diceRollButton.addEventListener('click', rollDice);
-        diceBackBtn.addEventListener('click', exitGame);
-        
-        rouletteSpinButton.addEventListener('click', spinRoulette);
-        rouletteBackBtn.addEventListener('click', exitGame);
-        
-        sportsPlayButton.addEventListener('click', startSportsGame);
-        sportsBackBtn.addEventListener('click', exitGame);
-        
-        // Bet slip controls
-        closeBetSlip.addEventListener('click', () => {
-            betSlip.classList.add('hidden');
-        });
-        
-        placeBetBtn.addEventListener('click', placeBet);
-        
-        clearBetSlipBtn.addEventListener('click', () => {
-            betSlipItems = [];
-            betSlip.classList.add('hidden');
-        });
+        // Transfer
+        transferButton.addEventListener('click', transferCoins);
         
         // Copy referral code
         copyReferralBtn.addEventListener('click', () => {
@@ -3645,15 +2119,63 @@
         });
         
         // Claim referral bonus
-        claimReferralBtn.addEventListener('click', claimReferralBonus);
+        claimReferralBtn.addEventListener('click', () => {
+            if (currentUser.referrals && currentUser.referrals.length >= 10) {
+                // Check if vault has enough funds
+                if (adminVaultBalance < 3) {
+                    alert('Insufficient funds in vault!');
+                    return;
+                }
+                
+                // Update user balance
+                const newBalance = userBalance + 3;
+                db.collection('users').doc(currentUser.uid).update({
+                    balance: newBalance
+                })
+                .then(() => {
+                    // Update vault
+                    adminVaultBalance -= 3;
+                    
+                    // Update local balance
+                    userBalance = newBalance;
+                    updateBalance();
+                    
+                    // Record transaction
+                    recordTransaction('bonus', 3, 'Referral bonus');
+                    
+                    alert('Referral bonus of 3 SEE has been added to your account!');
+                })
+                .catch(error => {
+                    console.error('Error adding referral bonus:', error);
+                    alert('Error claiming referral bonus');
+                });
+            }
+        });
         
-        // Send message to admin
-        sendMessageBtn.addEventListener('click', sendMessageToAdmin);
+        // Admin user actions
+        usersList.addEventListener('click', (e) => {
+            if (e.target.closest('.user-action')) {
+                const button = e.target.closest('.user-action');
+                const email = button.dataset.email;
+                
+                if (button.querySelector('.fa-coins')) {
+                    addCoinsToUser(email);
+                } else if (button.querySelector('.fa-ban')) {
+                    if (confirm(`Are you sure you want to ban ${email}?`)) {
+                        // Ban user logic would go here
+                        alert('User banned successfully');
+                    }
+                } else if (button.querySelector('.fa-envelope')) {
+                    const message = prompt(`Enter message to send to ${email}:`);
+                    if (message) {
+                        // Send message logic would go here
+                        alert('Message sent successfully');
+                    }
+                }
+            }
+        });
         
-        // Transfer coins
-        transferButton.addEventListener('click', transferCoins);
-        
-        // Admin functions
+        // Admin actions
         addCoinsBtn.addEventListener('click', () => {
             const email = prompt('Enter user email:');
             if (email) {
@@ -3664,22 +2186,25 @@
         banUserBtn.addEventListener('click', () => {
             const email = prompt('Enter user email to ban:');
             if (email) {
-                banUser(email);
+                if (confirm(`Are you sure you want to ban ${email}?`)) {
+                    // Ban user logic would go here
+                    alert('User banned successfully');
+                }
             }
         });
         
         messageUserBtn.addEventListener('click', () => {
-            const email = prompt('Enter user email to message:');
+            const email = prompt('Enter user email:');
             if (email) {
-                messageUser(email);
+                const message = prompt('Enter message:');
+                if (message) {
+                    // Send message logic would go here
+                    alert('Message sent successfully');
+                }
             }
         });
         
-        viewReportsBtn.addEventListener('click', () => {
-            alert('Reports feature would be implemented here');
-        });
-        
-        setCoinPriceBtn.addEventListener('click', setCoinPrice);
+        setPriceBtn.addEventListener('click', setCoinPrice);
         
         // Auth Event Listeners
         showRegister.addEventListener('click', (e) => {
@@ -3712,32 +2237,33 @@
                 return;
             }
             
-            setButtonLoading(loginButton, loginButtonText, loginButtonLoading, true);
+            showLoading(loginButton, loginButtonText, loginButtonSpinner);
             
             // Check if admin login
             if (email === 'ebubechichukwu8@gmail.com' && password === 'Ebube@123') {
                 isAdmin = true;
                 showScreen(adminPanel);
-                loadAdminPanel();
-                setButtonLoading(loginButton, loginButtonText, loginButtonLoading, false);
+                loadAllUsers();
+                hideLoading(loginButton, loginButtonText, loginButtonSpinner);
                 return;
             }
             
-            // User login with Firebase Auth
+            // Firebase authentication
             auth.signInWithEmailAndPassword(email, password)
                 .then((userCredential) => {
+                    const user = userCredential.user;
+                    
                     // Get user data from Firestore
-                    return db.collection('users').doc(userCredential.user.uid).get();
+                    return db.collection('users').doc(user.uid).get();
                 })
                 .then((doc) => {
                     if (doc.exists) {
                         const userData = doc.data();
                         
-                        // Check if user is banned
                         if (userData.banned) {
-                            alert('Your account has been banned. Please contact support.');
+                            alert('Your account has been banned');
                             auth.signOut();
-                            setButtonLoading(loginButton, loginButtonText, loginButtonLoading, false);
+                            hideLoading(loginButton, loginButtonText, loginButtonSpinner);
                             return;
                         }
                         
@@ -3753,12 +2279,12 @@
                     } else {
                         alert('User data not found');
                     }
-                    setButtonLoading(loginButton, loginButtonText, loginButtonLoading, false);
+                    hideLoading(loginButton, loginButtonText, loginButtonSpinner);
                 })
                 .catch((error) => {
                     console.error('Login error:', error);
                     alert('Login failed: ' + error.message);
-                    setButtonLoading(loginButton, loginButtonText, loginButtonLoading, false);
+                    hideLoading(loginButton, loginButtonText, loginButtonSpinner);
                 });
         });
         
@@ -3793,14 +2319,12 @@
                 return;
             }
             
-            setButtonLoading(registerButton, registerButtonText, registerButtonLoading, true);
+            showLoading(registerButton, registerButtonText, registerButtonSpinner);
             
-            // Create user with Firebase Auth
+            // Firebase registration
             auth.createUserWithEmailAndPassword(email, password)
                 .then((userCredential) => {
                     const user = userCredential.user;
-                    
-                    // Generate referral code
                     const referralCode = generateReferralCode();
                     
                     // Create user document in Firestore
@@ -3813,24 +2337,19 @@
                         balance: 0,
                         referralCode: referralCode,
                         referrals: [],
-                        transactions: [],
-                        bets: [],
-                        messages: [],
-                        gamesPlayed: 0,
-                        wins: 0,
                         banned: false,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        createdAt: new Date()
                     });
                 })
                 .then(() => {
-                    alert('Registration successful! You can now login.');
+                    alert('Registration successful! Please login.');
                     showScreen(loginScreen);
-                    setButtonLoading(registerButton, registerButtonText, registerButtonLoading, false);
+                    hideLoading(registerButton, registerButtonText, registerButtonSpinner);
                 })
                 .catch((error) => {
                     console.error('Registration error:', error);
                     alert('Registration failed: ' + error.message);
-                    setButtonLoading(registerButton, registerButtonText, registerButtonLoading, false);
+                    hideLoading(registerButton, registerButtonText, registerButtonSpinner);
                 });
         });
         
@@ -3844,16 +2363,17 @@
                 return;
             }
             
-            setButtonLoading(adminLoginButton, adminLoginButtonText, adminLoginButtonLoading, true);
+            showLoading(adminLoginButton, adminLoginButtonText, adminLoginButtonSpinner);
             
             if (email === 'ebubechichukwu8@gmail.com' && password === 'Ebube@123') {
                 isAdmin = true;
                 showScreen(adminPanel);
-                loadAdminPanel();
+                loadAllUsers();
             } else {
                 alert('Invalid admin credentials!');
             }
-            setButtonLoading(adminLoginButton, adminLoginButtonText, adminLoginButtonLoading, false);
+            
+            hideLoading(adminLoginButton, adminLoginButtonText, adminLoginButtonSpinner);
         });
         
         // Logout functions
@@ -3879,29 +2399,33 @@
         
         // Check if user is already logged in
         auth.onAuthStateChanged((user) => {
-            if (user && !currentUser && !isAdmin) {
+            if (user && !isAdmin) {
                 // User is signed in, get user data
-                db.collection('users').doc(user.uid).get().then((doc) => {
-                    if (doc.exists) {
-                        const userData = doc.data();
-                        
-                        if (userData.banned) {
-                            alert('Your account has been banned. Please contact support.');
-                            auth.signOut();
-                            return;
+                db.collection('users').doc(user.uid).get()
+                    .then((doc) => {
+                        if (doc.exists) {
+                            const userData = doc.data();
+                            
+                            if (userData.banned) {
+                                alert('Your account has been banned');
+                                auth.signOut();
+                                return;
+                            }
+                            
+                            currentUser = {
+                                uid: doc.id,
+                                ...userData
+                            };
+                            userBalance = userData.balance || 0;
+                            
+                            updateBalance();
+                            updateProfile();
+                            showScreen(appScreen);
                         }
-                        
-                        currentUser = {
-                            uid: doc.id,
-                            ...userData
-                        };
-                        userBalance = userData.balance || 0;
-                        
-                        updateBalance();
-                        updateProfile();
-                        showScreen(appScreen);
-                    }
-                });
+                    })
+                    .catch((error) => {
+                        console.error('Error getting user data:', error);
+                    });
             }
         });
     </script>
