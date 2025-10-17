@@ -80,6 +80,7 @@
             display: flex;
             justify-content: center;
             gap: 15px;
+            flex-wrap: wrap;
         }
         
         .winning-user {
@@ -505,7 +506,7 @@
             text-align: center;
         }
         
-        .mines-cashout-amount {
+        .mines-cashout-display {
             font-size: 16px;
             margin-bottom: 10px;
             text-align: center;
@@ -715,28 +716,6 @@
             margin-bottom: 20px;
         }
         
-        .transaction-tabs {
-            display: flex;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 5px;
-            margin-bottom: 15px;
-        }
-        
-        .transaction-tab {
-            flex: 1;
-            text-align: center;
-            padding: 8px;
-            border-radius: 8px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        
-        .transaction-tab.active {
-            background-color: var(--secondary);
-            color: var(--dark);
-        }
-        
         .transaction-list {
             max-height: 300px;
             overflow-y: auto;
@@ -747,6 +726,10 @@
             justify-content: space-between;
             padding: 10px 0;
             border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .transaction-type {
+            font-weight: bold;
         }
         
         .transaction-amount.positive {
@@ -765,10 +748,14 @@
             margin-bottom: 20px;
         }
         
+        .message-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
         .message-item {
-            padding: 15px;
+            padding: 10px 0;
             border-bottom: 1px solid rgba(255,255,255,0.1);
-            cursor: pointer;
         }
         
         .message-header {
@@ -783,12 +770,11 @@
         
         .message-time {
             font-size: 12px;
-            opacity: 0.7;
+            opacity: 0.8;
         }
         
-        .message-preview {
+        .message-content {
             font-size: 14px;
-            opacity: 0.8;
         }
         
         /* Hidden class for toggling screens */
@@ -820,8 +806,15 @@
             font-size: 16px;
         }
         
+        /* Chart Container */
+        .chart-container {
+            width: 100%;
+            height: 200px;
+            margin-top: 15px;
+        }
+        
         /* Loading Spinner */
-        .loading {
+        .loading-spinner {
             display: inline-block;
             width: 20px;
             height: 20px;
@@ -833,13 +826,6 @@
         
         @keyframes spin {
             to { transform: rotate(360deg); }
-        }
-        
-        /* Chart Container */
-        .chart-container {
-            width: 100%;
-            height: 200px;
-            margin-top: 15px;
         }
     </style>
 </head>
@@ -860,37 +846,13 @@
             </div>
             <button id="loginButton" class="auth-button">
                 <span id="loginButtonText">Login</span>
-                <span id="loginButtonSpinner" class="loading hidden"></span>
+                <span id="loginButtonSpinner" class="loading-spinner hidden"></span>
             </button>
             <div class="auth-link">
                 Don't have an account? <a href="#" id="showRegister">Register</a>
             </div>
             <div class="auth-link">
                 <a href="#" id="showAdminLogin">Login as Lord</a>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Admin Login Screen -->
-    <div id="adminLoginScreen" class="auth-screen hidden">
-        <div class="auth-logo">
-            <i class="fas fa-crown"></i> Lord Panel
-        </div>
-        <div class="auth-form">
-            <div class="form-group">
-                <label class="form-label">Admin Email</label>
-                <input type="email" id="adminEmail" class="form-input" placeholder="Enter admin email">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Password</label>
-                <input type="password" id="adminPassword" class="form-input" placeholder="Enter admin password">
-            </div>
-            <button id="adminLoginButton" class="auth-button">
-                <span id="adminLoginButtonText">Login as Lord</span>
-                <span id="adminLoginButtonSpinner" class="loading hidden"></span>
-            </button>
-            <div class="auth-link">
-                <a href="#" id="showUserLogin">Back to User Login</a>
             </div>
         </div>
     </div>
@@ -942,10 +904,34 @@
             </div>
             <button id="registerButton" class="auth-button">
                 <span id="registerButtonText">Create Account</span>
-                <span id="registerButtonSpinner" class="loading hidden"></span>
+                <span id="registerButtonSpinner" class="loading-spinner hidden"></span>
             </button>
             <div class="auth-link">
                 Already have an account? <a href="#" id="showLogin">Login</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Admin Login Screen -->
+    <div id="adminLoginScreen" class="auth-screen hidden">
+        <div class="auth-logo">
+            <i class="fas fa-crown"></i> Lord Panel
+        </div>
+        <div class="auth-form">
+            <div class="form-group">
+                <label class="form-label">Admin Email</label>
+                <input type="email" id="adminEmail" class="form-input" placeholder="Enter admin email">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" id="adminPassword" class="form-input" placeholder="Enter admin password">
+            </div>
+            <button id="adminLoginButton" class="auth-button">
+                <span id="adminLoginButtonText">Login as Lord</span>
+                <span id="adminLoginButtonSpinner" class="loading-spinner hidden"></span>
+            </button>
+            <div class="auth-link">
+                <a href="#" id="showUserLogin">Back to User Login</a>
             </div>
         </div>
     </div>
@@ -978,8 +964,12 @@
                         <div class="stat-value" id="usdValue">$0.00</div>
                     </div>
                     <div class="stat-item">
-                        <div>Coin Price</div>
-                        <div class="stat-value" id="coinPrice">$1.01</div>
+                        <div>Free Bets</div>
+                        <div class="stat-value" id="freeBets">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div>Referrals</div>
+                        <div class="stat-value" id="referralsCount">0</div>
                     </div>
                 </div>
             </div>
@@ -988,14 +978,14 @@
             <div class="nav-tabs">
                 <div class="nav-tab active" data-tab="games">Games</div>
                 <div class="nav-tab" data-tab="transfer">Transfer</div>
-                <div class="nav-tab" data-tab="transactions">Transactions</div>
+                <div class="nav-tab" data-tab="history">History</div>
                 <div class="nav-tab" data-tab="profile">Profile</div>
             </div>
             
             <!-- Games Section -->
             <div id="gamesSection" class="tab-content">
                 <div class="section-header">
-                    <div class="section-title">Popular Games</div>
+                    <div class="section-title">Casino Games</div>
                 </div>
                 
                 <div class="games-grid">
@@ -1007,8 +997,8 @@
                 
                 <div class="promo-banner">
                     <div class="promo-title">CLAIM FREE BETS</div>
-                    <div class="promo-subtitle">WORTH NGN 6,500,000 WEEKLY</div>
-                    <button class="promo-button">PLAY NOW</button>
+                    <div class="promo-subtitle">GET 3 FREE SEE COINS ON SIGNUP</div>
+                    <button class="promo-button" id="claimBonusBtn">CLAIM NOW</button>
                 </div>
             </div>
             
@@ -1025,7 +1015,7 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label">Amount (Min. 1 SEE)</label>
-                        <input type="number" id="transferAmount" class="form-input" placeholder="Enter amount">
+                        <input type="number" id="transferAmount" class="form-input" placeholder="Enter amount" min="1">
                     </div>
                     <div class="form-group">
                         <label class="form-label">4-Digit PIN</label>
@@ -1035,20 +1025,13 @@
                 </div>
             </div>
             
-            <!-- Transactions Section -->
-            <div id="transactionsSection" class="tab-content hidden">
+            <!-- History Section -->
+            <div id="historySection" class="tab-content hidden">
                 <div class="section-header">
                     <div class="section-title">Transaction History</div>
                 </div>
                 
                 <div class="transaction-section">
-                    <div class="transaction-tabs">
-                        <div class="transaction-tab active" data-transaction-tab="all">All</div>
-                        <div class="transaction-tab" data-transaction-tab="deposit">Deposits</div>
-                        <div class="transaction-tab" data-transaction-tab="withdrawal">Withdrawals</div>
-                        <div class="transaction-tab" data-transaction-tab="game">Games</div>
-                    </div>
-                    
                     <div class="transaction-list" id="transactionList">
                         <!-- Transactions will be listed here -->
                     </div>
@@ -1083,21 +1066,17 @@
                         </div>
                     </div>
                     
-                    <div class="chart-container">
-                        <canvas id="priceChart"></canvas>
+                    <div class="form-group">
+                        <label class="form-label">Your Referral Code</label>
+                        <input type="text" class="form-input" id="userReferralCode" readonly>
                     </div>
+                    <button class="auth-button" style="margin-top: 10px;" id="copyReferralBtn">Copy Referral Code</button>
                 </div>
                 
                 <div class="referral-section">
                     <div class="section-header">
                         <div class="section-title">Your Referrals</div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Your Referral Code</label>
-                        <input type="text" class="form-input" id="userReferralCode" readonly>
-                    </div>
-                    <button class="auth-button" style="margin-top: 10px;" id="copyReferralBtn">Copy Referral Code</button>
-                    
                     <div class="referral-list" id="referralList">
                         <!-- Referrals will be listed here -->
                     </div>
@@ -1106,12 +1085,30 @@
                 
                 <div class="profile-section">
                     <div class="section-header">
-                        <div class="section-title">Account Settings</div>
+                        <div class="section-title">Change PIN</div>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Change PIN</label>
-                        <input type="password" class="form-input" placeholder="Enter new 4-digit PIN" maxlength="4">
+                        <label class="form-label">Current PIN</label>
+                        <input type="password" id="currentPin" class="form-input" placeholder="Enter current PIN" maxlength="4">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">New PIN</label>
+                        <input type="password" id="newPin" class="form-input" placeholder="Enter new 4-digit PIN" maxlength="4">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Confirm New PIN</label>
+                        <input type="password" id="confirmNewPin" class="form-input" placeholder="Confirm new PIN" maxlength="4">
+                    </div>
+                    <button class="auth-button" id="changePinButton">Change PIN</button>
+                </div>
+                
+                <div class="profile-section">
+                    <div class="section-header">
+                        <div class="section-title">Price Chart</div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="priceChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -1131,7 +1128,7 @@
                 <div class="nav-icon"><i class="fas fa-exchange-alt"></i></div>
                 <div>Transfer</div>
             </div>
-            <div class="nav-item" data-nav="transactions">
+            <div class="nav-item" data-nav="history">
                 <div class="nav-icon"><i class="fas fa-history"></i></div>
                 <div>History</div>
             </div>
@@ -1165,7 +1162,7 @@
                 </div>
                 <div class="mines-setting">
                     <div class="mines-setting-label">Bet Amount</div>
-                    <div class="mines-setting-value" id="minesBetAmountDisplay">0.20 SEE</div>
+                    <div class="mines-setting-value" id="minesBetAmountDisplay">1.00 SEE</div>
                     <div class="mines-setting-controls">
                         <button class="mines-control-btn" id="decreaseBet">-</button>
                         <button class="mines-control-btn" id="increaseBet">+</button>
@@ -1174,8 +1171,8 @@
             </div>
             
             <div class="game-area">
-                <div class="mines-multiplier-display" id="minesMultiplier">Multiplier: 1.00x</div>
-                <div class="mines-cashout-amount" id="minesCashoutAmount">Cashout: 0.00 SEE</div>
+                <div class="mines-multiplier-display" id="minesMultiplierDisplay">Multiplier: 1.00x</div>
+                <div class="mines-cashout-display" id="minesCashoutDisplay">Cashout: 1.00 SEE</div>
                 <div class="mines-grid" id="minesGrid">
                     <!-- Mines grid will be generated here -->
                 </div>
@@ -1226,7 +1223,7 @@
                 <button class="admin-action" id="addCoinsBtn">Add Coins to User</button>
                 <button class="admin-action" id="banUserBtn">Ban User</button>
                 <button class="admin-action" id="messageUserBtn">Message User</button>
-                <button class="admin-action" id="setPriceBtn">Set Coin Price</button>
+                <button class="admin-action" id="setPriceBtn">Set SEE Price</button>
             </div>
             
             <div class="section-header">
@@ -1277,7 +1274,7 @@
         const logoutButton = document.getElementById('logoutButton');
         const adminLogoutButton = document.getElementById('adminLogoutButton');
         
-        // Navigation
+        // Navigation links
         const showRegister = document.getElementById('showRegister');
         const showLogin = document.getElementById('showLogin');
         const showAdminLogin = document.getElementById('showAdminLogin');
@@ -1286,8 +1283,8 @@
         // Game elements
         const minesPlayButton = document.getElementById('minesPlayButton');
         const minesCashoutButton = document.getElementById('minesCashoutButton');
-        const minesCashoutAmount = document.getElementById('minesCashoutAmount');
-        const minesMultiplier = document.getElementById('minesMultiplier');
+        const minesCashoutDisplay = document.getElementById('minesCashoutDisplay');
+        const minesMultiplierDisplay = document.getElementById('minesMultiplierDisplay');
         const minesGrid = document.getElementById('minesGrid');
         const minesBackBtn = document.getElementById('minesBackBtn');
         const minesCount = document.getElementById('minesCount');
@@ -1313,9 +1310,10 @@
         const copyReferralBtn = document.getElementById('copyReferralBtn');
         const referralList = document.getElementById('referralList');
         const claimReferralBtn = document.getElementById('claimReferralBtn');
-        
-        // Transaction elements
-        const transactionList = document.getElementById('transactionList');
+        const changePinButton = document.getElementById('changePinButton');
+        const currentPin = document.getElementById('currentPin');
+        const newPin = document.getElementById('newPin');
+        const confirmNewPin = document.getElementById('confirmNewPin');
         
         // Admin elements
         const addCoinsBtn = document.getElementById('addCoinsBtn');
@@ -1324,6 +1322,14 @@
         const setPriceBtn = document.getElementById('setPriceBtn');
         const usersList = document.getElementById('usersList');
         
+        // Other elements
+        const claimBonusBtn = document.getElementById('claimBonusBtn');
+        const transactionList = document.getElementById('transactionList');
+        const winningUsers = document.getElementById('winningUsers');
+        const usdValue = document.getElementById('usdValue');
+        const freeBets = document.getElementById('freeBets');
+        const referralsCount = document.getElementById('referralsCount');
+        
         // App state
         let currentUser = null;
         let isAdmin = false;
@@ -1331,17 +1337,17 @@
         let currentGame = null;
         let gameIntervals = {};
         let adminVaultBalance = 50000000000; // 50B SEE
-        let coinPrice = 1.01; // Default coin price
+        let seePrice = 1.01; // Default SEE price
         
         // Mines game state
         let minesGameState = {
-            betAmount: 0.20,
+            betAmount: 1.00,
             minesCount: 3,
             grid: [],
             revealed: [],
             gameActive: false,
-            multiplier: 1.0,
-            totalTiles: 25
+            cashoutMultiplier: 1.0,
+            multiplierHistory: [1.0]
         };
         
         // Price chart
@@ -1369,18 +1375,15 @@
             screen.classList.remove('hidden');
         }
         
-        // Show loading state
-        function showLoading(button, textElement, spinner) {
-            textElement.classList.add('hidden');
-            spinner.classList.remove('hidden');
-            button.disabled = true;
+        // Show loading state for buttons
+        function showLoading(buttonText, buttonSpinner) {
+            buttonText.classList.add('hidden');
+            buttonSpinner.classList.remove('hidden');
         }
         
-        // Hide loading state
-        function hideLoading(button, textElement, spinner) {
-            textElement.classList.remove('hidden');
-            spinner.classList.add('hidden');
-            button.disabled = false;
+        function hideLoading(buttonText, buttonSpinner) {
+            buttonText.classList.remove('hidden');
+            buttonSpinner.classList.add('hidden');
         }
         
         // Navigation Functions
@@ -1420,9 +1423,9 @@
                 case 'transfer':
                     switchTab('transfer');
                     break;
-                case 'transactions':
-                    switchTab('transactions');
-                    loadTransactions();
+                case 'history':
+                    switchTab('history');
+                    loadTransactionHistory();
                     break;
                 case 'profile':
                     switchTab('profile');
@@ -1437,10 +1440,14 @@
             
             profileUserName.textContent = currentUser.name || 'User Name';
             profileUserEmail.textContent = currentUser.email || 'user@example.com';
-            userReferralCode.value = currentUser.referralCode || 'SEE12345';
+            profileGamesPlayed.textContent = currentUser.gamesPlayed || 0;
+            profileWins.textContent = currentUser.wins || 0;
+            profileReferrals.textContent = currentUser.referrals ? currentUser.referrals.length : 0;
+            userReferralCode.value = currentUser.referralCode || 'SEE00000';
             
             // Update referral button
             const referralCount = currentUser.referrals ? currentUser.referrals.length : 0;
+            referralsCount.textContent = referralCount;
             claimReferralBtn.textContent = `Claim Referral Bonus (${referralCount}/10)`;
             claimReferralBtn.disabled = referralCount < 10;
             
@@ -1461,7 +1468,7 @@
                     <div style="text-align: center; padding: 20px; opacity: 0.7;">
                         <i class="fas fa-user-friends" style="font-size: 40px; margin-bottom: 10px;"></i>
                         <div>No referrals yet</div>
-                        <div style="font-size: 12px; margin-top: 5px;">Share your code to earn 3 SEE for each referral</div>
+                        <div style="font-size: 12px; margin-top: 5px;">Share your code to earn 3 SEE for every referral</div>
                     </div>
                 `;
             } else {
@@ -1481,21 +1488,29 @@
         function updatePriceChart() {
             const ctx = document.getElementById('priceChart').getContext('2d');
             
+            // Generate sample price data
+            const labels = [];
+            const data = [];
+            let currentPrice = seePrice;
+            
+            for (let i = 0; i < 24; i++) {
+                labels.push(`${i}:00`);
+                // Simulate price fluctuations
+                currentPrice += (Math.random() - 0.5) * 0.02;
+                data.push(currentPrice);
+            }
+            
             if (priceChart) {
                 priceChart.destroy();
             }
-            
-            // Generate sample price data
-            const prices = [1.00, 1.01, 1.02, 1.00, 0.99, 1.01, 1.03, 1.02, 1.01, 1.00];
-            const labels = prices.map((_, i) => `Day ${i + 1}`);
             
             priceChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'SEE Coin Price ($)',
-                        data: prices,
+                        label: 'SEE Price ($)',
+                        data: data,
                         borderColor: '#00b0ff',
                         backgroundColor: 'rgba(0, 176, 255, 0.1)',
                         borderWidth: 2,
@@ -1541,113 +1556,112 @@
             return 'SEE' + Math.random().toString(36).substring(2, 8).toUpperCase();
         }
         
-        // Update balance display
+        // Update user balance display
         function updateBalance() {
             document.getElementById('userBalance').textContent = `${userBalance.toFixed(2)} SEE`;
-            document.getElementById('usdValue').textContent = `$${(userBalance * coinPrice).toFixed(2)}`;
-            document.getElementById('coinPrice').textContent = `$${coinPrice.toFixed(2)}`;
+            document.getElementById('minesBalance').textContent = `${userBalance.toFixed(2)} SEE`;
             
-            document.querySelectorAll('.game-balance').forEach(el => {
-                el.textContent = `${userBalance.toFixed(2)} SEE`;
-            });
+            // Update USD value
+            const usdAmount = (userBalance * seePrice).toFixed(2);
+            usdValue.textContent = `$${usdAmount}`;
             
             // Update vault balance in admin panel
             document.getElementById('vaultBalance').textContent = `${adminVaultBalance.toLocaleString()} SEE`;
         }
         
         // Record transaction
-        function recordTransaction(type, amount, description, recipient = null) {
+        async function recordTransaction(type, category, amount, description) {
             if (!currentUser) return;
             
             const transaction = {
                 type: type,
+                category: category,
                 amount: amount,
                 description: description,
                 timestamp: new Date(),
-                recipient: recipient,
                 userId: currentUser.uid
             };
             
-            // Save to Firestore
-            db.collection('transactions').add(transaction)
-                .then(() => {
-                    console.log('Transaction recorded');
-                })
-                .catch(error => {
-                    console.error('Error recording transaction:', error);
-                });
-        }
-        
-        // Load transactions
-        function loadTransactions() {
-            if (!currentUser) return;
-            
-            transactionList.innerHTML = '<div style="text-align: center; padding: 20px; opacity: 0.7;">Loading transactions...</div>';
-            
-            db.collection('transactions')
-                .where('userId', '==', currentUser.uid)
-                .orderBy('timestamp', 'desc')
-                .limit(20)
-                .get()
-                .then(snapshot => {
-                    transactionList.innerHTML = '';
-                    
-                    if (snapshot.empty) {
-                        transactionList.innerHTML = '<div style="text-align: center; padding: 20px; opacity: 0.7;">No transactions yet</div>';
-                        return;
-                    }
-                    
-                    snapshot.forEach(doc => {
-                        const transaction = doc.data();
-                        const transactionItem = document.createElement('div');
-                        transactionItem.className = 'transaction-item';
-                        
-                        const amountClass = transaction.amount >= 0 ? 'positive' : 'negative';
-                        const amountSign = transaction.amount >= 0 ? '+' : '';
-                        
-                        transactionItem.innerHTML = `
-                            <div>
-                                <div style="font-weight: bold;">${transaction.description}</div>
-                                <div style="font-size: 12px; opacity: 0.7;">${transaction.timestamp.toDate().toLocaleString()}</div>
-                            </div>
-                            <div class="transaction-amount ${amountClass}">${amountSign}${transaction.amount.toFixed(2)} SEE</div>
-                        `;
-                        
-                        transactionList.appendChild(transactionItem);
+            try {
+                await db.collection('transactions').add(transaction);
+                
+                // Update user stats
+                if (type === 'casino') {
+                    await db.collection('users').doc(currentUser.uid).update({
+                        gamesPlayed: firebase.firestore.FieldValue.increment(1),
+                        wins: category === 'win' ? firebase.firestore.FieldValue.increment(1) : firebase.firestore.FieldValue.increment(0)
                     });
-                })
-                .catch(error => {
-                    console.error('Error loading transactions:', error);
-                    transactionList.innerHTML = '<div style="text-align: center; padding: 20px; opacity: 0.7;">Error loading transactions</div>';
-                });
-        }
-        
-        // Game Functions
-        function startGame(gameName) {
-            currentGame = gameName;
-            appScreen.classList.add('hidden');
-            document.getElementById(`${gameName}Game`).classList.remove('hidden');
-            gameScreens.classList.remove('hidden');
-            
-            // Update game balance
-            document.querySelectorAll('.game-balance').forEach(el => {
-                el.textContent = `${userBalance.toFixed(2)} SEE`;
-            });
-            
-            // Initialize specific game
-            if (gameName === 'mines') {
-                initializeMinesGame();
+                }
+                
+                // Reload transaction history
+                loadTransactionHistory();
+            } catch (error) {
+                console.error('Error recording transaction:', error);
             }
         }
         
-        function exitGame() {
-            gameScreens.classList.add('hidden');
-            appScreen.classList.remove('hidden');
-            currentGame = null;
+        // Load transaction history
+        async function loadTransactionHistory() {
+            if (!currentUser) return;
             
-            // Clear any game intervals
-            Object.values(gameIntervals).forEach(interval => clearInterval(interval));
-            gameIntervals = {};
+            try {
+                const snapshot = await db.collection('transactions')
+                    .where('userId', '==', currentUser.uid)
+                    .orderBy('timestamp', 'desc')
+                    .limit(20)
+                    .get();
+                
+                transactionList.innerHTML = '';
+                
+                if (snapshot.empty) {
+                    transactionList.innerHTML = `
+                        <div style="text-align: center; padding: 20px; opacity: 0.7;">
+                            <i class="fas fa-history" style="font-size: 40px; margin-bottom: 10px;"></i>
+                            <div>No transactions yet</div>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                snapshot.forEach(doc => {
+                    const transaction = doc.data();
+                    const transactionItem = document.createElement('div');
+                    transactionItem.className = 'transaction-item';
+                    
+                    const amountClass = transaction.amount >= 0 ? 'positive' : 'negative';
+                    const amountSign = transaction.amount >= 0 ? '+' : '';
+                    
+                    transactionItem.innerHTML = `
+                        <div>
+                            <div class="transaction-type">${transaction.type} - ${transaction.category}</div>
+                            <div style="font-size: 12px; opacity: 0.8;">${transaction.description}</div>
+                            <div style="font-size: 12px; opacity: 0.6;">${transaction.timestamp.toDate().toLocaleString()}</div>
+                        </div>
+                        <div class="transaction-amount ${amountClass}">${amountSign}${transaction.amount.toFixed(2)} SEE</div>
+                    `;
+                    
+                    transactionList.appendChild(transactionItem);
+                });
+            } catch (error) {
+                console.error('Error loading transactions:', error);
+            }
+        }
+        
+        // Update winning users display
+        function updateWinningUsers(name, amount) {
+            const userElement = document.createElement('div');
+            userElement.className = 'winning-user';
+            userElement.innerHTML = `
+                <i class="fas fa-trophy"></i>
+                <span>${name} won ${amount.toFixed(2)} SEE</span>
+            `;
+            
+            winningUsers.appendChild(userElement);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                userElement.remove();
+            }, 5000);
         }
         
         // Mines Game Logic
@@ -1655,7 +1669,7 @@
             minesBetAmountDisplay.textContent = `${minesGameState.betAmount.toFixed(2)} SEE`;
             minesCount.textContent = minesGameState.minesCount;
             generateMinesGrid();
-            updateMinesMultiplier();
+            updateMinesCashout();
         }
         
         function generateMinesGrid() {
@@ -1663,7 +1677,8 @@
             minesGameState.grid = [];
             minesGameState.revealed = [];
             minesGameState.gameActive = false;
-            minesGameState.multiplier = 1.0;
+            minesGameState.cashoutMultiplier = 1.0;
+            minesGameState.multiplierHistory = [1.0];
             
             // Create 5x5 grid
             for (let i = 0; i < 25; i++) {
@@ -1689,21 +1704,23 @@
             
             minesPlayButton.disabled = false;
             minesCashoutButton.disabled = true;
-            updateMinesMultiplier();
+            minesMultiplierDisplay.textContent = 'Multiplier: 1.00x';
         }
         
-        function updateMinesMultiplier() {
-            if (minesGameState.revealed.length === 0) {
-                minesGameState.multiplier = 1.0;
-            } else {
-                // Calculate multiplier based on formula: multiplier = (total tiles / safe tiles remaining)
-                const safeTilesRemaining = 25 - minesGameState.minesCount - minesGameState.revealed.length;
-                minesGameState.multiplier = 25 / (25 - minesGameState.minesCount) * 
-                    (25 - minesGameState.revealed.length) / safeTilesRemaining;
+        function calculateMinesMultiplier(safeTilesRevealed) {
+            const totalTiles = 25;
+            const mines = minesGameState.minesCount;
+            const safeTiles = totalTiles - mines;
+            
+            if (safeTilesRevealed === 0) return 1.0;
+            
+            // Calculate multiplier using the formula
+            let multiplier = 1.0;
+            for (let i = 0; i < safeTilesRevealed; i++) {
+                multiplier *= (totalTiles - i) / (safeTiles - i);
             }
             
-            minesMultiplier.textContent = `Multiplier: ${minesGameState.multiplier.toFixed(2)}x`;
-            minesCashoutAmount.textContent = `Cashout: ${(minesGameState.betAmount * minesGameState.multiplier).toFixed(2)} SEE`;
+            return parseFloat(multiplier.toFixed(2));
         }
         
         function revealMineCell(index) {
@@ -1733,7 +1750,7 @@
                 }
                 
                 // Record transaction
-                recordTransaction('game', -minesGameState.betAmount, 'Mines game loss');
+                recordTransaction('casino', 'loss', -minesGameState.betAmount, 'Mines game loss');
                 
                 setTimeout(() => {
                     alert('Game Over! You hit a mine.');
@@ -1744,8 +1761,12 @@
                 cell.innerHTML = '💎';
                 cell.classList.add('gem');
                 
-                // Update multiplier
-                updateMinesMultiplier();
+                // Calculate and update multiplier
+                const safeTilesRevealed = minesGameState.revealed.filter(i => minesGameState.grid[i] === 'gem').length;
+                minesGameState.cashoutMultiplier = calculateMinesMultiplier(safeTilesRevealed);
+                minesGameState.multiplierHistory.push(minesGameState.cashoutMultiplier);
+                
+                updateMinesCashout();
                 
                 // Check if all gems are found
                 const totalGems = 25 - minesGameState.minesCount;
@@ -1756,7 +1777,13 @@
             }
         }
         
-        function startMinesGame() {
+        function updateMinesCashout() {
+            const cashoutAmount = (minesGameState.betAmount * minesGameState.cashoutMultiplier).toFixed(2);
+            minesCashoutDisplay.textContent = `Cashout: ${cashoutAmount} SEE`;
+            minesMultiplierDisplay.textContent = `Multiplier: ${minesGameState.cashoutMultiplier.toFixed(2)}x`;
+        }
+        
+        async function startMinesGame() {
             if (userBalance < minesGameState.betAmount) {
                 alert('Insufficient balance!');
                 return;
@@ -1770,12 +1797,16 @@
             minesGameState.gameActive = true;
             minesPlayButton.disabled = true;
             minesCashoutButton.disabled = false;
-            minesGameState.multiplier = 1.0;
-            updateMinesMultiplier();
+            minesGameState.cashoutMultiplier = 1.0;
+            minesGameState.multiplierHistory = [1.0];
+            updateMinesCashout();
+            
+            // Record transaction
+            await recordTransaction('casino', 'bet', -minesGameState.betAmount, 'Mines game bet');
         }
         
-        function cashoutMines() {
-            const winAmount = minesGameState.betAmount * minesGameState.multiplier;
+        async function cashoutMines() {
+            const winAmount = minesGameState.betAmount * minesGameState.cashoutMultiplier;
             
             // Check if vault has enough funds
             if (adminVaultBalance < winAmount) {
@@ -1793,15 +1824,30 @@
             minesGameState.gameActive = false;
             
             // Record transaction
-            recordTransaction('game', winAmount - minesGameState.betAmount, `Mines win with ${minesGameState.multiplier.toFixed(2)}x multiplier`);
+            await recordTransaction('casino', 'win', winAmount - minesGameState.betAmount, `Mines win with ${minesGameState.cashoutMultiplier.toFixed(2)}x multiplier`);
             
             // Update winning users display
             updateWinningUsers(currentUser.name, winAmount - minesGameState.betAmount);
             
+            // Reveal all tiles
+            for (let i = 0; i < 25; i++) {
+                if (!minesGameState.revealed.includes(i)) {
+                    const cell = minesGrid.children[i];
+                    cell.classList.add('revealed');
+                    if (minesGameState.grid[i] === 'mine') {
+                        cell.innerHTML = '💣';
+                        cell.classList.add('mine');
+                    } else {
+                        cell.innerHTML = '💎';
+                        cell.classList.add('gem');
+                    }
+                }
+            }
+            
             setTimeout(() => {
                 alert(`You cashed out ${winAmount.toFixed(2)} SEE!`);
                 initializeMinesGame();
-            }, 1000);
+            }, 2000);
         }
         
         // Mines controls
@@ -1822,171 +1868,50 @@
         });
         
         decreaseBet.addEventListener('click', () => {
-            if (minesGameState.betAmount > 0.20) {
-                minesGameState.betAmount -= 0.10;
+            if (minesGameState.betAmount > 1.00) {
+                minesGameState.betAmount -= 1.00;
                 minesBetAmountDisplay.textContent = `${minesGameState.betAmount.toFixed(2)} SEE`;
-                updateMinesMultiplier();
+                updateMinesCashout();
             }
         });
         
         increaseBet.addEventListener('click', () => {
-            if (minesGameState.betAmount < userBalance) {
-                minesGameState.betAmount += 0.10;
+            if (minesGameState.betAmount < 100.00) {
+                minesGameState.betAmount += 1.00;
                 minesBetAmountDisplay.textContent = `${minesGameState.betAmount.toFixed(2)} SEE`;
-                updateMinesMultiplier();
+                updateMinesCashout();
             }
         });
         
-        // Update winning users display
-        function updateWinningUsers(name, amount) {
-            const winningUsers = document.getElementById('winningUsers');
-            const userElement = document.createElement('div');
-            userElement.className = 'winning-user';
-            userElement.innerHTML = `
-                <i class="fas fa-trophy"></i>
-                <span>${name} won ${amount.toFixed(2)} SEE</span>
-            `;
+        // Game Functions
+        function startGame(gameName) {
+            currentGame = gameName;
+            appScreen.classList.add('hidden');
+            document.getElementById(`${gameName}Game`).classList.remove('hidden');
+            gameScreens.classList.remove('hidden');
             
-            winningUsers.appendChild(userElement);
+            // Update game balance
+            document.getElementById('minesBalance').textContent = `${userBalance.toFixed(2)} SEE`;
             
-            // Remove after 5 seconds
-            setTimeout(() => {
-                userElement.remove();
-            }, 5000);
-        }
-        
-        // Load all users for admin panel
-        function loadAllUsers() {
-            if (!isAdmin) return;
-            
-            usersList.innerHTML = '<div style="text-align: center; padding: 20px; opacity: 0.7;">Loading users...</div>';
-            
-            db.collection('users').get()
-                .then(snapshot => {
-                    usersList.innerHTML = '';
-                    
-                    if (snapshot.empty) {
-                        usersList.innerHTML = '<div style="text-align: center; padding: 20px; opacity: 0.7;">No users registered yet</div>';
-                        return;
-                    }
-                    
-                    let totalBalance = 0;
-                    snapshot.forEach(doc => {
-                        const user = doc.data();
-                        totalBalance += user.balance || 0;
-                        
-                        const userItem = document.createElement('div');
-                        userItem.className = 'user-item';
-                        userItem.innerHTML = `
-                            <div class="user-info">
-                                <div class="user-name">${user.name}</div>
-                                <div class="user-email">${user.email}</div>
-                            </div>
-                            <div class="user-balance">${(user.balance || 0).toFixed(2)} SEE</div>
-                            <div class="user-actions">
-                                <button class="user-action" title="Add Coins" data-email="${user.email}">
-                                    <i class="fas fa-coins"></i>
-                                </button>
-                                <button class="user-action" title="Ban User" data-email="${user.email}">
-                                    <i class="fas fa-ban"></i>
-                                </button>
-                                <button class="user-action" title="Message User" data-email="${user.email}">
-                                    <i class="fas fa-envelope"></i>
-                                </button>
-                            </div>
-                        `;
-                        
-                        usersList.appendChild(userItem);
-                    });
-                    
-                    // Update admin stats
-                    document.getElementById('totalUsers').textContent = snapshot.size;
-                    document.getElementById('totalBalance').textContent = `${totalBalance.toFixed(2)} SEE`;
-                })
-                .catch(error => {
-                    console.error('Error loading users:', error);
-                    usersList.innerHTML = '<div style="text-align: center; padding: 20px; opacity: 0.7;">Error loading users</div>';
-                });
-        }
-        
-        // Add coins to user (admin function)
-        function addCoinsToUser(email) {
-            const amount = parseFloat(prompt(`Enter amount of SEE to add to ${email}:`));
-            if (!amount || isNaN(amount) || amount <= 0) {
-                alert('Invalid amount!');
-                return;
+            // Initialize specific game
+            if (gameName === 'mines') {
+                initializeMinesGame();
             }
-            
-            // Check if vault has enough funds
-            if (adminVaultBalance < amount) {
-                alert('Insufficient funds in vault!');
-                return;
-            }
-            
-            // Find user and update balance
-            db.collection('users').where('email', '==', email).get()
-                .then(snapshot => {
-                    if (snapshot.empty) {
-                        alert('User not found!');
-                        return;
-                    }
-                    
-                    const userDoc = snapshot.docs[0];
-                    const user = userDoc.data();
-                    const newBalance = (user.balance || 0) + amount;
-                    
-                    // Update user balance
-                    db.collection('users').doc(userDoc.id).update({
-                        balance: newBalance
-                    })
-                    .then(() => {
-                        // Update vault balance
-                        adminVaultBalance -= amount;
-                        updateBalance();
-                        
-                        // Record transaction for user
-                        db.collection('transactions').add({
-                            type: 'deposit',
-                            amount: amount,
-                            description: 'Admin credit',
-                            timestamp: new Date(),
-                            userId: userDoc.id
-                        });
-                        
-                        alert(`Added ${amount} SEE to ${email}`);
-                        loadAllUsers();
-                    })
-                    .catch(error => {
-                        console.error('Error updating user balance:', error);
-                        alert('Error adding coins to user');
-                    });
-                })
-                .catch(error => {
-                    console.error('Error finding user:', error);
-                    alert('Error finding user');
-                });
         }
         
-        // Set coin price (admin function)
-        function setCoinPrice() {
-            const newPrice = parseFloat(prompt('Enter new SEE coin price in USD:'));
-            if (!newPrice || isNaN(newPrice) || newPrice <= 0) {
-                alert('Invalid price!');
-                return;
-            }
-            
-            coinPrice = newPrice;
-            updateBalance();
-            alert(`Coin price updated to $${coinPrice.toFixed(2)}`);
+        function exitGame() {
+            gameScreens.classList.add('hidden');
+            appScreen.classList.remove('hidden');
+            currentGame = null;
         }
         
-        // Transfer coins between users
-        function transferCoins() {
-            const email = transferEmail.value.trim();
+        // Transfer function
+        async function transferCoins() {
+            const recipientEmail = transferEmail.value.trim();
             const amount = parseFloat(transferAmount.value);
             const pin = transferPin.value;
             
-            if (!email || !amount || !pin) {
+            if (!recipientEmail || !amount || !pin) {
                 alert('Please fill in all fields');
                 return;
             }
@@ -2006,70 +1931,396 @@
                 return;
             }
             
-            // Find recipient
-            db.collection('users').where('email', '==', email).get()
-                .then(snapshot => {
-                    if (snapshot.empty) {
-                        alert('Recipient not found');
-                        return;
-                    }
-                    
-                    const recipientDoc = snapshot.docs[0];
-                    const recipient = recipientDoc.data();
-                    
-                    if (recipient.banned) {
-                        alert('Cannot transfer to banned user');
-                        return;
-                    }
-                    
-                    // Update sender balance
-                    const newSenderBalance = userBalance - amount;
-                    db.collection('users').doc(currentUser.uid).update({
-                        balance: newSenderBalance
-                    })
-                    .then(() => {
-                        // Update recipient balance
-                        const newRecipientBalance = (recipient.balance || 0) + amount;
-                        db.collection('users').doc(recipientDoc.id).update({
-                            balance: newRecipientBalance
-                        })
-                        .then(() => {
-                            // Update local balance
-                            userBalance = newSenderBalance;
-                            updateBalance();
-                            
-                            // Record transactions
-                            recordTransaction('transfer', -amount, `Transfer to ${email}`, email);
-                            
-                            db.collection('transactions').add({
-                                type: 'transfer',
-                                amount: amount,
-                                description: `Transfer from ${currentUser.email}`,
-                                timestamp: new Date(),
-                                userId: recipientDoc.id
-                            });
-                            
-                            alert(`Successfully transferred ${amount} SEE to ${email}`);
-                            
-                            // Clear form
-                            transferEmail.value = '';
-                            transferAmount.value = '';
-                            transferPin.value = '';
-                        })
-                        .catch(error => {
-                            console.error('Error updating recipient balance:', error);
-                            alert('Error completing transfer');
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Error updating sender balance:', error);
-                        alert('Error processing transfer');
-                    });
-                })
-                .catch(error => {
-                    console.error('Error finding recipient:', error);
-                    alert('Error finding recipient');
+            try {
+                // Find recipient user
+                const usersSnapshot = await db.collection('users')
+                    .where('email', '==', recipientEmail)
+                    .get();
+                
+                if (usersSnapshot.empty) {
+                    alert('Recipient not found');
+                    return;
+                }
+                
+                const recipientDoc = usersSnapshot.docs[0];
+                const recipientData = recipientDoc.data();
+                
+                if (recipientData.banned) {
+                    alert('Cannot transfer to banned user');
+                    return;
+                }
+                
+                // Update balances
+                await db.collection('users').doc(currentUser.uid).update({
+                    balance: firebase.firestore.FieldValue.increment(-amount)
                 });
+                
+                await db.collection('users').doc(recipientDoc.id).update({
+                    balance: firebase.firestore.FieldValue.increment(amount)
+                });
+                
+                // Record transactions
+                const transaction = {
+                    type: 'transfer',
+                    category: 'outgoing',
+                    amount: -amount,
+                    description: `Transfer to ${recipientEmail}`,
+                    timestamp: new Date(),
+                    userId: currentUser.uid,
+                    recipientEmail: recipientEmail
+                };
+                
+                await db.collection('transactions').add(transaction);
+                
+                const recipientTransaction = {
+                    type: 'transfer',
+                    category: 'incoming',
+                    amount: amount,
+                    description: `Transfer from ${currentUser.email}`,
+                    timestamp: new Date(),
+                    userId: recipientDoc.id,
+                    senderEmail: currentUser.email
+                };
+                
+                await db.collection('transactions').add(recipientTransaction);
+                
+                // Update local balance
+                userBalance -= amount;
+                updateBalance();
+                
+                // Clear form
+                transferEmail.value = '';
+                transferAmount.value = '';
+                transferPin.value = '';
+                
+                alert(`Successfully transferred ${amount} SEE to ${recipientEmail}`);
+                
+                // Reload transaction history
+                loadTransactionHistory();
+            } catch (error) {
+                console.error('Error transferring coins:', error);
+                alert('Transfer failed. Please try again.');
+            }
+        }
+        
+        // Change PIN function
+        async function changePin() {
+            const currentPinValue = currentPin.value;
+            const newPinValue = newPin.value;
+            const confirmNewPinValue = confirmNewPin.value;
+            
+            if (!currentPinValue || !newPinValue || !confirmNewPinValue) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            if (currentPinValue !== currentUser.pin) {
+                alert('Current PIN is incorrect');
+                return;
+            }
+            
+            if (newPinValue !== confirmNewPinValue) {
+                alert('New PINs do not match');
+                return;
+            }
+            
+            if (newPinValue.length !== 4 || isNaN(newPinValue)) {
+                alert('PIN must be 4 digits');
+                return;
+            }
+            
+            try {
+                await db.collection('users').doc(currentUser.uid).update({
+                    pin: newPinValue
+                });
+                
+                currentUser.pin = newPinValue;
+                
+                // Clear form
+                currentPin.value = '';
+                newPin.value = '';
+                confirmNewPin.value = '';
+                
+                alert('PIN changed successfully');
+            } catch (error) {
+                console.error('Error changing PIN:', error);
+                alert('Failed to change PIN. Please try again.');
+            }
+        }
+        
+        // Claim referral bonus
+        async function claimReferralBonus() {
+            const referralCount = currentUser.referrals ? currentUser.referrals.length : 0;
+            
+            if (referralCount < 10) {
+                alert('You need at least 10 referrals to claim the bonus');
+                return;
+            }
+            
+            // Check if vault has enough funds
+            if (adminVaultBalance < 3) {
+                alert('Insufficient funds in vault!');
+                return;
+            }
+            
+            try {
+                // Transfer from vault to user
+                await db.collection('users').doc(currentUser.uid).update({
+                    balance: firebase.firestore.FieldValue.increment(3)
+                });
+                
+                // Update vault balance
+                adminVaultBalance -= 3;
+                
+                // Update local balance
+                userBalance += 3;
+                updateBalance();
+                
+                // Record transaction
+                await recordTransaction('referral', 'bonus', 3, 'Referral bonus');
+                
+                alert('Referral bonus of 3 SEE has been added to your account!');
+            } catch (error) {
+                console.error('Error claiming referral bonus:', error);
+                alert('Failed to claim bonus. Please try again.');
+            }
+        }
+        
+        // Claim signup bonus
+        async function claimSignupBonus() {
+            if (currentUser.bonusClaimed) {
+                alert('You have already claimed your signup bonus');
+                return;
+            }
+            
+            // Check if vault has enough funds
+            if (adminVaultBalance < 3) {
+                alert('Insufficient funds in vault!');
+                return;
+            }
+            
+            try {
+                // Transfer from vault to user
+                await db.collection('users').doc(currentUser.uid).update({
+                    balance: firebase.firestore.FieldValue.increment(3),
+                    bonusClaimed: true
+                });
+                
+                // Update vault balance
+                adminVaultBalance -= 3;
+                
+                // Update local balance
+                userBalance += 3;
+                updateBalance();
+                
+                // Record transaction
+                await recordTransaction('bonus', 'signup', 3, 'Signup bonus');
+                
+                alert('Signup bonus of 3 SEE has been added to your account!');
+                claimBonusBtn.disabled = true;
+            } catch (error) {
+                console.error('Error claiming signup bonus:', error);
+                alert('Failed to claim bonus. Please try again.');
+            }
+        }
+        
+        // Admin Functions
+        async function loadAdminPanel() {
+            try {
+                const usersSnapshot = await db.collection('users').get();
+                usersList.innerHTML = '';
+                
+                if (usersSnapshot.empty) {
+                    usersList.innerHTML = '<div style="text-align: center; padding: 20px; opacity: 0.7;">No users registered yet</div>';
+                    return;
+                }
+                
+                let totalUserBalance = 0;
+                let activeGamesCount = 0;
+                
+                usersSnapshot.forEach(doc => {
+                    const user = doc.data();
+                    totalUserBalance += user.balance || 0;
+                    
+                    const userItem = document.createElement('div');
+                    userItem.className = 'user-item';
+                    userItem.innerHTML = `
+                        <div class="user-info">
+                            <div class="user-name">${user.name} ${user.banned ? '(BANNED)' : ''}</div>
+                            <div class="user-email">${user.email}</div>
+                        </div>
+                        <div class="user-balance">${(user.balance || 0).toFixed(2)} SEE</div>
+                        <div class="user-actions">
+                            <button class="user-action" data-user-id="${doc.id}" data-user-email="${user.email}" title="Add Coins"><i class="fas fa-coins"></i></button>
+                            <button class="user-action" data-user-id="${doc.id}" data-user-email="${user.email}" title="${user.banned ? 'Unban' : 'Ban'} User"><i class="fas fa-ban"></i></button>
+                            <button class="user-action" data-user-id="${doc.id}" data-user-email="${user.email}" title="Message User"><i class="fas fa-envelope"></i></button>
+                        </div>
+                    `;
+                    usersList.appendChild(userItem);
+                });
+                
+                // Update admin stats
+                document.getElementById('totalUsers').textContent = usersSnapshot.size;
+                document.getElementById('totalBalance').textContent = `${totalUserBalance.toFixed(2)} SEE`;
+                document.getElementById('activeGames').textContent = activeGamesCount;
+                document.getElementById('vaultBalance').textContent = `${adminVaultBalance.toLocaleString()} SEE`;
+                
+                // Add event listeners to user action buttons
+                document.querySelectorAll('.user-action').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const userId = this.dataset.userId;
+                        const userEmail = this.dataset.userEmail;
+                        
+                        if (this.querySelector('.fa-coins')) {
+                            addCoinsToUser(userId, userEmail);
+                        } else if (this.querySelector('.fa-ban')) {
+                            toggleBanUser(userId, userEmail);
+                        } else if (this.querySelector('.fa-envelope')) {
+                            messageUser(userId, userEmail);
+                        }
+                    });
+                });
+            } catch (error) {
+                console.error('Error loading admin panel:', error);
+            }
+        }
+        
+        async function addCoinsToUser(userId, userEmail) {
+            const amount = parseFloat(prompt(`Enter amount of SEE to add to ${userEmail}:`));
+            if (!amount || isNaN(amount) || amount <= 0) {
+                alert('Invalid amount!');
+                return;
+            }
+            
+            // Check if vault has enough funds
+            if (adminVaultBalance < amount) {
+                alert('Insufficient funds in vault!');
+                return;
+            }
+            
+            try {
+                await db.collection('users').doc(userId).update({
+                    balance: firebase.firestore.FieldValue.increment(amount)
+                });
+                
+                // Update vault balance
+                adminVaultBalance -= amount;
+                document.getElementById('vaultBalance').textContent = `${adminVaultBalance.toLocaleString()} SEE`;
+                
+                // Record transaction
+                const transaction = {
+                    type: 'admin',
+                    category: 'credit',
+                    amount: amount,
+                    description: `Admin credit to ${userEmail}`,
+                    timestamp: new Date(),
+                    userId: userId,
+                    adminEmail: 'ebubechichukwu8@gmail.com'
+                };
+                
+                await db.collection('transactions').add(transaction);
+                
+                alert(`Added ${amount} SEE to ${userEmail}`);
+                
+                // Reload admin panel
+                loadAdminPanel();
+            } catch (error) {
+                console.error('Error adding coins:', error);
+                alert('Failed to add coins. Please try again.');
+            }
+        }
+        
+        async function toggleBanUser(userId, userEmail) {
+            try {
+                const userDoc = await db.collection('users').doc(userId).get();
+                const userData = userDoc.data();
+                const currentlyBanned = userData.banned || false;
+                
+                if (currentlyBanned) {
+                    await db.collection('users').doc(userId).update({
+                        banned: false
+                    });
+                    alert(`Unbanned ${userEmail}`);
+                } else {
+                    // If banning, transfer user's balance to vault
+                    if (userData.balance > 0) {
+                        adminVaultBalance += userData.balance;
+                        document.getElementById('vaultBalance').textContent = `${adminVaultBalance.toLocaleString()} SEE`;
+                    }
+                    
+                    await db.collection('users').doc(userId).update({
+                        banned: true,
+                        balance: 0
+                    });
+                    alert(`Banned ${userEmail} and transferred ${userData.balance} SEE to vault`);
+                }
+                
+                // Reload admin panel
+                loadAdminPanel();
+            } catch (error) {
+                console.error('Error toggling ban:', error);
+                alert('Failed to update user status. Please try again.');
+            }
+        }
+        
+        async function messageUser(userId, userEmail) {
+            const message = prompt(`Enter message to send to ${userEmail}:`);
+            if (!message) return;
+            
+            try {
+                const messageData = {
+                    from: 'admin',
+                    fromEmail: 'ebubechichukwu8@gmail.com',
+                    to: userId,
+                    toEmail: userEmail,
+                    message: message,
+                    timestamp: new Date(),
+                    read: false
+                };
+                
+                await db.collection('messages').add(messageData);
+                alert('Message sent successfully');
+            } catch (error) {
+                console.error('Error sending message:', error);
+                alert('Failed to send message. Please try again.');
+            }
+        }
+        
+        async function setSeePrice() {
+            const newPrice = parseFloat(prompt('Enter new SEE price in USD:'));
+            if (!newPrice || isNaN(newPrice) || newPrice <= 0) {
+                alert('Invalid price!');
+                return;
+            }
+            
+            seePrice = newPrice;
+            
+            try {
+                await db.collection('settings').doc('seePrice').set({
+                    price: seePrice,
+                    updatedAt: new Date(),
+                    updatedBy: 'ebubechichukwu8@gmail.com'
+                });
+                
+                alert(`SEE price set to $${seePrice}`);
+                updateBalance();
+            } catch (error) {
+                console.error('Error setting SEE price:', error);
+                alert('Failed to set price. Please try again.');
+            }
+        }
+        
+        // Load SEE price from Firebase
+        async function loadSeePrice() {
+            try {
+                const priceDoc = await db.collection('settings').doc('seePrice').get();
+                if (priceDoc.exists) {
+                    seePrice = priceDoc.data().price;
+                }
+                updateBalance();
+            } catch (error) {
+                console.error('Error loading SEE price:', error);
+            }
         }
         
         // Event Listeners for Navigation
@@ -2082,16 +2333,6 @@
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', () => {
                 switchBottomNav(item.dataset.nav);
-            });
-        });
-        
-        // Transaction tabs
-        document.querySelectorAll('.transaction-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                document.querySelectorAll('.transaction-tab').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-                // In a real app, you would filter transactions by type
-                loadTransactions();
             });
         });
         
@@ -2108,103 +2349,34 @@
         minesCashoutButton.addEventListener('click', cashoutMines);
         minesBackBtn.addEventListener('click', exitGame);
         
-        // Transfer
+        // Transfer controls
         transferButton.addEventListener('click', transferCoins);
         
-        // Copy referral code
+        // Profile controls
         copyReferralBtn.addEventListener('click', () => {
             userReferralCode.select();
             document.execCommand('copy');
             alert('Referral code copied to clipboard!');
         });
         
-        // Claim referral bonus
-        claimReferralBtn.addEventListener('click', () => {
-            if (currentUser.referrals && currentUser.referrals.length >= 10) {
-                // Check if vault has enough funds
-                if (adminVaultBalance < 3) {
-                    alert('Insufficient funds in vault!');
-                    return;
-                }
-                
-                // Update user balance
-                const newBalance = userBalance + 3;
-                db.collection('users').doc(currentUser.uid).update({
-                    balance: newBalance
-                })
-                .then(() => {
-                    // Update vault
-                    adminVaultBalance -= 3;
-                    
-                    // Update local balance
-                    userBalance = newBalance;
-                    updateBalance();
-                    
-                    // Record transaction
-                    recordTransaction('bonus', 3, 'Referral bonus');
-                    
-                    alert('Referral bonus of 3 SEE has been added to your account!');
-                })
-                .catch(error => {
-                    console.error('Error adding referral bonus:', error);
-                    alert('Error claiming referral bonus');
-                });
-            }
-        });
+        claimReferralBtn.addEventListener('click', claimReferralBonus);
+        changePinButton.addEventListener('click', changePin);
+        claimBonusBtn.addEventListener('click', claimSignupBonus);
         
-        // Admin user actions
-        usersList.addEventListener('click', (e) => {
-            if (e.target.closest('.user-action')) {
-                const button = e.target.closest('.user-action');
-                const email = button.dataset.email;
-                
-                if (button.querySelector('.fa-coins')) {
-                    addCoinsToUser(email);
-                } else if (button.querySelector('.fa-ban')) {
-                    if (confirm(`Are you sure you want to ban ${email}?`)) {
-                        // Ban user logic would go here
-                        alert('User banned successfully');
-                    }
-                } else if (button.querySelector('.fa-envelope')) {
-                    const message = prompt(`Enter message to send to ${email}:`);
-                    if (message) {
-                        // Send message logic would go here
-                        alert('Message sent successfully');
-                    }
-                }
-            }
-        });
-        
-        // Admin actions
+        // Admin controls
         addCoinsBtn.addEventListener('click', () => {
-            const email = prompt('Enter user email:');
-            if (email) {
-                addCoinsToUser(email);
-            }
+            // This will now use the user-specific buttons
         });
         
         banUserBtn.addEventListener('click', () => {
-            const email = prompt('Enter user email to ban:');
-            if (email) {
-                if (confirm(`Are you sure you want to ban ${email}?`)) {
-                    // Ban user logic would go here
-                    alert('User banned successfully');
-                }
-            }
+            // This will now use the user-specific buttons
         });
         
         messageUserBtn.addEventListener('click', () => {
-            const email = prompt('Enter user email:');
-            if (email) {
-                const message = prompt('Enter message:');
-                if (message) {
-                    // Send message logic would go here
-                    alert('Message sent successfully');
-                }
-            }
+            // This will now use the user-specific buttons
         });
         
-        setPriceBtn.addEventListener('click', setCoinPrice);
+        setPriceBtn.addEventListener('click', setSeePrice);
         
         // Auth Event Listeners
         showRegister.addEventListener('click', (e) => {
@@ -2228,7 +2400,7 @@
         });
         
         // Login function
-        loginButton.addEventListener('click', () => {
+        loginButton.addEventListener('click', async () => {
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             
@@ -2237,59 +2409,64 @@
                 return;
             }
             
-            showLoading(loginButton, loginButtonText, loginButtonSpinner);
+            showLoading(loginButtonText, loginButtonSpinner);
             
-            // Check if admin login
-            if (email === 'ebubechichukwu8@gmail.com' && password === 'Ebube@123') {
-                isAdmin = true;
-                showScreen(adminPanel);
-                loadAllUsers();
-                hideLoading(loginButton, loginButtonText, loginButtonSpinner);
-                return;
+            try {
+                // Check if admin login
+                if (email === 'ebubechichukwu8@gmail.com' && password === 'Ebube@123') {
+                    isAdmin = true;
+                    showScreen(adminPanel);
+                    await loadAdminPanel();
+                    await loadSeePrice();
+                    hideLoading(loginButtonText, loginButtonSpinner);
+                    return;
+                }
+                
+                // Regular user login with Firebase Auth
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                // Get user data from Firestore
+                const userDoc = await db.collection('users').doc(user.uid).get();
+                
+                if (!userDoc.exists) {
+                    alert('User data not found');
+                    hideLoading(loginButtonText, loginButtonSpinner);
+                    return;
+                }
+                
+                const userData = userDoc.data();
+                
+                if (userData.banned) {
+                    alert('Your account has been banned');
+                    await auth.signOut();
+                    hideLoading(loginButtonText, loginButtonSpinner);
+                    return;
+                }
+                
+                currentUser = {
+                    uid: user.uid,
+                    ...userData
+                };
+                
+                userBalance = userData.balance || 0;
+                
+                updateBalance();
+                updateProfile();
+                await loadTransactionHistory();
+                await loadSeePrice();
+                
+                showScreen(appScreen);
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Login failed: ' + error.message);
             }
             
-            // Firebase authentication
-            auth.signInWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    const user = userCredential.user;
-                    
-                    // Get user data from Firestore
-                    return db.collection('users').doc(user.uid).get();
-                })
-                .then((doc) => {
-                    if (doc.exists) {
-                        const userData = doc.data();
-                        
-                        if (userData.banned) {
-                            alert('Your account has been banned');
-                            auth.signOut();
-                            hideLoading(loginButton, loginButtonText, loginButtonSpinner);
-                            return;
-                        }
-                        
-                        currentUser = {
-                            uid: doc.id,
-                            ...userData
-                        };
-                        userBalance = userData.balance || 0;
-                        
-                        updateBalance();
-                        updateProfile();
-                        showScreen(appScreen);
-                    } else {
-                        alert('User data not found');
-                    }
-                    hideLoading(loginButton, loginButtonText, loginButtonSpinner);
-                })
-                .catch((error) => {
-                    console.error('Login error:', error);
-                    alert('Login failed: ' + error.message);
-                    hideLoading(loginButton, loginButtonText, loginButtonSpinner);
-                });
+            hideLoading(loginButtonText, loginButtonSpinner);
         });
         
         // Register function
-        registerButton.addEventListener('click', () => {
+        registerButton.addEventListener('click', async () => {
             const name = document.getElementById('registerName').value;
             const email = document.getElementById('registerEmail').value;
             const password = document.getElementById('registerPassword').value;
@@ -2319,42 +2496,92 @@
                 return;
             }
             
-            showLoading(registerButton, registerButtonText, registerButtonSpinner);
+            showLoading(registerButtonText, registerButtonSpinner);
             
-            // Firebase registration
-            auth.createUserWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    const user = userCredential.user;
-                    const referralCode = generateReferralCode();
+            try {
+                // Create user with Firebase Auth
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                // Generate referral code
+                const referralCodeGenerated = generateReferralCode();
+                
+                // Create user document in Firestore
+                const userData = {
+                    uid: user.uid,
+                    name: name,
+                    email: email,
+                    pin: pin,
+                    age: parseInt(age),
+                    country: country,
+                    balance: 0,
+                    referralCode: referralCodeGenerated,
+                    referrals: [],
+                    gamesPlayed: 0,
+                    wins: 0,
+                    bonusClaimed: false,
+                    banned: false,
+                    createdAt: new Date()
+                };
+                
+                await db.collection('users').doc(user.uid).set(userData);
+                
+                // Handle referral if provided
+                if (referralCode) {
+                    const referrerSnapshot = await db.collection('users')
+                        .where('referralCode', '==', referralCode)
+                        .get();
                     
-                    // Create user document in Firestore
-                    return db.collection('users').doc(user.uid).set({
-                        name: name,
-                        email: email,
-                        pin: pin,
-                        age: parseInt(age),
-                        country: country,
-                        balance: 0,
-                        referralCode: referralCode,
-                        referrals: [],
-                        banned: false,
-                        createdAt: new Date()
-                    });
-                })
-                .then(() => {
-                    alert('Registration successful! Please login.');
-                    showScreen(loginScreen);
-                    hideLoading(registerButton, registerButtonText, registerButtonSpinner);
-                })
-                .catch((error) => {
-                    console.error('Registration error:', error);
-                    alert('Registration failed: ' + error.message);
-                    hideLoading(registerButton, registerButtonText, registerButtonSpinner);
-                });
+                    if (!referrerSnapshot.empty) {
+                        const referrerDoc = referrerSnapshot.docs[0];
+                        const referrerData = referrerDoc.data();
+                        
+                        // Add referral to referrer's list
+                        await db.collection('users').doc(referrerDoc.id).update({
+                            referrals: firebase.firestore.FieldValue.arrayUnion({
+                                email: email,
+                                date: new Date()
+                            })
+                        });
+                        
+                        // Credit referrer with 3 SEE
+                        await db.collection('users').doc(referrerDoc.id).update({
+                            balance: firebase.firestore.FieldValue.increment(3)
+                        });
+                        
+                        // Record transaction for referrer
+                        const transaction = {
+                            type: 'referral',
+                            category: 'bonus',
+                            amount: 3,
+                            description: `Referral bonus for ${email}`,
+                            timestamp: new Date(),
+                            userId: referrerDoc.id
+                        };
+                        
+                        await db.collection('transactions').add(transaction);
+                    }
+                }
+                
+                currentUser = userData;
+                userBalance = 0;
+                
+                updateBalance();
+                updateProfile();
+                await loadSeePrice();
+                
+                showScreen(appScreen);
+                alert('Registration successful! You can now claim your signup bonus.');
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('Registration failed: ' + error.message);
+            }
+            
+            hideLoading(registerButtonText, registerButtonSpinner);
         });
         
         // Admin login
-        adminLoginButton.addEventListener('click', () => {
+        adminLoginButton.addEventListener('click', async () => {
             const email = document.getElementById('adminEmail').value;
             const password = document.getElementById('adminPassword').value;
             
@@ -2363,27 +2590,27 @@
                 return;
             }
             
-            showLoading(adminLoginButton, adminLoginButtonText, adminLoginButtonSpinner);
+            showLoading(adminLoginButtonText, adminLoginButtonSpinner);
             
             if (email === 'ebubechichukwu8@gmail.com' && password === 'Ebube@123') {
                 isAdmin = true;
                 showScreen(adminPanel);
-                loadAllUsers();
+                await loadAdminPanel();
+                await loadSeePrice();
             } else {
                 alert('Invalid admin credentials!');
             }
             
-            hideLoading(adminLoginButton, adminLoginButtonText, adminLoginButtonSpinner);
+            hideLoading(adminLoginButtonText, adminLoginButtonSpinner);
         });
         
         // Logout functions
-        logoutButton.addEventListener('click', () => {
+        logoutButton.addEventListener('click', async () => {
             if (confirm('Are you sure you want to logout?')) {
-                auth.signOut().then(() => {
-                    currentUser = null;
-                    userBalance = 0;
-                    showScreen(loginScreen);
-                });
+                await auth.signOut();
+                userBalance = 0;
+                currentUser = null;
+                showScreen(loginScreen);
             }
         });
         
@@ -2398,34 +2625,37 @@
         showScreen(loginScreen);
         
         // Check if user is already logged in
-        auth.onAuthStateChanged((user) => {
+        auth.onAuthStateChanged(async (user) => {
             if (user && !isAdmin) {
-                // User is signed in, get user data
-                db.collection('users').doc(user.uid).get()
-                    .then((doc) => {
-                        if (doc.exists) {
-                            const userData = doc.data();
-                            
-                            if (userData.banned) {
-                                alert('Your account has been banned');
-                                auth.signOut();
-                                return;
-                            }
-                            
-                            currentUser = {
-                                uid: doc.id,
-                                ...userData
-                            };
-                            userBalance = userData.balance || 0;
-                            
-                            updateBalance();
-                            updateProfile();
-                            showScreen(appScreen);
+                try {
+                    const userDoc = await db.collection('users').doc(user.uid).get();
+                    
+                    if (userDoc.exists) {
+                        const userData = userDoc.data();
+                        
+                        if (userData.banned) {
+                            alert('Your account has been banned');
+                            await auth.signOut();
+                            return;
                         }
-                    })
-                    .catch((error) => {
-                        console.error('Error getting user data:', error);
-                    });
+                        
+                        currentUser = {
+                            uid: user.uid,
+                            ...userData
+                        };
+                        
+                        userBalance = userData.balance || 0;
+                        
+                        updateBalance();
+                        updateProfile();
+                        await loadTransactionHistory();
+                        await loadSeePrice();
+                        
+                        showScreen(appScreen);
+                    }
+                } catch (error) {
+                    console.error('Error loading user data:', error);
+                }
             }
         });
     </script>
