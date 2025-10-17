@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SeePlay - World's Best Casino App</title>
+    <title>SeePlay - Premium Casino Platform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
@@ -80,7 +80,6 @@
             display: flex;
             justify-content: center;
             gap: 15px;
-            flex-wrap: wrap;
         }
         
         .winning-user {
@@ -506,7 +505,7 @@
             text-align: center;
         }
         
-        .mines-cashout-display {
+        .mines-cashout-amount {
             font-size: 16px;
             margin-bottom: 10px;
             text-align: center;
@@ -770,7 +769,7 @@
         
         .message-time {
             font-size: 12px;
-            opacity: 0.8;
+            opacity: 0.7;
         }
         
         .message-content {
@@ -806,6 +805,46 @@
             font-size: 16px;
         }
         
+        /* P2P Section */
+        .p2p-section {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .p2p-offer {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .p2p-offer-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .p2p-seller {
+            font-weight: bold;
+        }
+        
+        .p2p-rating {
+            color: var(--warning);
+        }
+        
+        .p2p-offer-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .p2p-phone {
+            color: var(--secondary);
+        }
+        
         /* Chart Container */
         .chart-container {
             width: 100%;
@@ -814,7 +853,7 @@
         }
         
         /* Loading Spinner */
-        .loading-spinner {
+        .loading {
             display: inline-block;
             width: 20px;
             height: 20px;
@@ -846,7 +885,7 @@
             </div>
             <button id="loginButton" class="auth-button">
                 <span id="loginButtonText">Login</span>
-                <span id="loginButtonSpinner" class="loading-spinner hidden"></span>
+                <span id="loginSpinner" class="loading hidden"></span>
             </button>
             <div class="auth-link">
                 Don't have an account? <a href="#" id="showRegister">Register</a>
@@ -904,7 +943,7 @@
             </div>
             <button id="registerButton" class="auth-button">
                 <span id="registerButtonText">Create Account</span>
-                <span id="registerButtonSpinner" class="loading-spinner hidden"></span>
+                <span id="registerSpinner" class="loading hidden"></span>
             </button>
             <div class="auth-link">
                 Already have an account? <a href="#" id="showLogin">Login</a>
@@ -928,7 +967,7 @@
             </div>
             <button id="adminLoginButton" class="auth-button">
                 <span id="adminLoginButtonText">Login as Lord</span>
-                <span id="adminLoginButtonSpinner" class="loading-spinner hidden"></span>
+                <span id="adminLoginSpinner" class="loading hidden"></span>
             </button>
             <div class="auth-link">
                 <a href="#" id="showUserLogin">Back to User Login</a>
@@ -945,7 +984,10 @@
             </div>
             <div class="time-display" id="currentTime">9:25</div>
             <div class="winning-users" id="winningUsers">
-                <!-- Winning users will be displayed here -->
+                <div class="winning-user">
+                    <i class="fas fa-trophy"></i>
+                    <span>Welcome to SeePlay!</span>
+                </div>
             </div>
             <button class="logout-btn" id="logoutButton">
                 <i class="fas fa-sign-out-alt"></i>
@@ -964,8 +1006,8 @@
                         <div class="stat-value" id="usdValue">$0.00</div>
                     </div>
                     <div class="stat-item">
-                        <div>Free Bets</div>
-                        <div class="stat-value" id="freeBets">0</div>
+                        <div>Games Played</div>
+                        <div class="stat-value" id="gamesPlayed">0</div>
                     </div>
                     <div class="stat-item">
                         <div>Referrals</div>
@@ -977,8 +1019,8 @@
             <!-- Navigation Tabs -->
             <div class="nav-tabs">
                 <div class="nav-tab active" data-tab="games">Games</div>
+                <div class="nav-tab" data-tab="p2p">P2P Market</div>
                 <div class="nav-tab" data-tab="transfer">Transfer</div>
-                <div class="nav-tab" data-tab="history">History</div>
                 <div class="nav-tab" data-tab="profile">Profile</div>
             </div>
             
@@ -996,9 +1038,91 @@
                 </div>
                 
                 <div class="promo-banner">
-                    <div class="promo-title">CLAIM FREE BETS</div>
-                    <div class="promo-subtitle">GET 3 FREE SEE COINS ON SIGNUP</div>
-                    <button class="promo-button" id="claimBonusBtn">CLAIM NOW</button>
+                    <div class="promo-title">PLAY MINES & WIN BIG!</div>
+                    <div class="promo-subtitle">Up to 155,000x Multiplier Possible</div>
+                </div>
+                
+                <div class="section-header">
+                    <div class="section-title">Recent Winners</div>
+                </div>
+                
+                <div class="transaction-section">
+                    <div class="transaction-list" id="recentWinners">
+                        <div style="text-align: center; padding: 20px; opacity: 0.7;">
+                            <i class="fas fa-trophy" style="font-size: 40px; margin-bottom: 10px;"></i>
+                            <div>No recent winners yet</div>
+                            <div style="font-size: 12px; margin-top: 5px;">Be the first to win big!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- P2P Section -->
+            <div id="p2pSection" class="tab-content hidden">
+                <div class="section-header">
+                    <div class="section-title">P2P Marketplace</div>
+                </div>
+                
+                <div class="balance-card">
+                    <div class="balance-title">Available Offers</div>
+                    <div class="balance-amount" id="activeSellersCount">1 Active Seller</div>
+                    <div class="balance-stats">
+                        <div class="stat-item">
+                            <div>Price/SEE</div>
+                            <div class="stat-value" id="seaCoinPrice">$1.01</div>
+                        </div>
+                        <div class="stat-item">
+                            <div>Your Balance</div>
+                            <div class="stat-value" id="p2pBalance">0 SEE</div>
+                        </div>
+                        <div class="stat-item">
+                            <div>Min. Trade</div>
+                            <div class="stat-value">5 SEE</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="promo-banner">
+                    <div class="promo-title">BECOME A SELLER</div>
+                    <div class="promo-subtitle">Requires 2+ SEE Balance</div>
+                    <button class="promo-button" id="becomeSellerBtn">SELL SEE COINS</button>
+                </div>
+                
+                <div class="section-header">
+                    <div class="section-title">Available Sellers</div>
+                </div>
+                
+                <div class="p2p-section">
+                    <div class="p2p-offer">
+                        <div class="p2p-offer-header">
+                            <div class="p2p-seller">SeePlay Official</div>
+                            <div class="p2p-rating">5.0★</div>
+                        </div>
+                        <div class="p2p-offer-details">
+                            <div>Price: $1.01 per SEE</div>
+                            <div>Available: Unlimited</div>
+                        </div>
+                        <div class="p2p-offer-details">
+                            <div class="p2p-phone">Phone: 07079191406</div>
+                            <div>Min: 5 SEE</div>
+                        </div>
+                        <div class="match-odds">
+                            <div class="odd" id="buyFromAdminBtn">Buy Now</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-header">
+                    <div class="section-title">Your P2P Transactions</div>
+                </div>
+                
+                <div class="transaction-section">
+                    <div class="transaction-list" id="p2pTransactions">
+                        <div style="text-align: center; padding: 20px; opacity: 0.7;">
+                            <i class="fas fa-exchange-alt" style="font-size: 40px; margin-bottom: 10px;"></i>
+                            <div>No P2P transactions yet</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -1015,25 +1139,28 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label">Amount (Min. 1 SEE)</label>
-                        <input type="number" id="transferAmount" class="form-input" placeholder="Enter amount" min="1">
+                        <input type="number" id="transferAmount" class="form-input" placeholder="Enter amount" min="1" step="0.01">
                     </div>
                     <div class="form-group">
                         <label class="form-label">4-Digit PIN</label>
                         <input type="password" id="transferPin" class="form-input" placeholder="Enter your PIN" maxlength="4">
                     </div>
-                    <button class="auth-button" id="transferButton">Send SEE</button>
+                    <button class="auth-button" id="sendTransferBtn">
+                        <span id="sendTransferText">Send SEE</span>
+                        <span id="sendTransferSpinner" class="loading hidden"></span>
+                    </button>
                 </div>
-            </div>
-            
-            <!-- History Section -->
-            <div id="historySection" class="tab-content hidden">
+                
                 <div class="section-header">
                     <div class="section-title">Transaction History</div>
                 </div>
                 
                 <div class="transaction-section">
-                    <div class="transaction-list" id="transactionList">
-                        <!-- Transactions will be listed here -->
+                    <div class="transaction-list" id="transferHistory">
+                        <div style="text-align: center; padding: 20px; opacity: 0.7;">
+                            <i class="fas fa-history" style="font-size: 40px; margin-bottom: 10px;"></i>
+                            <div>No transactions yet</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1078,7 +1205,11 @@
                         <div class="section-title">Your Referrals</div>
                     </div>
                     <div class="referral-list" id="referralList">
-                        <!-- Referrals will be listed here -->
+                        <div style="text-align: center; padding: 20px; opacity: 0.7;">
+                            <i class="fas fa-user-friends" style="font-size: 40px; margin-bottom: 10px;"></i>
+                            <div>No referrals yet</div>
+                            <div style="font-size: 12px; margin-top: 5px;">Share your code to earn 3 SEE for every 10 referrals</div>
+                        </div>
                     </div>
                     <button class="auth-button" id="claimReferralBtn" disabled>Claim Referral Bonus (0/10)</button>
                 </div>
@@ -1090,17 +1221,20 @@
                     
                     <div class="form-group">
                         <label class="form-label">Current PIN</label>
-                        <input type="password" id="currentPin" class="form-input" placeholder="Enter current PIN" maxlength="4">
+                        <input type="password" class="form-input" id="currentPin" placeholder="Enter current PIN" maxlength="4">
                     </div>
+                    
                     <div class="form-group">
                         <label class="form-label">New PIN</label>
-                        <input type="password" id="newPin" class="form-input" placeholder="Enter new 4-digit PIN" maxlength="4">
+                        <input type="password" class="form-input" id="newPin" placeholder="Enter new 4-digit PIN" maxlength="4">
                     </div>
+                    
                     <div class="form-group">
                         <label class="form-label">Confirm New PIN</label>
-                        <input type="password" id="confirmNewPin" class="form-input" placeholder="Confirm new PIN" maxlength="4">
+                        <input type="password" class="form-input" id="confirmNewPin" placeholder="Confirm new PIN" maxlength="4">
                     </div>
-                    <button class="auth-button" id="changePinButton">Change PIN</button>
+                    
+                    <button class="auth-button" id="changePinBtn">Change PIN</button>
                 </div>
                 
                 <div class="profile-section">
@@ -1124,13 +1258,13 @@
                 <div class="nav-icon"><i class="fas fa-gamepad"></i></div>
                 <div>Games</div>
             </div>
-            <div class="nav-item" data-nav="transfer">
+            <div class="nav-item" data-nav="p2p">
                 <div class="nav-icon"><i class="fas fa-exchange-alt"></i></div>
-                <div>Transfer</div>
+                <div>P2P</div>
             </div>
-            <div class="nav-item" data-nav="history">
-                <div class="nav-icon"><i class="fas fa-history"></i></div>
-                <div>History</div>
+            <div class="nav-item" data-nav="transfer">
+                <div class="nav-icon"><i class="fas fa-wallet"></i></div>
+                <div>Transfer</div>
             </div>
             <div class="nav-item" data-nav="profile">
                 <div class="nav-icon"><i class="fas fa-user"></i></div>
@@ -1162,7 +1296,7 @@
                 </div>
                 <div class="mines-setting">
                     <div class="mines-setting-label">Bet Amount</div>
-                    <div class="mines-setting-value" id="minesBetAmountDisplay">1.00 SEE</div>
+                    <div class="mines-setting-value" id="minesBetAmountDisplay">0.50 SEE</div>
                     <div class="mines-setting-controls">
                         <button class="mines-control-btn" id="decreaseBet">-</button>
                         <button class="mines-control-btn" id="increaseBet">+</button>
@@ -1171,8 +1305,8 @@
             </div>
             
             <div class="game-area">
-                <div class="mines-multiplier-display" id="minesMultiplierDisplay">Multiplier: 1.00x</div>
-                <div class="mines-cashout-display" id="minesCashoutDisplay">Cashout: 1.00 SEE</div>
+                <div class="mines-multiplier-display" id="minesMultiplier">Multiplier: 1.00x</div>
+                <div class="mines-cashout-amount" id="minesCashoutAmount">Cashout: 0.00 SEE</div>
                 <div class="mines-grid" id="minesGrid">
                     <!-- Mines grid will be generated here -->
                 </div>
@@ -1223,7 +1357,7 @@
                 <button class="admin-action" id="addCoinsBtn">Add Coins to User</button>
                 <button class="admin-action" id="banUserBtn">Ban User</button>
                 <button class="admin-action" id="messageUserBtn">Message User</button>
-                <button class="admin-action" id="setPriceBtn">Set SEE Price</button>
+                <button class="admin-action" id="setPriceBtn">Set SeaCoin Price</button>
             </div>
             
             <div class="section-header">
@@ -1261,20 +1395,23 @@
         const adminPanel = document.getElementById('adminPanel');
         const gameScreens = document.getElementById('gameScreens');
         
-        // Auth buttons
+        // Auth buttons and spinners
         const loginButton = document.getElementById('loginButton');
         const loginButtonText = document.getElementById('loginButtonText');
-        const loginButtonSpinner = document.getElementById('loginButtonSpinner');
+        const loginSpinner = document.getElementById('loginSpinner');
         const registerButton = document.getElementById('registerButton');
         const registerButtonText = document.getElementById('registerButtonText');
-        const registerButtonSpinner = document.getElementById('registerButtonSpinner');
+        const registerSpinner = document.getElementById('registerSpinner');
         const adminLoginButton = document.getElementById('adminLoginButton');
         const adminLoginButtonText = document.getElementById('adminLoginButtonText');
-        const adminLoginButtonSpinner = document.getElementById('adminLoginButtonSpinner');
+        const adminLoginSpinner = document.getElementById('adminLoginSpinner');
+        const sendTransferBtn = document.getElementById('sendTransferBtn');
+        const sendTransferText = document.getElementById('sendTransferText');
+        const sendTransferSpinner = document.getElementById('sendTransferSpinner');
+        
         const logoutButton = document.getElementById('logoutButton');
         const adminLogoutButton = document.getElementById('adminLogoutButton');
         
-        // Navigation links
         const showRegister = document.getElementById('showRegister');
         const showLogin = document.getElementById('showLogin');
         const showAdminLogin = document.getElementById('showAdminLogin');
@@ -1283,8 +1420,8 @@
         // Game elements
         const minesPlayButton = document.getElementById('minesPlayButton');
         const minesCashoutButton = document.getElementById('minesCashoutButton');
-        const minesCashoutDisplay = document.getElementById('minesCashoutDisplay');
-        const minesMultiplierDisplay = document.getElementById('minesMultiplierDisplay');
+        const minesMultiplier = document.getElementById('minesMultiplier');
+        const minesCashoutAmount = document.getElementById('minesCashoutAmount');
         const minesGrid = document.getElementById('minesGrid');
         const minesBackBtn = document.getElementById('minesBackBtn');
         const minesCount = document.getElementById('minesCount');
@@ -1294,11 +1431,12 @@
         const decreaseBet = document.getElementById('decreaseBet');
         const increaseBet = document.getElementById('increaseBet');
         
-        // Transfer elements
-        const transferButton = document.getElementById('transferButton');
-        const transferEmail = document.getElementById('transferEmail');
-        const transferAmount = document.getElementById('transferAmount');
-        const transferPin = document.getElementById('transferPin');
+        // Admin elements
+        const addCoinsBtn = document.getElementById('addCoinsBtn');
+        const banUserBtn = document.getElementById('banUserBtn');
+        const messageUserBtn = document.getElementById('messageUserBtn');
+        const setPriceBtn = document.getElementById('setPriceBtn');
+        const usersList = document.getElementById('usersList');
         
         // Profile elements
         const profileUserName = document.getElementById('profileUserName');
@@ -1310,25 +1448,16 @@
         const copyReferralBtn = document.getElementById('copyReferralBtn');
         const referralList = document.getElementById('referralList');
         const claimReferralBtn = document.getElementById('claimReferralBtn');
-        const changePinButton = document.getElementById('changePinButton');
-        const currentPin = document.getElementById('currentPin');
-        const newPin = document.getElementById('newPin');
-        const confirmNewPin = document.getElementById('confirmNewPin');
         
-        // Admin elements
-        const addCoinsBtn = document.getElementById('addCoinsBtn');
-        const banUserBtn = document.getElementById('banUserBtn');
-        const messageUserBtn = document.getElementById('messageUserBtn');
-        const setPriceBtn = document.getElementById('setPriceBtn');
-        const usersList = document.getElementById('usersList');
+        // Transfer elements
+        const transferEmail = document.getElementById('transferEmail');
+        const transferAmount = document.getElementById('transferAmount');
+        const transferPin = document.getElementById('transferPin');
         
-        // Other elements
-        const claimBonusBtn = document.getElementById('claimBonusBtn');
-        const transactionList = document.getElementById('transactionList');
-        const winningUsers = document.getElementById('winningUsers');
-        const usdValue = document.getElementById('usdValue');
-        const freeBets = document.getElementById('freeBets');
-        const referralsCount = document.getElementById('referralsCount');
+        // P2P elements
+        const becomeSellerBtn = document.getElementById('becomeSellerBtn');
+        const buyFromAdminBtn = document.getElementById('buyFromAdminBtn');
+        const seaCoinPrice = document.getElementById('seaCoinPrice');
         
         // App state
         let currentUser = null;
@@ -1337,17 +1466,17 @@
         let currentGame = null;
         let gameIntervals = {};
         let adminVaultBalance = 50000000000; // 50B SEE
-        let seePrice = 1.01; // Default SEE price
+        let seaCoinPriceValue = 1.01; // Default price
         
         // Mines game state
         let minesGameState = {
-            betAmount: 1.00,
+            betAmount: 0.50,
             minesCount: 3,
             grid: [],
             revealed: [],
             gameActive: false,
             cashoutMultiplier: 1.0,
-            multiplierHistory: [1.0]
+            totalTiles: 25
         };
         
         // Price chart
@@ -1375,15 +1504,18 @@
             screen.classList.remove('hidden');
         }
         
-        // Show loading state for buttons
-        function showLoading(buttonText, buttonSpinner) {
-            buttonText.classList.add('hidden');
-            buttonSpinner.classList.remove('hidden');
+        // Show loading state
+        function showLoading(button, textElement, spinner) {
+            textElement.classList.add('hidden');
+            spinner.classList.remove('hidden');
+            button.disabled = true;
         }
         
-        function hideLoading(buttonText, buttonSpinner) {
-            buttonText.classList.remove('hidden');
-            buttonSpinner.classList.add('hidden');
+        // Hide loading state
+        function hideLoading(button, textElement, spinner) {
+            textElement.classList.remove('hidden');
+            spinner.classList.add('hidden');
+            button.disabled = false;
         }
         
         // Navigation Functions
@@ -1402,6 +1534,16 @@
                     tab.classList.remove('active');
                 }
             });
+            
+            // Load data for specific tabs
+            if (tabName === 'transfer') {
+                loadTransferHistory();
+            } else if (tabName === 'p2p') {
+                loadP2PTransactions();
+            } else if (tabName === 'profile') {
+                updateProfile();
+                initializePriceChart();
+            }
         }
         
         function switchBottomNav(navItem) {
@@ -1420,16 +1562,14 @@
                 case 'games':
                     switchTab('games');
                     break;
+                case 'p2p':
+                    switchTab('p2p');
+                    break;
                 case 'transfer':
                     switchTab('transfer');
                     break;
-                case 'history':
-                    switchTab('history');
-                    loadTransactionHistory();
-                    break;
                 case 'profile':
                     switchTab('profile');
-                    updateProfile();
                     break;
             }
         }
@@ -1440,22 +1580,20 @@
             
             profileUserName.textContent = currentUser.name || 'User Name';
             profileUserEmail.textContent = currentUser.email || 'user@example.com';
+            userReferralCode.value = currentUser.referralCode || 'SEE12345';
+            
+            // Update stats
             profileGamesPlayed.textContent = currentUser.gamesPlayed || 0;
             profileWins.textContent = currentUser.wins || 0;
             profileReferrals.textContent = currentUser.referrals ? currentUser.referrals.length : 0;
-            userReferralCode.value = currentUser.referralCode || 'SEE00000';
             
             // Update referral button
             const referralCount = currentUser.referrals ? currentUser.referrals.length : 0;
-            referralsCount.textContent = referralCount;
             claimReferralBtn.textContent = `Claim Referral Bonus (${referralCount}/10)`;
             claimReferralBtn.disabled = referralCount < 10;
             
             // Update referral list
             updateReferralList();
-            
-            // Update price chart
-            updatePriceChart();
         }
         
         // Update referral list
@@ -1468,7 +1606,7 @@
                     <div style="text-align: center; padding: 20px; opacity: 0.7;">
                         <i class="fas fa-user-friends" style="font-size: 40px; margin-bottom: 10px;"></i>
                         <div>No referrals yet</div>
-                        <div style="font-size: 12px; margin-top: 5px;">Share your code to earn 3 SEE for every referral</div>
+                        <div style="font-size: 12px; margin-top: 5px;">Share your code to earn 3 SEE for every 10 referrals</div>
                     </div>
                 `;
             } else {
@@ -1484,20 +1622,24 @@
             }
         }
         
-        // Update price chart
-        function updatePriceChart() {
+        // Initialize price chart
+        function initializePriceChart() {
             const ctx = document.getElementById('priceChart').getContext('2d');
             
             // Generate sample price data
+            const prices = [];
             const labels = [];
-            const data = [];
-            let currentPrice = seePrice;
+            let currentPrice = seaCoinPriceValue;
             
-            for (let i = 0; i < 24; i++) {
-                labels.push(`${i}:00`);
+            for (let i = 30; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                labels.push(date.toLocaleDateString());
+                
                 // Simulate price fluctuations
-                currentPrice += (Math.random() - 0.5) * 0.02;
-                data.push(currentPrice);
+                currentPrice += (Math.random() - 0.5) * 0.1;
+                currentPrice = Math.max(0.5, Math.min(2.0, currentPrice)); // Keep between 0.5 and 2.0
+                prices.push(currentPrice);
             }
             
             if (priceChart) {
@@ -1509,8 +1651,8 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'SEE Price ($)',
-                        data: data,
+                        label: 'SeaCoin Price ($)',
+                        data: prices,
                         borderColor: '#00b0ff',
                         backgroundColor: 'rgba(0, 176, 255, 0.1)',
                         borderWidth: 2,
@@ -1559,109 +1701,192 @@
         // Update user balance display
         function updateBalance() {
             document.getElementById('userBalance').textContent = `${userBalance.toFixed(2)} SEE`;
-            document.getElementById('minesBalance').textContent = `${userBalance.toFixed(2)} SEE`;
+            document.getElementById('p2pBalance').textContent = `${userBalance.toFixed(2)} SEE`;
+            document.getElementById('usdValue').textContent = `$${(userBalance * seaCoinPriceValue).toFixed(2)}`;
+            document.getElementById('gamesPlayed').textContent = currentUser.gamesPlayed || 0;
+            document.getElementById('referralsCount').textContent = currentUser.referrals ? currentUser.referrals.length : 0;
             
-            // Update USD value
-            const usdAmount = (userBalance * seePrice).toFixed(2);
-            usdValue.textContent = `$${usdAmount}`;
+            document.querySelectorAll('.game-balance').forEach(el => {
+                el.textContent = `${userBalance.toFixed(2)} SEE`;
+            });
             
             // Update vault balance in admin panel
             document.getElementById('vaultBalance').textContent = `${adminVaultBalance.toLocaleString()} SEE`;
+            
+            // Enable/disable P2P seller button based on balance
+            if (userBalance >= 2) {
+                becomeSellerBtn.disabled = false;
+            } else {
+                becomeSellerBtn.disabled = true;
+            }
         }
         
         // Record transaction
-        async function recordTransaction(type, category, amount, description) {
-            if (!currentUser) return;
-            
+        function recordTransaction(type, amount, description, recipient = null) {
             const transaction = {
+                id: Date.now().toString(),
                 type: type,
-                category: category,
                 amount: amount,
                 description: description,
-                timestamp: new Date(),
+                date: new Date().toISOString(),
                 userId: currentUser.uid
             };
             
-            try {
-                await db.collection('transactions').add(transaction);
+            if (recipient) {
+                transaction.recipient = recipient;
+            }
+            
+            // Save to Firestore
+            db.collection('transactions').doc(transaction.id).set(transaction)
+                .then(() => {
+                    console.log('Transaction recorded:', transaction);
+                })
+                .catch(error => {
+                    console.error('Error recording transaction:', error);
+                });
+            
+            // Update user stats if it's a game transaction
+            if (type === 'game_win' || type === 'game_loss') {
+                const userRef = db.collection('users').doc(currentUser.uid);
+                userRef.update({
+                    gamesPlayed: firebase.firestore.FieldValue.increment(1)
+                });
                 
-                // Update user stats
-                if (type === 'casino') {
-                    await db.collection('users').doc(currentUser.uid).update({
-                        gamesPlayed: firebase.firestore.FieldValue.increment(1),
-                        wins: category === 'win' ? firebase.firestore.FieldValue.increment(1) : firebase.firestore.FieldValue.increment(0)
+                if (type === 'game_win') {
+                    userRef.update({
+                        wins: firebase.firestore.FieldValue.increment(1)
                     });
                 }
-                
-                // Reload transaction history
-                loadTransactionHistory();
-            } catch (error) {
-                console.error('Error recording transaction:', error);
             }
         }
         
-        // Load transaction history
-        async function loadTransactionHistory() {
+        // Load transfer history
+        function loadTransferHistory() {
             if (!currentUser) return;
             
-            try {
-                const snapshot = await db.collection('transactions')
-                    .where('userId', '==', currentUser.uid)
-                    .orderBy('timestamp', 'desc')
-                    .limit(20)
-                    .get();
-                
-                transactionList.innerHTML = '';
-                
-                if (snapshot.empty) {
-                    transactionList.innerHTML = `
-                        <div style="text-align: center; padding: 20px; opacity: 0.7;">
-                            <i class="fas fa-history" style="font-size: 40px; margin-bottom: 10px;"></i>
-                            <div>No transactions yet</div>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                snapshot.forEach(doc => {
-                    const transaction = doc.data();
-                    const transactionItem = document.createElement('div');
-                    transactionItem.className = 'transaction-item';
+            const transferHistory = document.getElementById('transferHistory');
+            transferHistory.innerHTML = '<div class="loading" style="margin: 20px auto;"></div>';
+            
+            db.collection('transactions')
+                .where('userId', '==', currentUser.uid)
+                .orderBy('date', 'desc')
+                .limit(10)
+                .get()
+                .then(snapshot => {
+                    transferHistory.innerHTML = '';
                     
-                    const amountClass = transaction.amount >= 0 ? 'positive' : 'negative';
-                    const amountSign = transaction.amount >= 0 ? '+' : '';
+                    if (snapshot.empty) {
+                        transferHistory.innerHTML = `
+                            <div style="text-align: center; padding: 20px; opacity: 0.7;">
+                                <i class="fas fa-history" style="font-size: 40px; margin-bottom: 10px;"></i>
+                                <div>No transactions yet</div>
+                            </div>
+                        `;
+                        return;
+                    }
                     
-                    transactionItem.innerHTML = `
-                        <div>
-                            <div class="transaction-type">${transaction.type} - ${transaction.category}</div>
-                            <div style="font-size: 12px; opacity: 0.8;">${transaction.description}</div>
-                            <div style="font-size: 12px; opacity: 0.6;">${transaction.timestamp.toDate().toLocaleString()}</div>
-                        </div>
-                        <div class="transaction-amount ${amountClass}">${amountSign}${transaction.amount.toFixed(2)} SEE</div>
-                    `;
-                    
-                    transactionList.appendChild(transactionItem);
+                    snapshot.forEach(doc => {
+                        const transaction = doc.data();
+                        const transactionItem = document.createElement('div');
+                        transactionItem.className = 'transaction-item';
+                        
+                        const amountClass = transaction.amount > 0 ? 'positive' : 'negative';
+                        const amountSign = transaction.amount > 0 ? '+' : '';
+                        
+                        transactionItem.innerHTML = `
+                            <div>
+                                <div class="transaction-type">${transaction.description}</div>
+                                <div style="font-size: 12px; opacity: 0.7;">${new Date(transaction.date).toLocaleString()}</div>
+                            </div>
+                            <div class="transaction-amount ${amountClass}">${amountSign}${transaction.amount} SEE</div>
+                        `;
+                        
+                        transferHistory.appendChild(transactionItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading transfer history:', error);
+                    transferHistory.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--danger);">Error loading transactions</div>';
                 });
-            } catch (error) {
-                console.error('Error loading transactions:', error);
+        }
+        
+        // Load P2P transactions
+        function loadP2PTransactions() {
+            if (!currentUser) return;
+            
+            const p2pTransactions = document.getElementById('p2pTransactions');
+            p2pTransactions.innerHTML = '<div class="loading" style="margin: 20px auto;"></div>';
+            
+            db.collection('transactions')
+                .where('userId', '==', currentUser.uid)
+                .where('type', 'in', ['p2p_buy', 'p2p_sell'])
+                .orderBy('date', 'desc')
+                .limit(10)
+                .get()
+                .then(snapshot => {
+                    p2pTransactions.innerHTML = '';
+                    
+                    if (snapshot.empty) {
+                        p2pTransactions.innerHTML = `
+                            <div style="text-align: center; padding: 20px; opacity: 0.7;">
+                                <i class="fas fa-exchange-alt" style="font-size: 40px; margin-bottom: 10px;"></i>
+                                <div>No P2P transactions yet</div>
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    snapshot.forEach(doc => {
+                        const transaction = doc.data();
+                        const transactionItem = document.createElement('div');
+                        transactionItem.className = 'transaction-item';
+                        
+                        const amountClass = transaction.amount > 0 ? 'positive' : 'negative';
+                        const amountSign = transaction.amount > 0 ? '+' : '';
+                        
+                        transactionItem.innerHTML = `
+                            <div>
+                                <div class="transaction-type">${transaction.description}</div>
+                                <div style="font-size: 12px; opacity: 0.7;">${new Date(transaction.date).toLocaleString()}</div>
+                            </div>
+                            <div class="transaction-amount ${amountClass}">${amountSign}${transaction.amount} SEE</div>
+                        `;
+                        
+                        p2pTransactions.appendChild(transactionItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading P2P transactions:', error);
+                    p2pTransactions.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--danger);">Error loading transactions</div>';
+                });
+        }
+        
+        // Game Functions
+        function startGame(gameName) {
+            currentGame = gameName;
+            appScreen.classList.add('hidden');
+            document.getElementById(`${gameName}Game`).classList.remove('hidden');
+            gameScreens.classList.remove('hidden');
+            
+            // Update game balance
+            document.querySelectorAll('.game-balance').forEach(el => {
+                el.textContent = `${userBalance.toFixed(2)} SEE`;
+            });
+            
+            // Initialize specific game
+            if (gameName === 'mines') {
+                initializeMinesGame();
             }
         }
         
-        // Update winning users display
-        function updateWinningUsers(name, amount) {
-            const userElement = document.createElement('div');
-            userElement.className = 'winning-user';
-            userElement.innerHTML = `
-                <i class="fas fa-trophy"></i>
-                <span>${name} won ${amount.toFixed(2)} SEE</span>
-            `;
+        function exitGame() {
+            gameScreens.classList.add('hidden');
+            appScreen.classList.remove('hidden');
+            currentGame = null;
             
-            winningUsers.appendChild(userElement);
-            
-            // Remove after 5 seconds
-            setTimeout(() => {
-                userElement.remove();
-            }, 5000);
+            // Clear any game intervals
+            Object.values(gameIntervals).forEach(interval => clearInterval(interval));
+            gameIntervals = {};
         }
         
         // Mines Game Logic
@@ -1678,7 +1903,6 @@
             minesGameState.revealed = [];
             minesGameState.gameActive = false;
             minesGameState.cashoutMultiplier = 1.0;
-            minesGameState.multiplierHistory = [1.0];
             
             // Create 5x5 grid
             for (let i = 0; i < 25; i++) {
@@ -1704,23 +1928,7 @@
             
             minesPlayButton.disabled = false;
             minesCashoutButton.disabled = true;
-            minesMultiplierDisplay.textContent = 'Multiplier: 1.00x';
-        }
-        
-        function calculateMinesMultiplier(safeTilesRevealed) {
-            const totalTiles = 25;
-            const mines = minesGameState.minesCount;
-            const safeTiles = totalTiles - mines;
-            
-            if (safeTilesRevealed === 0) return 1.0;
-            
-            // Calculate multiplier using the formula
-            let multiplier = 1.0;
-            for (let i = 0; i < safeTilesRevealed; i++) {
-                multiplier *= (totalTiles - i) / (safeTiles - i);
-            }
-            
-            return parseFloat(multiplier.toFixed(2));
+            minesMultiplier.textContent = 'Multiplier: 1.00x';
         }
         
         function revealMineCell(index) {
@@ -1741,30 +1949,33 @@
                 
                 // Reveal all mines
                 for (let i = 0; i < 25; i++) {
-                    if (minesGameState.grid[i] === 'mine' && !minesGameState.revealed.includes(i)) {
+                    if (minesGameState.grid[i] === 'mine') {
                         const mineCell = minesGrid.children[i];
                         mineCell.innerHTML = '💣';
                         mineCell.classList.add('mine');
-                        mineCell.classList.add('revealed');
                     }
                 }
                 
                 // Record transaction
-                recordTransaction('casino', 'loss', -minesGameState.betAmount, 'Mines game loss');
+                recordTransaction('game_loss', -minesGameState.betAmount, 'Mines game loss');
                 
                 setTimeout(() => {
                     alert('Game Over! You hit a mine.');
                     initializeMinesGame();
                 }, 2000);
             } else {
-                // Found a gem
+                // Found a gem - calculate new multiplier
+                const safeTilesRemaining = 25 - minesGameState.minesCount - minesGameState.revealed.length;
+                const totalRemainingTiles = 25 - minesGameState.revealed.length;
+                
+                // Calculate multiplier using the exact formula
+                minesGameState.cashoutMultiplier = calculateMinesMultiplier(
+                    minesGameState.minesCount, 
+                    minesGameState.revealed.length
+                );
+                
                 cell.innerHTML = '💎';
                 cell.classList.add('gem');
-                
-                // Calculate and update multiplier
-                const safeTilesRevealed = minesGameState.revealed.filter(i => minesGameState.grid[i] === 'gem').length;
-                minesGameState.cashoutMultiplier = calculateMinesMultiplier(safeTilesRevealed);
-                minesGameState.multiplierHistory.push(minesGameState.cashoutMultiplier);
                 
                 updateMinesCashout();
                 
@@ -1777,13 +1988,26 @@
             }
         }
         
-        function updateMinesCashout() {
-            const cashoutAmount = (minesGameState.betAmount * minesGameState.cashoutMultiplier).toFixed(2);
-            minesCashoutDisplay.textContent = `Cashout: ${cashoutAmount} SEE`;
-            minesMultiplierDisplay.textContent = `Multiplier: ${minesGameState.cashoutMultiplier.toFixed(2)}x`;
+        // Calculate mines multiplier using exact formula
+        function calculateMinesMultiplier(minesCount, safeTilesRevealed) {
+            let multiplier = 1.0;
+            const totalTiles = 25;
+            const safeTiles = totalTiles - minesCount;
+            
+            for (let i = 0; i < safeTilesRevealed; i++) {
+                multiplier *= (totalTiles - i) / (safeTiles - i);
+            }
+            
+            return parseFloat(multiplier.toFixed(2));
         }
         
-        async function startMinesGame() {
+        function updateMinesCashout() {
+            const cashoutAmount = (minesGameState.betAmount * minesGameState.cashoutMultiplier).toFixed(2);
+            minesCashoutAmount.textContent = `Cashout: ${cashoutAmount} SEE`;
+            minesMultiplier.textContent = `Multiplier: ${minesGameState.cashoutMultiplier.toFixed(2)}x`;
+        }
+        
+        function startMinesGame() {
             if (userBalance < minesGameState.betAmount) {
                 alert('Insufficient balance!');
                 return;
@@ -1798,14 +2022,13 @@
             minesPlayButton.disabled = true;
             minesCashoutButton.disabled = false;
             minesGameState.cashoutMultiplier = 1.0;
-            minesGameState.multiplierHistory = [1.0];
             updateMinesCashout();
             
-            // Record transaction
-            await recordTransaction('casino', 'bet', -minesGameState.betAmount, 'Mines game bet');
+            // Record game start
+            recordTransaction('game_bet', -minesGameState.betAmount, 'Mines game bet');
         }
         
-        async function cashoutMines() {
+        function cashoutMines() {
             const winAmount = minesGameState.betAmount * minesGameState.cashoutMultiplier;
             
             // Check if vault has enough funds
@@ -1824,30 +2047,33 @@
             minesGameState.gameActive = false;
             
             // Record transaction
-            await recordTransaction('casino', 'win', winAmount - minesGameState.betAmount, `Mines win with ${minesGameState.cashoutMultiplier.toFixed(2)}x multiplier`);
+            recordTransaction('game_win', winAmount - minesGameState.betAmount, `Mines win with ${minesGameState.cashoutMultiplier.toFixed(2)}x multiplier`);
             
-            // Update winning users display
-            updateWinningUsers(currentUser.name, winAmount - minesGameState.betAmount);
+            // Update user stats
+            if (currentUser && currentUser.uid) {
+                db.collection('users').doc(currentUser.uid).update({
+                    gamesPlayed: firebase.firestore.FieldValue.increment(1),
+                    wins: firebase.firestore.FieldValue.increment(1)
+                });
+            }
             
             // Reveal all tiles
             for (let i = 0; i < 25; i++) {
-                if (!minesGameState.revealed.includes(i)) {
-                    const cell = minesGrid.children[i];
-                    cell.classList.add('revealed');
-                    if (minesGameState.grid[i] === 'mine') {
-                        cell.innerHTML = '💣';
-                        cell.classList.add('mine');
-                    } else {
-                        cell.innerHTML = '💎';
-                        cell.classList.add('gem');
-                    }
+                const cell = minesGrid.children[i];
+                if (minesGameState.grid[i] === 'mine') {
+                    cell.innerHTML = '💣';
+                    cell.classList.add('mine');
+                } else {
+                    cell.innerHTML = '💎';
+                    cell.classList.add('gem');
                 }
+                cell.classList.add('revealed');
             }
             
             setTimeout(() => {
                 alert(`You cashed out ${winAmount.toFixed(2)} SEE!`);
                 initializeMinesGame();
-            }, 2000);
+            }, 1000);
         }
         
         // Mines controls
@@ -1868,8 +2094,8 @@
         });
         
         decreaseBet.addEventListener('click', () => {
-            if (minesGameState.betAmount > 1.00) {
-                minesGameState.betAmount -= 1.00;
+            if (minesGameState.betAmount > 0.50) {
+                minesGameState.betAmount -= 0.10;
                 minesBetAmountDisplay.textContent = `${minesGameState.betAmount.toFixed(2)} SEE`;
                 updateMinesCashout();
             }
@@ -1877,315 +2103,89 @@
         
         increaseBet.addEventListener('click', () => {
             if (minesGameState.betAmount < 100.00) {
-                minesGameState.betAmount += 1.00;
+                minesGameState.betAmount += 0.10;
                 minesBetAmountDisplay.textContent = `${minesGameState.betAmount.toFixed(2)} SEE`;
                 updateMinesCashout();
             }
         });
         
-        // Game Functions
-        function startGame(gameName) {
-            currentGame = gameName;
-            appScreen.classList.add('hidden');
-            document.getElementById(`${gameName}Game`).classList.remove('hidden');
-            gameScreens.classList.remove('hidden');
-            
-            // Update game balance
-            document.getElementById('minesBalance').textContent = `${userBalance.toFixed(2)} SEE`;
-            
-            // Initialize specific game
-            if (gameName === 'mines') {
-                initializeMinesGame();
-            }
-        }
-        
-        function exitGame() {
-            gameScreens.classList.add('hidden');
-            appScreen.classList.remove('hidden');
-            currentGame = null;
-        }
-        
-        // Transfer function
-        async function transferCoins() {
-            const recipientEmail = transferEmail.value.trim();
-            const amount = parseFloat(transferAmount.value);
-            const pin = transferPin.value;
-            
-            if (!recipientEmail || !amount || !pin) {
-                alert('Please fill in all fields');
-                return;
-            }
-            
-            if (amount < 1) {
-                alert('Minimum transfer amount is 1 SEE');
-                return;
-            }
-            
-            if (userBalance < amount) {
-                alert('Insufficient balance');
-                return;
-            }
-            
-            if (pin !== currentUser.pin) {
-                alert('Invalid PIN');
-                return;
-            }
-            
-            try {
-                // Find recipient user
-                const usersSnapshot = await db.collection('users')
-                    .where('email', '==', recipientEmail)
-                    .get();
-                
-                if (usersSnapshot.empty) {
-                    alert('Recipient not found');
-                    return;
-                }
-                
-                const recipientDoc = usersSnapshot.docs[0];
-                const recipientData = recipientDoc.data();
-                
-                if (recipientData.banned) {
-                    alert('Cannot transfer to banned user');
-                    return;
-                }
-                
-                // Update balances
-                await db.collection('users').doc(currentUser.uid).update({
-                    balance: firebase.firestore.FieldValue.increment(-amount)
-                });
-                
-                await db.collection('users').doc(recipientDoc.id).update({
-                    balance: firebase.firestore.FieldValue.increment(amount)
-                });
-                
-                // Record transactions
-                const transaction = {
-                    type: 'transfer',
-                    category: 'outgoing',
-                    amount: -amount,
-                    description: `Transfer to ${recipientEmail}`,
-                    timestamp: new Date(),
-                    userId: currentUser.uid,
-                    recipientEmail: recipientEmail
-                };
-                
-                await db.collection('transactions').add(transaction);
-                
-                const recipientTransaction = {
-                    type: 'transfer',
-                    category: 'incoming',
-                    amount: amount,
-                    description: `Transfer from ${currentUser.email}`,
-                    timestamp: new Date(),
-                    userId: recipientDoc.id,
-                    senderEmail: currentUser.email
-                };
-                
-                await db.collection('transactions').add(recipientTransaction);
-                
-                // Update local balance
-                userBalance -= amount;
-                updateBalance();
-                
-                // Clear form
-                transferEmail.value = '';
-                transferAmount.value = '';
-                transferPin.value = '';
-                
-                alert(`Successfully transferred ${amount} SEE to ${recipientEmail}`);
-                
-                // Reload transaction history
-                loadTransactionHistory();
-            } catch (error) {
-                console.error('Error transferring coins:', error);
-                alert('Transfer failed. Please try again.');
-            }
-        }
-        
-        // Change PIN function
-        async function changePin() {
-            const currentPinValue = currentPin.value;
-            const newPinValue = newPin.value;
-            const confirmNewPinValue = confirmNewPin.value;
-            
-            if (!currentPinValue || !newPinValue || !confirmNewPinValue) {
-                alert('Please fill in all fields');
-                return;
-            }
-            
-            if (currentPinValue !== currentUser.pin) {
-                alert('Current PIN is incorrect');
-                return;
-            }
-            
-            if (newPinValue !== confirmNewPinValue) {
-                alert('New PINs do not match');
-                return;
-            }
-            
-            if (newPinValue.length !== 4 || isNaN(newPinValue)) {
-                alert('PIN must be 4 digits');
-                return;
-            }
-            
-            try {
-                await db.collection('users').doc(currentUser.uid).update({
-                    pin: newPinValue
-                });
-                
-                currentUser.pin = newPinValue;
-                
-                // Clear form
-                currentPin.value = '';
-                newPin.value = '';
-                confirmNewPin.value = '';
-                
-                alert('PIN changed successfully');
-            } catch (error) {
-                console.error('Error changing PIN:', error);
-                alert('Failed to change PIN. Please try again.');
-            }
-        }
-        
-        // Claim referral bonus
-        async function claimReferralBonus() {
-            const referralCount = currentUser.referrals ? currentUser.referrals.length : 0;
-            
-            if (referralCount < 10) {
-                alert('You need at least 10 referrals to claim the bonus');
-                return;
-            }
-            
-            // Check if vault has enough funds
-            if (adminVaultBalance < 3) {
-                alert('Insufficient funds in vault!');
-                return;
-            }
-            
-            try {
-                // Transfer from vault to user
-                await db.collection('users').doc(currentUser.uid).update({
-                    balance: firebase.firestore.FieldValue.increment(3)
-                });
-                
-                // Update vault balance
-                adminVaultBalance -= 3;
-                
-                // Update local balance
-                userBalance += 3;
-                updateBalance();
-                
-                // Record transaction
-                await recordTransaction('referral', 'bonus', 3, 'Referral bonus');
-                
-                alert('Referral bonus of 3 SEE has been added to your account!');
-            } catch (error) {
-                console.error('Error claiming referral bonus:', error);
-                alert('Failed to claim bonus. Please try again.');
-            }
-        }
-        
-        // Claim signup bonus
-        async function claimSignupBonus() {
-            if (currentUser.bonusClaimed) {
-                alert('You have already claimed your signup bonus');
-                return;
-            }
-            
-            // Check if vault has enough funds
-            if (adminVaultBalance < 3) {
-                alert('Insufficient funds in vault!');
-                return;
-            }
-            
-            try {
-                // Transfer from vault to user
-                await db.collection('users').doc(currentUser.uid).update({
-                    balance: firebase.firestore.FieldValue.increment(3),
-                    bonusClaimed: true
-                });
-                
-                // Update vault balance
-                adminVaultBalance -= 3;
-                
-                // Update local balance
-                userBalance += 3;
-                updateBalance();
-                
-                // Record transaction
-                await recordTransaction('bonus', 'signup', 3, 'Signup bonus');
-                
-                alert('Signup bonus of 3 SEE has been added to your account!');
-                claimBonusBtn.disabled = true;
-            } catch (error) {
-                console.error('Error claiming signup bonus:', error);
-                alert('Failed to claim bonus. Please try again.');
-            }
-        }
-        
         // Admin Functions
-        async function loadAdminPanel() {
-            try {
-                const usersSnapshot = await db.collection('users').get();
-                usersList.innerHTML = '';
-                
-                if (usersSnapshot.empty) {
-                    usersList.innerHTML = '<div style="text-align: center; padding: 20px; opacity: 0.7;">No users registered yet</div>';
-                    return;
-                }
-                
-                let totalUserBalance = 0;
-                let activeGamesCount = 0;
-                
-                usersSnapshot.forEach(doc => {
-                    const user = doc.data();
-                    totalUserBalance += user.balance || 0;
+        function loadAdminPanel() {
+            // Load all users
+            db.collection('users').get()
+                .then(snapshot => {
+                    usersList.innerHTML = '';
+                    let totalUsers = 0;
+                    let totalBalance = 0;
                     
-                    const userItem = document.createElement('div');
-                    userItem.className = 'user-item';
-                    userItem.innerHTML = `
-                        <div class="user-info">
-                            <div class="user-name">${user.name} ${user.banned ? '(BANNED)' : ''}</div>
-                            <div class="user-email">${user.email}</div>
-                        </div>
-                        <div class="user-balance">${(user.balance || 0).toFixed(2)} SEE</div>
-                        <div class="user-actions">
-                            <button class="user-action" data-user-id="${doc.id}" data-user-email="${user.email}" title="Add Coins"><i class="fas fa-coins"></i></button>
-                            <button class="user-action" data-user-id="${doc.id}" data-user-email="${user.email}" title="${user.banned ? 'Unban' : 'Ban'} User"><i class="fas fa-ban"></i></button>
-                            <button class="user-action" data-user-id="${doc.id}" data-user-email="${user.email}" title="Message User"><i class="fas fa-envelope"></i></button>
-                        </div>
-                    `;
-                    usersList.appendChild(userItem);
-                });
-                
-                // Update admin stats
-                document.getElementById('totalUsers').textContent = usersSnapshot.size;
-                document.getElementById('totalBalance').textContent = `${totalUserBalance.toFixed(2)} SEE`;
-                document.getElementById('activeGames').textContent = activeGamesCount;
-                document.getElementById('vaultBalance').textContent = `${adminVaultBalance.toLocaleString()} SEE`;
-                
-                // Add event listeners to user action buttons
-                document.querySelectorAll('.user-action').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const userId = this.dataset.userId;
-                        const userEmail = this.dataset.userEmail;
+                    if (snapshot.empty) {
+                        usersList.innerHTML = '<div style="text-align: center; padding: 20px; opacity: 0.7;">No users registered yet</div>';
+                        return;
+                    }
+                    
+                    snapshot.forEach(doc => {
+                        const user = doc.data();
+                        if (user.email === 'ebubechichukwu8@gmail.com') return; // Skip admin
                         
-                        if (this.querySelector('.fa-coins')) {
-                            addCoinsToUser(userId, userEmail);
-                        } else if (this.querySelector('.fa-ban')) {
-                            toggleBanUser(userId, userEmail);
-                        } else if (this.querySelector('.fa-envelope')) {
-                            messageUser(userId, userEmail);
-                        }
+                        totalUsers++;
+                        totalBalance += user.balance || 0;
+                        
+                        const userItem = document.createElement('div');
+                        userItem.className = 'user-item';
+                        userItem.innerHTML = `
+                            <div class="user-info">
+                                <div class="user-name">${user.name || 'Unknown'}</div>
+                                <div class="user-email">${user.email}</div>
+                            </div>
+                            <div class="user-balance">${(user.balance || 0).toFixed(2)} SEE</div>
+                            <div class="user-actions">
+                                <button class="user-action" title="Add Coins" data-email="${user.email}">
+                                    <i class="fas fa-coins"></i>
+                                </button>
+                                <button class="user-action" title="Ban User" data-email="${user.email}">
+                                    <i class="fas fa-ban"></i>
+                                </button>
+                                <button class="user-action" title="Message User" data-email="${user.email}">
+                                    <i class="fas fa-envelope"></i>
+                                </button>
+                            </div>
+                        `;
+                        usersList.appendChild(userItem);
                     });
+                    
+                    // Update admin stats
+                    document.getElementById('totalUsers').textContent = totalUsers;
+                    document.getElementById('totalBalance').textContent = `${totalBalance.toFixed(2)} SEE`;
+                    
+                    // Add event listeners to user actions
+                    document.querySelectorAll('.user-action[title="Add Coins"]').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const userEmail = this.dataset.email;
+                            addCoinsToUser(userEmail);
+                        });
+                    });
+                    
+                    document.querySelectorAll('.user-action[title="Ban User"]').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const userEmail = this.dataset.email;
+                            banUser(userEmail);
+                        });
+                    });
+                    
+                    document.querySelectorAll('.user-action[title="Message User"]').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const userEmail = this.dataset.email;
+                            messageUser(userEmail);
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading users:', error);
+                    usersList.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--danger);">Error loading users</div>';
                 });
-            } catch (error) {
-                console.error('Error loading admin panel:', error);
-            }
         }
         
-        async function addCoinsToUser(userId, userEmail) {
+        function addCoinsToUser(userEmail) {
             const amount = parseFloat(prompt(`Enter amount of SEE to add to ${userEmail}:`));
             if (!amount || isNaN(amount) || amount <= 0) {
                 alert('Invalid amount!');
@@ -2198,128 +2198,256 @@
                 return;
             }
             
-            try {
-                await db.collection('users').doc(userId).update({
-                    balance: firebase.firestore.FieldValue.increment(amount)
-                });
-                
-                // Update vault balance
-                adminVaultBalance -= amount;
-                document.getElementById('vaultBalance').textContent = `${adminVaultBalance.toLocaleString()} SEE`;
-                
-                // Record transaction
-                const transaction = {
-                    type: 'admin',
-                    category: 'credit',
-                    amount: amount,
-                    description: `Admin credit to ${userEmail}`,
-                    timestamp: new Date(),
-                    userId: userId,
-                    adminEmail: 'ebubechichukwu8@gmail.com'
-                };
-                
-                await db.collection('transactions').add(transaction);
-                
-                alert(`Added ${amount} SEE to ${userEmail}`);
-                
-                // Reload admin panel
-                loadAdminPanel();
-            } catch (error) {
-                console.error('Error adding coins:', error);
-                alert('Failed to add coins. Please try again.');
-            }
-        }
-        
-        async function toggleBanUser(userId, userEmail) {
-            try {
-                const userDoc = await db.collection('users').doc(userId).get();
-                const userData = userDoc.data();
-                const currentlyBanned = userData.banned || false;
-                
-                if (currentlyBanned) {
-                    await db.collection('users').doc(userId).update({
-                        banned: false
-                    });
-                    alert(`Unbanned ${userEmail}`);
-                } else {
-                    // If banning, transfer user's balance to vault
-                    if (userData.balance > 0) {
-                        adminVaultBalance += userData.balance;
-                        document.getElementById('vaultBalance').textContent = `${adminVaultBalance.toLocaleString()} SEE`;
+            // Find user and update balance
+            db.collection('users').where('email', '==', userEmail).get()
+                .then(snapshot => {
+                    if (snapshot.empty) {
+                        alert('User not found!');
+                        return;
                     }
                     
-                    await db.collection('users').doc(userId).update({
-                        banned: true,
-                        balance: 0
+                    const userDoc = snapshot.docs[0];
+                    const currentBalance = userDoc.data().balance || 0;
+                    const newBalance = currentBalance + amount;
+                    
+                    // Update user balance
+                    db.collection('users').doc(userDoc.id).update({
+                        balance: newBalance
+                    })
+                    .then(() => {
+                        // Update vault balance
+                        adminVaultBalance -= amount;
+                        updateBalance();
+                        
+                        // Record transaction
+                        db.collection('transactions').add({
+                            type: 'admin_credit',
+                            amount: amount,
+                            description: `Admin credit to ${userEmail}`,
+                            date: new Date().toISOString(),
+                            userId: userDoc.id,
+                            adminId: 'admin'
+                        });
+                        
+                        alert(`Added ${amount} SEE to ${userEmail}`);
+                        loadAdminPanel(); // Refresh user list
+                    })
+                    .catch(error => {
+                        console.error('Error updating user balance:', error);
+                        alert('Error adding coins to user');
                     });
-                    alert(`Banned ${userEmail} and transferred ${userData.balance} SEE to vault`);
-                }
-                
-                // Reload admin panel
-                loadAdminPanel();
-            } catch (error) {
-                console.error('Error toggling ban:', error);
-                alert('Failed to update user status. Please try again.');
-            }
+                })
+                .catch(error => {
+                    console.error('Error finding user:', error);
+                    alert('Error finding user');
+                });
         }
         
-        async function messageUser(userId, userEmail) {
+        function banUser(userEmail) {
+            const reason = prompt(`Enter reason for banning ${userEmail}:`);
+            if (!reason) return;
+            
+            // Find user and ban them
+            db.collection('users').where('email', '==', userEmail).get()
+                .then(snapshot => {
+                    if (snapshot.empty) {
+                        alert('User not found!');
+                        return;
+                    }
+                    
+                    const userDoc = snapshot.docs[0];
+                    const userBalance = userDoc.data().balance || 0;
+                    
+                    // Add balance to vault and set user balance to 0
+                    adminVaultBalance += userBalance;
+                    
+                    db.collection('users').doc(userDoc.id).update({
+                        balance: 0,
+                        banned: true,
+                        banReason: reason
+                    })
+                    .then(() => {
+                        updateBalance();
+                        alert(`User ${userEmail} has been banned and their balance confiscated`);
+                        loadAdminPanel(); // Refresh user list
+                    })
+                    .catch(error => {
+                        console.error('Error banning user:', error);
+                        alert('Error banning user');
+                    });
+                })
+                .catch(error => {
+                    console.error('Error finding user:', error);
+                    alert('Error finding user');
+                });
+        }
+        
+        function messageUser(userEmail) {
             const message = prompt(`Enter message to send to ${userEmail}:`);
             if (!message) return;
             
-            try {
-                const messageData = {
-                    from: 'admin',
-                    fromEmail: 'ebubechichukwu8@gmail.com',
-                    to: userId,
-                    toEmail: userEmail,
-                    message: message,
-                    timestamp: new Date(),
-                    read: false
-                };
-                
-                await db.collection('messages').add(messageData);
-                alert('Message sent successfully');
-            } catch (error) {
-                console.error('Error sending message:', error);
-                alert('Failed to send message. Please try again.');
-            }
+            // In a real app, this would save to a messages collection
+            alert(`Message sent to ${userEmail}: "${message}"`);
         }
         
-        async function setSeePrice() {
-            const newPrice = parseFloat(prompt('Enter new SEE price in USD:'));
+        function setSeaCoinPrice() {
+            const newPrice = parseFloat(prompt('Enter new SeaCoin price in USD:'));
             if (!newPrice || isNaN(newPrice) || newPrice <= 0) {
                 alert('Invalid price!');
                 return;
             }
             
-            seePrice = newPrice;
+            seaCoinPriceValue = newPrice;
+            seaCoinPrice.textContent = `$${newPrice.toFixed(2)}`;
+            updateBalance();
             
-            try {
-                await db.collection('settings').doc('seePrice').set({
-                    price: seePrice,
-                    updatedAt: new Date(),
-                    updatedBy: 'ebubechichukwu8@gmail.com'
-                });
-                
-                alert(`SEE price set to $${seePrice}`);
-                updateBalance();
-            } catch (error) {
-                console.error('Error setting SEE price:', error);
-                alert('Failed to set price. Please try again.');
-            }
+            // Update price in Firestore
+            db.collection('settings').doc('seaCoinPrice').set({
+                value: newPrice,
+                updatedAt: new Date().toISOString(),
+                updatedBy: 'admin'
+            })
+            .then(() => {
+                alert(`SeaCoin price updated to $${newPrice}`);
+            })
+            .catch(error => {
+                console.error('Error updating SeaCoin price:', error);
+            });
         }
         
-        // Load SEE price from Firebase
-        async function loadSeePrice() {
-            try {
-                const priceDoc = await db.collection('settings').doc('seePrice').get();
-                if (priceDoc.exists) {
-                    seePrice = priceDoc.data().price;
-                }
-                updateBalance();
-            } catch (error) {
-                console.error('Error loading SEE price:', error);
+        // Transfer SEE to another user
+        function sendTransfer() {
+            const recipientEmail = transferEmail.value.trim();
+            const amount = parseFloat(transferAmount.value);
+            const pin = transferPin.value;
+            
+            if (!recipientEmail) {
+                alert('Please enter recipient email');
+                return;
+            }
+            
+            if (!amount || amount < 1) {
+                alert('Please enter a valid amount (minimum 1 SEE)');
+                return;
+            }
+            
+            if (userBalance < amount) {
+                alert('Insufficient balance!');
+                return;
+            }
+            
+            if (pin !== currentUser.pin) {
+                alert('Invalid PIN!');
+                return;
+            }
+            
+            if (recipientEmail === currentUser.email) {
+                alert('You cannot transfer to yourself!');
+                return;
+            }
+            
+            showLoading(sendTransferBtn, sendTransferText, sendTransferSpinner);
+            
+            // Find recipient
+            db.collection('users').where('email', '==', recipientEmail).get()
+                .then(snapshot => {
+                    if (snapshot.empty) {
+                        hideLoading(sendTransferBtn, sendTransferText, sendTransferSpinner);
+                        alert('Recipient not found!');
+                        return;
+                    }
+                    
+                    const recipientDoc = snapshot.docs[0];
+                    const recipientData = recipientDoc.data();
+                    
+                    if (recipientData.banned) {
+                        hideLoading(sendTransferBtn, sendTransferText, sendTransferSpinner);
+                        alert('This user has been banned and cannot receive transfers');
+                        return;
+                    }
+                    
+                    // Update sender balance
+                    userBalance -= amount;
+                    
+                    // Update recipient balance
+                    const recipientNewBalance = (recipientData.balance || 0) + amount;
+                    
+                    // Perform both updates in a batch
+                    const batch = db.batch();
+                    
+                    // Update sender
+                    batch.update(db.collection('users').doc(currentUser.uid), {
+                        balance: userBalance
+                    });
+                    
+                    // Update recipient
+                    batch.update(db.collection('users').doc(recipientDoc.id), {
+                        balance: recipientNewBalance
+                    });
+                    
+                    // Record transactions
+                    const transactionId = Date.now().toString();
+                    
+                    // Sender transaction
+                    batch.set(db.collection('transactions').doc(transactionId + '_sender'), {
+                        id: transactionId + '_sender',
+                        type: 'transfer_sent',
+                        amount: -amount,
+                        description: `Transfer to ${recipientEmail}`,
+                        date: new Date().toISOString(),
+                        userId: currentUser.uid,
+                        recipient: recipientEmail
+                    });
+                    
+                    // Recipient transaction
+                    batch.set(db.collection('transactions').doc(transactionId + '_recipient'), {
+                        id: transactionId + '_recipient',
+                        type: 'transfer_received',
+                        amount: amount,
+                        description: `Transfer from ${currentUser.email}`,
+                        date: new Date().toISOString(),
+                        userId: recipientDoc.id,
+                        sender: currentUser.email
+                    });
+                    
+                    return batch.commit();
+                })
+                .then(() => {
+                    hideLoading(sendTransferBtn, sendTransferText, sendTransferSpinner);
+                    updateBalance();
+                    loadTransferHistory();
+                    
+                    // Clear form
+                    transferEmail.value = '';
+                    transferAmount.value = '';
+                    transferPin.value = '';
+                    
+                    alert(`Successfully transferred ${amount} SEE to ${recipientEmail}`);
+                })
+                .catch(error => {
+                    hideLoading(sendTransferBtn, sendTransferText, sendTransferSpinner);
+                    console.error('Error transferring SEE:', error);
+                    alert('Error transferring SEE. Please try again.');
+                });
+        }
+        
+        // Buy SEE from admin
+        function buyFromAdmin() {
+            const amount = parseFloat(prompt('Enter amount of SEE to buy:'));
+            if (!amount || amount < 5) {
+                alert('Please enter a valid amount (minimum 5 SEE)');
+                return;
+            }
+            
+            const cost = amount * seaCoinPriceValue;
+            const confirmPurchase = confirm(`Buy ${amount} SEE for $${cost.toFixed(2)}?\n\nYou will need to contact admin at 07079191406 to complete this transaction.`);
+            
+            if (confirmPurchase) {
+                // In a real app, this would create a P2P trade record
+                alert(`Purchase request for ${amount} SEE submitted!\n\nPlease contact admin at 07079191406 to complete your purchase.`);
+                
+                // Record P2P transaction
+                recordTransaction('p2p_buy', amount, `P2P purchase of ${amount} SEE from admin`);
             }
         }
         
@@ -2349,34 +2477,111 @@
         minesCashoutButton.addEventListener('click', cashoutMines);
         minesBackBtn.addEventListener('click', exitGame);
         
-        // Transfer controls
-        transferButton.addEventListener('click', transferCoins);
-        
-        // Profile controls
+        // Copy referral code
         copyReferralBtn.addEventListener('click', () => {
             userReferralCode.select();
             document.execCommand('copy');
             alert('Referral code copied to clipboard!');
         });
         
-        claimReferralBtn.addEventListener('click', claimReferralBonus);
-        changePinButton.addEventListener('click', changePin);
-        claimBonusBtn.addEventListener('click', claimSignupBonus);
+        // Claim referral bonus
+        claimReferralBtn.addEventListener('click', () => {
+            if (currentUser.referrals && currentUser.referrals.length >= 10) {
+                // Check if vault has enough funds
+                if (adminVaultBalance < 3) {
+                    alert('Insufficient funds in vault!');
+                    return;
+                }
+                
+                // Transfer from vault to user
+                userBalance += 3;
+                adminVaultBalance -= 3;
+                updateBalance();
+                
+                // Record transaction
+                recordTransaction('referral_bonus', 3, 'Referral bonus');
+                
+                alert('Referral bonus of 3 SEE has been added to your account!');
+                
+                // Reset referrals count
+                db.collection('users').doc(currentUser.uid).update({
+                    referrals: []
+                })
+                .then(() => {
+                    currentUser.referrals = [];
+                    updateProfile();
+                })
+                .catch(error => {
+                    console.error('Error resetting referrals:', error);
+                });
+            }
+        });
         
-        // Admin controls
+        // Change PIN
+        document.getElementById('changePinBtn').addEventListener('click', () => {
+            const currentPin = document.getElementById('currentPin').value;
+            const newPin = document.getElementById('newPin').value;
+            const confirmNewPin = document.getElementById('confirmNewPin').value;
+            
+            if (currentPin !== currentUser.pin) {
+                alert('Current PIN is incorrect!');
+                return;
+            }
+            
+            if (newPin.length !== 4 || isNaN(newPin)) {
+                alert('New PIN must be 4 digits!');
+                return;
+            }
+            
+            if (newPin !== confirmNewPin) {
+                alert('New PINs do not match!');
+                return;
+            }
+            
+            // Update PIN in Firestore
+            db.collection('users').doc(currentUser.uid).update({
+                pin: newPin
+            })
+            .then(() => {
+                currentUser.pin = newPin;
+                alert('PIN changed successfully!');
+                
+                // Clear form
+                document.getElementById('currentPin').value = '';
+                document.getElementById('newPin').value = '';
+                document.getElementById('confirmNewPin').value = '';
+            })
+            .catch(error => {
+                console.error('Error changing PIN:', error);
+                alert('Error changing PIN. Please try again.');
+            });
+        });
+        
+        // Transfer SEE
+        sendTransferBtn.addEventListener('click', sendTransfer);
+        
+        // P2P actions
+        becomeSellerBtn.addEventListener('click', () => {
+            alert('To become a seller, please contact admin at 07079191406');
+        });
+        
+        buyFromAdminBtn.addEventListener('click', buyFromAdmin);
+        
+        // Admin actions
         addCoinsBtn.addEventListener('click', () => {
-            // This will now use the user-specific buttons
+            // This will use the user-specific buttons now
+            alert('Please select a user from the list below and click the coin icon to add coins');
         });
         
         banUserBtn.addEventListener('click', () => {
-            // This will now use the user-specific buttons
+            alert('Please select a user from the list below and click the ban icon to ban them');
         });
         
         messageUserBtn.addEventListener('click', () => {
-            // This will now use the user-specific buttons
+            alert('Please select a user from the list below and click the message icon to message them');
         });
         
-        setPriceBtn.addEventListener('click', setSeePrice);
+        setPriceBtn.addEventListener('click', setSeaCoinPrice);
         
         // Auth Event Listeners
         showRegister.addEventListener('click', (e) => {
@@ -2400,7 +2605,7 @@
         });
         
         // Login function
-        loginButton.addEventListener('click', async () => {
+        loginButton.addEventListener('click', () => {
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             
@@ -2409,64 +2614,56 @@
                 return;
             }
             
-            showLoading(loginButtonText, loginButtonSpinner);
+            showLoading(loginButton, loginButtonText, loginSpinner);
             
-            try {
-                // Check if admin login
-                if (email === 'ebubechichukwu8@gmail.com' && password === 'Ebube@123') {
-                    isAdmin = true;
-                    showScreen(adminPanel);
-                    await loadAdminPanel();
-                    await loadSeePrice();
-                    hideLoading(loginButtonText, loginButtonSpinner);
-                    return;
-                }
-                
-                // Regular user login with Firebase Auth
-                const userCredential = await auth.signInWithEmailAndPassword(email, password);
-                const user = userCredential.user;
-                
-                // Get user data from Firestore
-                const userDoc = await db.collection('users').doc(user.uid).get();
-                
-                if (!userDoc.exists) {
-                    alert('User data not found');
-                    hideLoading(loginButtonText, loginButtonSpinner);
-                    return;
-                }
-                
-                const userData = userDoc.data();
-                
-                if (userData.banned) {
-                    alert('Your account has been banned');
-                    await auth.signOut();
-                    hideLoading(loginButtonText, loginButtonSpinner);
-                    return;
-                }
-                
-                currentUser = {
-                    uid: user.uid,
-                    ...userData
-                };
-                
-                userBalance = userData.balance || 0;
-                
-                updateBalance();
-                updateProfile();
-                await loadTransactionHistory();
-                await loadSeePrice();
-                
-                showScreen(appScreen);
-            } catch (error) {
-                console.error('Login error:', error);
-                alert('Login failed: ' + error.message);
+            // Check if admin login
+            if (email === 'ebubechichukwu8@gmail.com' && password === 'Ebube@123') {
+                isAdmin = true;
+                hideLoading(loginButton, loginButtonText, loginSpinner);
+                showScreen(adminPanel);
+                loadAdminPanel();
+                return;
             }
             
-            hideLoading(loginButtonText, loginButtonSpinner);
+            // Regular user login with Firebase Auth
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    
+                    // Get user data from Firestore
+                    return db.collection('users').doc(user.uid).get();
+                })
+                .then((doc) => {
+                    if (!doc.exists) {
+                        throw new Error('User data not found');
+                    }
+                    
+                    const userData = doc.data();
+                    
+                    if (userData.banned) {
+                        throw new Error('Your account has been banned. Contact admin for more information.');
+                    }
+                    
+                    currentUser = {
+                        uid: doc.id,
+                        ...userData
+                    };
+                    
+                    userBalance = userData.balance || 0;
+                    
+                    hideLoading(loginButton, loginButtonText, loginSpinner);
+                    updateBalance();
+                    updateProfile();
+                    showScreen(appScreen);
+                })
+                .catch((error) => {
+                    hideLoading(loginButton, loginButtonText, loginSpinner);
+                    alert('Login failed: ' + error.message);
+                });
         });
         
         // Register function
-        registerButton.addEventListener('click', async () => {
+        registerButton.addEventListener('click', () => {
             const name = document.getElementById('registerName').value;
             const email = document.getElementById('registerEmail').value;
             const password = document.getElementById('registerPassword').value;
@@ -2496,92 +2693,75 @@
                 return;
             }
             
-            showLoading(registerButtonText, registerButtonSpinner);
+            showLoading(registerButton, registerButtonText, registerSpinner);
             
-            try {
-                // Create user with Firebase Auth
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                const user = userCredential.user;
-                
-                // Generate referral code
-                const referralCodeGenerated = generateReferralCode();
-                
-                // Create user document in Firestore
-                const userData = {
-                    uid: user.uid,
-                    name: name,
-                    email: email,
-                    pin: pin,
-                    age: parseInt(age),
-                    country: country,
-                    balance: 0,
-                    referralCode: referralCodeGenerated,
-                    referrals: [],
-                    gamesPlayed: 0,
-                    wins: 0,
-                    bonusClaimed: false,
-                    banned: false,
-                    createdAt: new Date()
-                };
-                
-                await db.collection('users').doc(user.uid).set(userData);
-                
-                // Handle referral if provided
-                if (referralCode) {
-                    const referrerSnapshot = await db.collection('users')
-                        .where('referralCode', '==', referralCode)
-                        .get();
+            // Create user with Firebase Auth
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    const referralCode = generateReferralCode();
                     
-                    if (!referrerSnapshot.empty) {
-                        const referrerDoc = referrerSnapshot.docs[0];
-                        const referrerData = referrerDoc.data();
-                        
-                        // Add referral to referrer's list
-                        await db.collection('users').doc(referrerDoc.id).update({
-                            referrals: firebase.firestore.FieldValue.arrayUnion({
-                                email: email,
-                                date: new Date()
-                            })
-                        });
-                        
-                        // Credit referrer with 3 SEE
-                        await db.collection('users').doc(referrerDoc.id).update({
-                            balance: firebase.firestore.FieldValue.increment(3)
-                        });
-                        
-                        // Record transaction for referrer
-                        const transaction = {
-                            type: 'referral',
-                            category: 'bonus',
-                            amount: 3,
-                            description: `Referral bonus for ${email}`,
-                            timestamp: new Date(),
-                            userId: referrerDoc.id
-                        };
-                        
-                        await db.collection('transactions').add(transaction);
+                    // Create user document in Firestore
+                    const userData = {
+                        uid: user.uid,
+                        name: name,
+                        email: email,
+                        pin: pin,
+                        age: parseInt(age),
+                        country: country,
+                        balance: 0,
+                        referralCode: referralCode,
+                        referrals: [],
+                        gamesPlayed: 0,
+                        wins: 0,
+                        createdAt: new Date().toISOString(),
+                        banned: false
+                    };
+                    
+                    // Handle referral if provided
+                    if (referralCode) {
+                        // Find referrer and update their referrals
+                        return db.collection('users').where('referralCode', '==', referralCode).get()
+                            .then((snapshot) => {
+                                if (!snapshot.empty) {
+                                    const referrerDoc = snapshot.docs[0];
+                                    const referrerData = referrerDoc.data();
+                                    
+                                    // Add referral to referrer's list
+                                    const newReferral = {
+                                        email: email,
+                                        date: new Date().toISOString()
+                                    };
+                                    
+                                    const updatedReferrals = [...(referrerData.referrals || []), newReferral];
+                                    
+                                    return db.collection('users').doc(referrerDoc.id).update({
+                                        referrals: updatedReferrals
+                                    })
+                                    .then(() => {
+                                        return db.collection('users').doc(user.uid).set(userData);
+                                    });
+                                } else {
+                                    return db.collection('users').doc(user.uid).set(userData);
+                                }
+                            });
+                    } else {
+                        return db.collection('users').doc(user.uid).set(userData);
                     }
-                }
-                
-                currentUser = userData;
-                userBalance = 0;
-                
-                updateBalance();
-                updateProfile();
-                await loadSeePrice();
-                
-                showScreen(appScreen);
-                alert('Registration successful! You can now claim your signup bonus.');
-            } catch (error) {
-                console.error('Registration error:', error);
-                alert('Registration failed: ' + error.message);
-            }
-            
-            hideLoading(registerButtonText, registerButtonSpinner);
+                })
+                .then(() => {
+                    hideLoading(registerButton, registerButtonText, registerSpinner);
+                    alert('Registration successful! Please login with your credentials.');
+                    showScreen(loginScreen);
+                })
+                .catch((error) => {
+                    hideLoading(registerButton, registerButtonText, registerSpinner);
+                    alert('Registration failed: ' + error.message);
+                });
         });
         
         // Admin login
-        adminLoginButton.addEventListener('click', async () => {
+        adminLoginButton.addEventListener('click', () => {
             const email = document.getElementById('adminEmail').value;
             const password = document.getElementById('adminPassword').value;
             
@@ -2590,27 +2770,27 @@
                 return;
             }
             
-            showLoading(adminLoginButtonText, adminLoginButtonSpinner);
+            showLoading(adminLoginButton, adminLoginButtonText, adminLoginSpinner);
             
             if (email === 'ebubechichukwu8@gmail.com' && password === 'Ebube@123') {
                 isAdmin = true;
+                hideLoading(adminLoginButton, adminLoginButtonText, adminLoginSpinner);
                 showScreen(adminPanel);
-                await loadAdminPanel();
-                await loadSeePrice();
+                loadAdminPanel();
             } else {
+                hideLoading(adminLoginButton, adminLoginButtonText, adminLoginSpinner);
                 alert('Invalid admin credentials!');
             }
-            
-            hideLoading(adminLoginButtonText, adminLoginButtonSpinner);
         });
         
         // Logout functions
-        logoutButton.addEventListener('click', async () => {
+        logoutButton.addEventListener('click', () => {
             if (confirm('Are you sure you want to logout?')) {
-                await auth.signOut();
-                userBalance = 0;
-                currentUser = null;
-                showScreen(loginScreen);
+                auth.signOut().then(() => {
+                    userBalance = 0;
+                    currentUser = null;
+                    showScreen(loginScreen);
+                });
             }
         });
         
@@ -2621,43 +2801,20 @@
             }
         });
         
+        // Load SeaCoin price on startup
+        db.collection('settings').doc('seaCoinPrice').get()
+            .then(doc => {
+                if (doc.exists) {
+                    seaCoinPriceValue = doc.data().value;
+                    seaCoinPrice.textContent = `$${seaCoinPriceValue.toFixed(2)}`;
+                }
+            })
+            .catch(error => {
+                console.error('Error loading SeaCoin price:', error);
+            });
+        
         // Initialize app
         showScreen(loginScreen);
-        
-        // Check if user is already logged in
-        auth.onAuthStateChanged(async (user) => {
-            if (user && !isAdmin) {
-                try {
-                    const userDoc = await db.collection('users').doc(user.uid).get();
-                    
-                    if (userDoc.exists) {
-                        const userData = userDoc.data();
-                        
-                        if (userData.banned) {
-                            alert('Your account has been banned');
-                            await auth.signOut();
-                            return;
-                        }
-                        
-                        currentUser = {
-                            uid: user.uid,
-                            ...userData
-                        };
-                        
-                        userBalance = userData.balance || 0;
-                        
-                        updateBalance();
-                        updateProfile();
-                        await loadTransactionHistory();
-                        await loadSeePrice();
-                        
-                        showScreen(appScreen);
-                    }
-                } catch (error) {
-                    console.error('Error loading user data:', error);
-                }
-            }
-        });
     </script>
 </body>
 </html>
